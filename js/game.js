@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 战斗与实体 ============ */
+/* ============ 万界乱斗 · 战斗与实体 ============ */
 
 /* ---------- 猎人模型 ---------- */
 const player=new THREE.Group();scene.add(player);
@@ -15,7 +15,7 @@ pm(GEO.box,std(0xc8c8d8,{metalness:.9,roughness:.25}),-.42,1.0,.25,.05,1.1,.1,.5
 const pShadow=new THREE.Mesh(GEO.plane,new THREE.MeshBasicMaterial({map:glowTex,color:0x000000,transparent:true,opacity:.55,depthWrite:false}));pShadow.rotation.x=-Math.PI/2;scene.add(pShadow);
 function dressHunter(id){const H=HUNTERS[id];coatM.color.set(H.coat);accM.color.set(H.acc)}
 
-/* ---------- 亡者模型 ---------- */
+/* ---------- 敌人模型 ---------- */
 const EK={
   ghoul:new Kind([
     {g:GEO.cyl,m:W_,tint:0x6f7868,main:1,l:L(0,.6,0,.35,0,0,.34,1.1,.3),sh:1},
@@ -135,7 +135,7 @@ function query(x,z,r,fn){r+=2.4;const x0=Math.floor((x-r)/CELL),x1=Math.floor((x
 function inRange(x,z,R){const out=[];query(x,z,R,e=>{if((e.x-x)**2+(e.z-z)**2<(R+e.r)**2)out.push(e)});return out}
 function nearest(x,z,maxD,skip){let best=null,bd=maxD*maxD;for(const e of enemies){if(e.dead||e.ally||e===skip)continue;const d=(e.x-x)**2+(e.z-z)**2;if(d<bd){bd=d;best=e}}return best}
 
-/* ---------- 亡者生成 ---------- */
+/* ---------- 敌人生成 ---------- */
 function spawnRadius(){return Math.max(26,15*camera.aspect+9)+(innerHeight>innerWidth?10:0)}
 function spawnPoint(R){const B=WORLD.H-4;for(let k=0;k<8;k++){const a=Math.random()*TAU,x=P.x+Math.sin(a)*R,z=P.z+Math.cos(a)*R;if(Math.abs(x)<B&&Math.abs(z)<B)return[x,z]}
   const a=Math.random()*TAU;return[clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B)]}
@@ -157,12 +157,12 @@ function director(dt){
   while(RUN.spawnAcc>=1){RUN.spawnAcc--;if(enemies.length<cap)spawnEnemy(pickType())}
   if(T>=RUN.nextElite){RUN.nextElite+=45;spawnEnemy(pickType(),null,null,{elite:true})}
   if(T>=RUN.nextSwarm){RUN.nextSwarm+=50;const n=Math.min(18+T/12,40),ty=pickType(),R=spawnRadius()-2;
-    for(let i=0;i<n;i++){const a=i/n*TAU,B=WORLD.H-3;spawnEnemy(ty,clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B))}banner('亡者合围','它们从四面八方涌来')}
+    for(let i=0;i<n;i++){const a=i/n*TAU,B=WORLD.H-3;spawnEnemy(ty,clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B))}banner('敌群包围','它们从四面八方冲过来了')}
   if(!RUN.bossSummoned&&T>=STAGE_T)summonBoss(true);
 }
 function summonBoss(forced){if(RUN.bossSummoned)return;RUN.bossSummoned=true;const alt=POIS.find(p=>p.type==='boss');if(alt)poiSetUsed(alt);
   const st=STAGES[RUN.stage],b=spawnEnemy(st.boss,alt?alt.x:null,alt?alt.z+3:null,{boss:true});
-  AU.sfx('boss');banner(b.name+' 降临',forced?'血月不再等待——首领被强行唤醒':'你在祭坛上唤醒了它');G.shake=.8}
+  AU.sfx('boss');banner(b.name+' 降临',forced?'时间到了——首领自己登场了':'你在擂台上召唤了它');G.shake=.8}
 
 /* ---------- 伤害与元素反应 ---------- */
 function addFrost(e,n){e.st.frost+=n;e.st.slow=2.5;if(e.st.frost>=3){e.st.frost=0;if(e.boss)e.st.slow=3;else{e.st.frozen=1.4*(P.rel.doctrine?.5:1)*(P.rit.has('frost')?2:1)}}}
@@ -232,7 +232,7 @@ function bossDown(e){boss=null;bossLight.intensity=0;RUN.bossDead=true;G.shake=1
   for(let i=0;i<14;i++)dropGem(e.x+rand(-3,3),e.z+rand(-3,3),25);for(let i=0;i<8;i++)coins.push({x:e.x+rand(-3,3),z:e.z+rand(-3,3),v:Math.ceil(8*S.gold),t:0,pull:false,sp:0});
   picks.push({k:'bag',x:e.x,z:e.z,t:0});
   const alt=POIS.find(p=>p.type==='boss'),px=alt?alt.x:e.x,pz=alt?alt.z:e.z,pt=addPoi('portal',px,pz);buildPoiMesh(pt);
-  if(RUN.stage===STAGES.length-1){banner('血月陨落','深渊之门已开启——走进去，迎接黎明')}else banner('首领已被击败','深渊之门已在首领祭坛开启')}
+  if(RUN.stage===STAGES.length-1){banner('霸王倒下','次元之门已开启——走进去，完成万界之旅')}else banner('首领已被击败','次元之门已在首领擂台开启')}
 function dropGem(x,z,v){if(gems.length>650){gems[(Math.random()*gems.length)|0].v+=v;return}gems.push({x:x+rand(-.3,.3),z:z+rand(-.3,.3),v,pull:false,sp:0,t:Math.random()*6})}
 function burst(x,y,z,col,n,sp){for(let i=0;i<n;i++){if(parts.length>750)parts.shift();const a=Math.random()*TAU,u=rand(.3,1);parts.push({x,y,z,vx:Math.sin(a)*sp*u,vy:rand(2,6),vz:Math.cos(a)*sp*u,life:rand(.4,.9),max:.9,c:new THREE.Color(col).offsetHSL(0,0,rand(-.1,.1))})}}
 
@@ -346,7 +346,7 @@ function update(dt){
   // 血宴
   if(P.feast>0){P.feast-=dt;P.feastT-=dt;if(P.feastT<=0){P.feastT=.35;let n=0;inRange(P.x,P.z,9).forEach(e=>{hit(e,16,{el:'blood',src:'ult',np:1});if(n++<4)healP(.5)});burst(P.x,P.y+1,P.z,0xff2040,6,6)}}
   director(dt);buildGrid();
-  // 亡者
+  // 敌人
   const despawn=spawnRadius()+24,airborne=P.y-gh>.9,frozenAll=G.timeStop>0;
   for(const e of enemies){if(e.dead)continue;
     const st=e.st;st.burn-=dt;st.curse-=dt;st.shock-=dt;st.slow-=dt;if(st.bleedT>0){st.bleedT-=dt;if(st.bleedT<=0)st.bleed=0}
@@ -427,9 +427,9 @@ function poiCost(p){return p.type==='chest'?(P.rel.gluttony?Math.ceil(P.hp*.2):c
 function interact(){const p=nearPoi;if(!p||G.state!=='play')return;
   if(p.type==='chest'&&P.rel.gluttony){const c=poiCost(p);if(P.hp<=c+1){AU.sfx('deny');toast('鲜血不足','噬光圣杯要求献出当前生命的 20%');return}P.hp-=c;hurtFlash();RUN.chestsOpened++;poiSetUsed(p);RUN.queue.push({t:'chest'})}
   else if(p.type==='chest'){const c=poiCost(p);if(RUN.gold<c){AU.sfx('deny');toast('金币不足',`开启需要 ${c} 金币`);return}RUN.gold-=c;RUN.chestsOpened++;poiSetUsed(p);RUN.queue.push({t:'chest'})}
-  else if(p.type==='blood'){const c=Math.ceil(S.maxHp*.25);if(P.hp<=c+1){AU.sfx('deny');toast('鲜血不足','血之祭坛需要献出 25% 生命');return}P.hp-=c;hurtFlash();poiSetUsed(p);RUN.queue.push({t:'chest',minR:1})}
+  else if(p.type==='blood'){const c=Math.ceil(S.maxHp*.25);if(P.hp<=c+1){AU.sfx('deny');toast('鲜血不足','献血台需要献出 25% 生命');return}P.hp-=c;hurtFlash();poiSetUsed(p);RUN.queue.push({t:'chest',minR:1})}
   else if(p.type==='curse'){poiSetUsed(p);P.curseLv+=.12;RUN.obelisk=4;for(let i=0;i<4;i++){const a=i/4*TAU;spawnEnemy(pickType(),p.x+Math.sin(a)*6,p.z+Math.cos(a)*6,{elite:true,tag:'obelisk'})}
-    banner('诅咒降临','亡者永久变强 12%——击败 4 名守卫获得宝物');AU.sfx('boss')}
+    banner('诅咒降临','敌人永久变强 12%——击败 4 名守卫获得宝物');AU.sfx('boss')}
   else if(p.type==='nest'){poiSetUsed(p);RUN.queue.push({t:'nest'})}
   else if(p.type==='boss'){summonBoss(false)}
   else if(p.type==='portal'){stageClear()}

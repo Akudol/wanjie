@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 数据表 ============ */
+/* ============ 万界乱斗 · 数据表 ============ */
 const ICONS={
   dagger:'<path d="M12 2l2.2 11h-4.4z"/><path d="M7.5 13.5h9M12 13.5V19M10.3 20.5h3.4"/>',
   orbit:'<circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/><circle cx="20" cy="12" r="1.8" fill="currentColor"/><circle cx="6.3" cy="6.3" r="1.8" fill="currentColor"/><circle cx="6.3" cy="17.7" r="1.8" fill="currentColor"/>',
@@ -62,22 +62,22 @@ const RAR=[
 ];
 /* 武器：每级随机强化一项属性，强化幅度取决于卡牌稀有度 */
 const WEAPONS={
-  dagger:{n:'银十字匕首',el:'phys',icon:'dagger',d:'向最近的亡者投掷银匕首，可穿透。',
+  dagger:{n:'银十字匕首',el:'phys',icon:'dagger',d:'向最近的敌人投掷银匕首，可穿透。',
     base:{dmg:12,cd:.75,count:1,pierce:1,area:1,speed:21},ups:['dmg','count','pierce','cd'],
     evo:{relic:'whetstone',n:'千刃圣十字',d:'匕首向八方齐射，暴击时再分裂。'}},
   orbit:{n:'血之念珠',el:'blood',icon:'orbit',d:'血珠环绕旋转，叠加出血。',
     base:{dmg:9,cd:.45,count:2,area:1,speed:3},ups:['dmg','count','area','speed'],
     evo:{relic:'fang',n:'猩红日蚀',d:'血珠变为血月，命中必定吸血。'}},
-  bolt:{n:'天罚雷殛',el:'volt',icon:'bolt',d:'雷霆劈落随机亡者，使其感电。',
+  bolt:{n:'天罚雷殛',el:'volt',icon:'bolt',d:'雷霆劈落随机敌人，使其感电。',
     base:{dmg:26,cd:2.5,count:1,area:1},ups:['dmg','count','area','cd'],
-    evo:{relic:'bell',n:'审判之雷',d:'每道雷霆都会在亡者间连锁跳跃。'}},
-  aura:{n:'圣焰荆冠',el:'fire',icon:'aura',d:'灼烧身边的亡者。',
+    evo:{relic:'bell',n:'审判之雷',d:'每道雷霆都会在敌人间连锁跳跃。'}},
+  aura:{n:'圣焰荆冠',el:'fire',icon:'aura',d:'灼烧身边的敌人。',
     base:{dmg:5,cd:.5,area:1},ups:['dmg','area','cd'],
     evo:{relic:'ember',n:'炼狱冠冕',d:'火环范围翻倍，被灼烧者死亡时爆炸。'}},
-  scythe:{n:'亡者镰刀',el:'dark',icon:'scythe',d:'掷出回旋镰刀，命中施加诅咒。',
+  scythe:{n:'敌人镰刀',el:'dark',icon:'scythe',d:'掷出回旋镰刀，命中施加诅咒。',
     base:{dmg:18,cd:2.3,count:1,area:1},ups:['dmg','count','area','cd'],
     evo:{relic:'seed',n:'死神收割',d:'镰刀永久环绕你旋转并不断回旋。'}},
-  frost:{n:'霜魂丧钟',el:'frost',icon:'frost',d:'敲响丧钟，放出冰环冻结亡者。',
+  frost:{n:'霜魂丧钟',el:'frost',icon:'frost',d:'敲响丧钟，放出冰环冻结敌人。',
     base:{dmg:10,cd:3.2,area:1,stack:1},ups:['dmg','area','cd','stack'],
     evo:{relic:'frostheart',n:'永冬挽钟',d:'冰环连续扩散三次，必定冻结。'}},
 };
@@ -122,45 +122,45 @@ const RELICS={
   fang:{r:1,n:'吸血獠牙',icon:'fang',d:'命中时 4% 几率回复 1 生命。'},
   ember:{r:1,n:'余烬之戒',icon:'ember',d:'命中时 10% 几率施加灼烧。'},
   frostheart:{r:1,n:'霜之心',icon:'frostheart',d:'命中时 10% 几率叠加冰霜。'},
-  seed:{r:1,n:'腐尸之种',icon:'seed',d:'亡者死亡时 20% 几率爆炸，造成其最大生命 25% 的范围伤害。'},
-  spurs:{r:1,n:'疾影马刺',icon:'spurs',d:'冲刺穿过的亡者受到 40 点伤害并被灼烧。'},
+  seed:{r:1,n:'腐尸之种',icon:'seed',d:'敌人死亡时 20% 几率爆炸，造成其最大生命 25% 的范围伤害。'},
+  spurs:{r:1,n:'疾影马刺',icon:'spurs',d:'冲刺穿过的敌人受到 40 点伤害并被灼烧。'},
   lens:{r:1,n:'猎魔透镜',icon:'lens',d:'对精英与首领伤害 +20%。'},
   bell:{r:2,n:'雷鸣钟',icon:'bell',d:'每第 12 次命中，释放跳跃 5 次的连锁闪电。'},
   codex:{r:2,n:'诅咒圣典',icon:'codex',d:'命中时 10% 几率诅咒（受伤 +25%，死亡传染）。'},
-  mirror:{r:2,n:'镜之碎片',icon:'mirror',d:'投射物击杀亡者时分裂出 2 枚碎片。'},
+  mirror:{r:2,n:'镜之碎片',icon:'mirror',d:'投射物击杀敌人时分裂出 2 枚碎片。'},
   thorns:{r:2,n:'荆棘圣衣',icon:'thorns',d:'受伤时对周围造成 300% 反伤并击退。'},
   stopwatch:{r:2,n:'凝滞怀表',icon:'hourglass',d:'每 30 秒，时间凝滞 3 秒。'},
   pact:{r:3,n:'死神契约',icon:'pact',d:'伤害 ×1.6，但生命上限 -40%。',curse:1},
   phoenix:{r:3,n:'不死鸟之羽',icon:'phoenix',d:'死亡时复活并回复 50% 生命（消耗）。'},
-  crown:{r:3,n:'血月王冠',icon:'crown',d:'每次击杀永久 +0.04% 伤害（本局）。'},
+  crown:{r:3,n:'霸王王冠',icon:'crown',d:'每次击杀永久 +0.04% 伤害（本局）。'},
   saint:{r:3,n:'圣徒之心',icon:'saint',d:'生命全满时，伤害 +35%。'},
-  grail:{r:3,n:'永夜圣杯',icon:'chalice',d:'大招充能 ×2，释放大招时回复 30% 生命。'},
+  grail:{r:3,n:'万界圣杯',icon:'chalice',d:'大招充能 ×2，释放大招时回复 30% 生命。'},
 };
 
 const HUNTERS={
   warden:{n:'灯守',t:'圣焰的守夜人',icon:'lantern',w:'aura',coat:0x2a2234,acc:0xc9a35a,
     p:'生命上限 +30，护甲 +1。',hp:130,armor:1,
-    ult:{n:'圣光审判',d:'以灯为心引爆圣光，焚烧 14 米内所有亡者。'}},
+    ult:{n:'圣光审判',d:'以灯为心引爆圣光，焚烧 14 米内所有敌人。'}},
   heir:{n:'血裔',t:'背弃家族的吸血伯爵',icon:'blood',w:'orbit',coat:0x3a0f18,acc:0xff3050,
     p:'击杀时 4% 几率回复 2 生命；出血伤害 +50%。',hp:100,armor:0,
-    ult:{n:'血宴',d:'6 秒内持续抽取周身亡者的血，按命中数回复生命。'}},
+    ult:{n:'血宴',d:'6 秒内持续抽取周身敌人的血，按命中数回复生命。'}},
   raven:{n:'鸦刃',t:'无声的暗夜刺客',icon:'raven',w:'dagger',coat:0x161a24,acc:0x8fa8ff,
     p:'冲刺冷却 -40%，暴击 +10%，可二段跳。',hp:90,armor:0,
     ult:{n:'鸦群风暴',d:'释放 36 只暗影渡鸦螺旋飞出，穿透一切。'}},
 };
 const DIFFS=[
-  {id:'dusk',n:'黄昏',d:'亡者更脆弱，适合初次狩猎',hp:.7,dmg:.65,spawn:.85,gold:1},
-  {id:'night',n:'永夜',d:'标准的挽歌',hp:1,dmg:1,spawn:1,gold:1},
-  {id:'blood',n:'血月',d:'亡者更强更多，金币 +30%',hp:1.6,dmg:1.4,spawn:1.3,gold:1.3},
+  {id:'dusk',n:'轻松',d:'敌人更脆弱，适合第一次玩',hp:.7,dmg:.65,spawn:.85,gold:1},
+  {id:'night',n:'标准',d:'正常难度',hp:1,dmg:1,spawn:1,gold:1},
+  {id:'blood',n:'地狱',d:'敌人更强更多，金币 +30%',hp:1.6,dmg:1.4,spawn:1.3,gold:1.3},
 ];
 const FAMS={
   bat:{n:['夜蝠','吸血蝠王','夜之君主'],icon:'bat',d:'远程音波，进化后命中吸血。',el:'blood'},
-  hound:{n:['骨犬','地狱犬','三首冥犬'],icon:'hound',d:'扑咬近处的亡者，进化后附带灼烧。',el:'fire'},
-  wisp:{n:['鬼火','魂灯','冥火之灵'],icon:'wisp',d:'放出追踪鬼火诅咒亡者，最终形态附带冰霜。',el:'dark'},
+  hound:{n:['骨犬','地狱犬','三首冥犬'],icon:'hound',d:'扑咬近处的敌人，进化后附带灼烧。',el:'fire'},
+  wisp:{n:['鬼火','魂灯','冥火之灵'],icon:'wisp',d:'放出追踪鬼火诅咒敌人，最终形态附带冰霜。',el:'dark'},
 };
 const FAM_EVO=[120,400];
 
-/* 亡者 */
+/* 敌人 */
 const ENEMIES={
   ghoul:{n:'食尸鬼',kind:'ghoul',hp:8,spd:2.2,dmg:6,r:.55,xp:1,y:0,col:0x5a6a50},
   bat:{n:'吸血蝠',kind:'bat',hp:5,spd:4.1,dmg:4,r:.45,xp:1,y:1.3,col:0x3a1a2a,fly:1},
@@ -194,21 +194,21 @@ const STAGE_T=300; // 秒：首领被强制召唤的时间
 const POI_INFO={
   chest:{n:'宝箱',icon:'coin',c:'#ffc060',d:'花费金币开启，获得一件遗物。'},
   charge:{n:'充能神龛',icon:'shrine',c:'#8fe3ff',d:'站在光圈内充能，完成后选择一项祝福。'},
-  blood:{n:'血之祭坛',icon:'blood',c:'#ff4a62',d:'献出 25% 生命，换取一件稀有以上的遗物。'},
-  curse:{n:'诅咒方尖碑',icon:'obelisk',c:'#c77dff',d:'亡者永久变强 12%，立即召来精英群；击败后得宝箱。'},
+  blood:{n:'献血台',icon:'blood',c:'#ff4a62',d:'献出 25% 生命，换取一件稀有以上的遗物。'},
+  curse:{n:'诅咒方尖碑',icon:'obelisk',c:'#c77dff',d:'敌人永久变强 12%，立即召来精英群；击败后得宝箱。'},
   nest:{n:'眷属之巢',icon:'nest',c:'#7dffb0',d:'孵化一只眷属伙伴，或喂养已有的眷属。'},
-  boss:{n:'首领祭坛',icon:'altar',c:'#ff3050',d:'提前召唤本层首领。击败首领开启通往下一层的门。'},
-  portal:{n:'深渊之门',icon:'portal',c:'#ff6a7a',d:'进入下一层。'},
+  boss:{n:'首领擂台',icon:'altar',c:'#ff3050',d:'提前召唤本层首领。击败首领开启通往下一层的门。'},
+  portal:{n:'次元之门',icon:'portal',c:'#ff6a7a',d:'进入下一层。'},
 };
 const ACH={
   first:{n:'初次狩猎',d:'完成一局游戏'},
-  k500:{n:'百鬼斩',d:'单局击杀 500 名亡者'},
-  k2000:{n:'千魂收割',d:'单局击杀 2000 名亡者'},
+  k500:{n:'百鬼斩',d:'单局击杀 500 名敌人'},
+  k2000:{n:'千魂收割',d:'单局击杀 2000 名敌人'},
   shatter:{n:'碎冰者',d:'单局触发 50 次碎冰反应'},
   evo:{n:'圣器觉醒',d:'进化一把武器'},
   fam:{n:'眷属之主',d:'将眷属进化到最终形态'},
   stage2:{n:'深入教堂',d:'抵达腐朽大教堂'},
-  dawn:{n:'黎明降临',d:'击败血月领主'},
-  bloodmoon:{n:'血月征服者',d:'在血月难度下通关'},
+  dawn:{n:'万界制霸',d:'击败最终首领'},
+  bloodmoon:{n:'地狱征服者',d:'在地狱难度下通关'},
   rich:{n:'守墓人的财富',d:'单局获得 500 金币'},
 };

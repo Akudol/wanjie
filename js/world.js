@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 地图系统 ============ */
+/* ============ 万界乱斗 · 地图系统 ============ */
 const WORLD={H:80,amp:1.4,seed:0,stage:0};
 function hAt(x,z){const a=WORLD.amp,s=WORLD.seed;
   let h=a*(Math.sin(x*.065+s)*Math.cos(z*.058-s*.7)+Math.sin((x*.8+z)*.11+s*2)*.45+Math.cos((x-z*.6)*.04+s)*.6);
@@ -68,7 +68,7 @@ function placeDecor(st){
       else if(k==='candle')add(k,x,z,rand(0,TAU),rand(.8,1.4));
       else add(k,x,z)}}
   for(const k in DK)DK[k].begin();
-  for(const d of decor){let y=hAt(d.x,d.z);if(d.k==='pool')y+=.02;DK[d.k].add(d.x,y,d.z,d.r,d.s,0,0,d.k==='glass'?new THREE.Color(pick([0x8a60ff,0xff4060,0x40a0ff,0xffb040])):null,d.tilt)}
+  for(const d of decor){let y=hAt(d.x,d.z);if(d.k==='pool')y+=.02;DK[d.k].add(d.x,y,d.z,d.r,d.s,0,0,(typeof DTINT!=='undefined'&&DTINT[d.k]?new THREE.Color(pick(DTINT[d.k])):d.k==='glass'?new THREE.Color(pick([0x8a60ff,0xff4060,0x40a0ff,0xffb040])):null),d.tilt)}
   for(const k in DK)DK[k].end();
   // 外墙
   wallKind.begin();const H=WORLD.H+1.5,wt=new THREE.Color(st.wall);

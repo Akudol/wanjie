@@ -8,7 +8,7 @@
 .card:hover,.card:focus-visible,.hunter.on,.seg.on,.tab.on,.ach.on{border-image:var(--fr-gold) 8 fill/var(--px) stretch!important}
 .card:hover,.card:focus-visible{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--rc) 50%,transparent))}
 .card.rar-l{filter:drop-shadow(0 0 12px rgba(255,180,60,.45))}.card.rar-e{filter:drop-shadow(0 0 10px rgba(192,112,255,.35))}
-.card .ic,.entry .ic,.portrait,.selcard .ic{border:none!important;background:#0e070e!important;box-shadow:inset 0 0 0 2px #050205,inset 2px 2px 0 2px #3a2434}
+.card .ic,.entry .ic,.portrait,.selcard .ic{border:none!important;background:#06080f!important;box-shadow:inset 0 0 0 2px #020205,inset 2px 2px 0 2px #1e2540}
 .hunter{padding:0!important}.hinfo{padding:10px 10px 12px}
 .btn{clip-path:none!important;border:12px solid transparent!important;border-image:var(--fr-btn) 8 fill/12px stretch!important;background:none!important;padding:2px 26px!important;text-shadow:0 2px 0 #3a0008;min-height:44px}
 .btn.ghost{border-image:var(--fr-ghost) 8 fill/12px stretch!important;text-shadow:0 2px 0 #000}
@@ -16,24 +16,24 @@
 .back,.back2{border:10px solid transparent!important;border-image:var(--fr-ghost) 8 fill/10px stretch!important;background:none!important;padding:0 10px!important}
 #tip,#prompt{border:10px solid transparent!important;border-image:var(--fr-tip) 8 fill/10px stretch!important;background:none!important;box-shadow:none!important;padding:2px 8px 4px!important}
 #sysbtns button{border:10px solid transparent!important;border-image:var(--fr-ghost) 8 fill/10px stretch!important;background:none!important;width:48px;height:48px}
-kbd{border:none!important;background:#24182a!important;box-shadow:0 0 0 2px #050205,inset 0 -3px 0 #120a14,inset 0 2px 0 #4a3a54;padding:1px 6px 3px!important;font-family:"Silkscreen",sans-serif!important;font-size:11px!important;border-radius:0!important}
+kbd{border:none!important;background:#14192e!important;box-shadow:0 0 0 2px #020205,inset 0 -3px 0 #080b16,inset 0 2px 0 #313a5d;padding:1px 6px 3px!important;font-family:"Silkscreen",sans-serif!important;font-size:11px!important;border-radius:0!important}
 .cell{border:var(--px) solid transparent!important;border-image:var(--fr-card) 8 fill/var(--px) stretch!important;background:none!important}
 .cell.rit,.cell.sel{border-image:var(--fr-gold) 8 fill/var(--px) stretch!important}
 .cell.empty{opacity:.55}
 #minimap{border:12px solid transparent;border-image:var(--fr-hud) 8 fill/12px stretch;clip-path:none!important;box-shadow:none!important;image-rendering:pixelated;box-sizing:content-box;width:136px!important;height:136px!important}
 .ring,.ring::before{border-radius:0!important;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)}
 /* 血条 / 经验条 */
-#hpbar{clip-path:none!important;height:18px!important;border:none!important;background:#1a080e!important;box-shadow:0 0 0 2px #050205,0 0 0 4px #5a3a48,0 0 0 6px #050205}
+#hpbar{clip-path:none!important;height:18px!important;border:none!important;background:#080b1a!important;box-shadow:0 0 0 2px #020205,0 0 0 4px #313b63,0 0 0 6px #020205}
 #hpbar i{background:repeating-linear-gradient(90deg,#e2384e 0 7px,#b0202f 7px 9px)!important;box-shadow:inset 0 4px 0 rgba(255,255,255,.22),inset 0 -4px 0 rgba(0,0,0,.25)}
 #hpbox{margin-top:8px}.hprow{margin-top:8px}
-#xp{height:14px!important;background:#0e060c!important;border-bottom:2px solid #050205!important;box-shadow:inset 0 -2px 0 #3a2430}
+#xp{height:14px!important;background:#05070f!important;border-bottom:2px solid #020205!important;box-shadow:inset 0 -2px 0 #1e2540}
 #xp i{background:repeating-linear-gradient(90deg,#d4243e 0 10px,#a81830 10px 12px)!important;box-shadow:inset 0 3px 0 rgba(255,200,200,.3)!important}
 #xptxt{position:absolute;left:50%;top:1px;transform:translateX(-50%);font:700 10px "Silkscreen",sans-serif;color:#fff2e6;text-shadow:1px 1px 0 #000;white-space:nowrap}
 #timer{font-family:"Silkscreen",Cinzel,serif!important;font-size:30px!important;text-shadow:3px 3px 0 #000,0 0 14px rgba(180,20,40,.6)!important;margin-top:6px}
 .dn{font-family:"Silkscreen",sans-serif!important;text-shadow:2px 2px 0 #000,-1px -1px 0 #000!important}
 /* 增益状态 */
 #buffs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;pointer-events:auto}
-.chip{--c:#c9a35a;position:relative;display:flex;align-items:center;gap:4px;padding:2px 6px 3px 3px;background:rgba(14,6,14,.85);box-shadow:0 0 0 2px #050205,inset 0 0 0 1px color-mix(in srgb,var(--c) 55%,transparent);color:var(--c);overflow:hidden}
+.chip{--c:#c9a35a;position:relative;display:flex;align-items:center;gap:4px;padding:2px 6px 3px 3px;background:rgba(14,6,14,.85);box-shadow:0 0 0 2px #020205,inset 0 0 0 1px color-mix(in srgb,var(--c) 55%,transparent);color:var(--c);overflow:hidden}
 .chip svg,.chip .pi{width:16px;height:16px}.chip b{font:700 10px "Silkscreen",sans-serif;color:#f0e6d8}
 .chip i{position:absolute;left:0;bottom:0;height:2px;background:var(--c)}
 /* 武器冷却 */
@@ -56,7 +56,7 @@ kbd{border:none!important;background:#24182a!important;box-shadow:0 0 0 2px #050
 #combo.t2 b{color:#ffb060}#combo.t3 b{color:#ff6a50}#combo.t4 b{color:#ff3a8a;text-shadow:4px 4px 0 #2a0030,0 0 24px #ff3a8a}
 /* 精英血条 */
 #ebars{position:fixed;inset:0;pointer-events:none}
-.eb{position:absolute;left:0;top:0;width:46px;height:6px;margin-left:-23px;background:#200a10;box-shadow:0 0 0 2px #050205;display:none}
+.eb{position:absolute;left:0;top:0;width:46px;height:6px;margin-left:-23px;background:#090e21;box-shadow:0 0 0 2px #020205;display:none}
 .eb i{display:block;height:100%;background:#e8b040;box-shadow:inset 0 2px 0 rgba(255,255,255,.3)}
 .eb.boss{width:90px;margin-left:-45px;height:8px}.eb.boss i{background:#ff2b45}
 /* 方位指示 */

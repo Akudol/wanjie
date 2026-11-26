@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 名作致敬遗物 ============
+/* ============ 万界乱斗 · 名作致敬遗物 ============
    只借用"设定与玩法套路"，不使用任何作品名、角色名或原招式名。 */
 Object.assign(ICONS,{
   hmask:'<path d="M4 6c4-3 12-3 16 0v5c0 5-4 9-8 9s-8-4-8-9z"/><path d="M7 10l3 1M17 10l-3 1M9 16h6"/>',
@@ -23,25 +23,25 @@ Object.assign(ICONS,{
   meter:'<path d="M3 7h18v10H3z"/><path d="M6 9v6M9 9v6M12 13v2M15 9v6M18 9v6"/>',
 });
 const HOMAGE={
-  persona:{r:3,tag:'dark',n:'人格面具',icon:'hmask',d:'内心的另一个人格戴着面具现身，每 7 秒释放一次随机元素大技能；大技能命中 8 名以上亡者时可能触发全员围殴。',hint:'面具与内心的另一个自己'},
-  stand:{r:3,tag:'motion',n:'灵魂替身',icon:'fist',d:'身后浮现只有你能驱使的人形灵体，对附近亡者打出一轮高速连拳，最后一拳将其击飞。',hint:'站在身后的灵体'},
+  persona:{r:3,tag:'dark',n:'人格面具',icon:'hmask',d:'内心的另一个人格戴着面具现身，每 7 秒释放一次随机元素大技能；大技能命中 8 名以上敌人时可能触发全员围殴。',hint:'面具与内心的另一个自己'},
+  stand:{r:3,tag:'motion',n:'灵魂替身',icon:'fist',d:'身后浮现只有你能驱使的人形灵体，对附近敌人打出一轮高速连拳，最后一拳将其击飞。',hint:'站在身后的灵体'},
   zawarudo:{r:3,tag:'time',n:'灰色世界怀表',icon:'watch',d:'每 25 秒，世界褪成灰色、时间停止 4 秒。停止期间造成的伤害先被储存，时间恢复时一次性爆发 ×1.5。',hint:'只有你能在静止的时间中行动'},
-  deathnote:{r:3,tag:'dark',n:'死神手记',icon:'note',d:'自动在手记上写下场上最强亡者的名字，40 秒后它将心脏骤停而死（首领损失 10% 生命）。',hint:'写下名字的那个人'},
-  bonfire:{r:2,tag:'fire',n:'余火篝火',icon:'fire2',d:'站定 3 秒且附近无敌时点燃篝火：生命回满并获得 20 秒伤害 +25%。代价：周围的亡者复活。冷却 60 秒。',hint:'在篝火旁休息，世界随之重置'},
-  swordbeam:{r:1,tag:'motion',n:'满血剑气',icon:'wave',d:'生命全满时，每秒向最近的亡者挥出一道穿透剑气。',hint:'满心时挥剑会放出光'},
-  clone:{r:2,tag:'motion',n:'影分身卷轴',icon:'scroll',d:'每次冲刺留下一个影分身（最多 3 个），持续 4 秒，向亡者投掷手里剑。',hint:'结印，分身'},
-  spiritbomb:{r:3,tag:'volt',n:'众生之力球',icon:'sphere',d:'站定后举起双手汇聚周围的力量，能量球持续变大（最多 4 秒）；移动时掷向亡者最密集处，造成巨大范围伤害。',hint:'大家，把力量借给我'},
+  deathnote:{r:3,tag:'dark',n:'死神手记',icon:'note',d:'自动在手记上写下场上最强敌人的名字，40 秒后它将心脏骤停而死（首领损失 10% 生命）。',hint:'写下名字的那个人'},
+  bonfire:{r:2,tag:'fire',n:'余火篝火',icon:'fire2',d:'站定 3 秒且附近无敌时点燃篝火：生命回满并获得 20 秒伤害 +25%。代价：周围的敌人复活。冷却 60 秒。',hint:'在篝火旁休息，世界随之重置'},
+  swordbeam:{r:1,tag:'motion',n:'满血剑气',icon:'wave',d:'生命全满时，每秒向最近的敌人挥出一道穿透剑气。',hint:'满心时挥剑会放出光'},
+  clone:{r:2,tag:'motion',n:'影分身卷轴',icon:'scroll',d:'每次冲刺留下一个影分身（最多 3 个），持续 4 秒，向敌人投掷手里剑。',hint:'结印，分身'},
+  spiritbomb:{r:3,tag:'volt',n:'众生之力球',icon:'sphere',d:'站定后举起双手汇聚周围的力量，能量球持续变大（最多 4 秒）；移动时掷向敌人最密集处，造成巨大范围伤害。',hint:'大家，把力量借给我'},
   sayan:{r:3,tag:'fire',n:'怒发金焰',icon:'spiky',d:'击杀与受伤积攒怒气，满怒后头发竖起、金焰缠身 15 秒：伤害、移速与攻速大幅提升。每次觉醒更强，最高三阶。',hint:'愤怒到极点时的金色觉醒'},
   command:{r:2,tag:'bone',n:'三道令咒',icon:'seal',d:'手背刻有 3 道令咒。释放大招时消耗一道，强制所有眷属发动全力一击。',hint:'刻在手背上的三次绝对命令',need:'fam'},
   capture:{r:2,tag:'bone',n:'收容之球',icon:'ball',d:'自动向生命低于 25% 的精英投出收容球，收服后它会为你战斗 30 秒。冷却 25 秒。',hint:'把虚弱的对手收进球里'},
-  whip:{r:2,tag:'blood',n:'吸血猎人之鞭',icon:'whip',d:'每 1.1 秒向前方甩出 7 米长鞭，横扫路径上的亡者并施加出血。',hint:'世代猎杀夜之一族的鞭子'},
+  whip:{r:2,tag:'blood',n:'吸血猎人之鞭',icon:'whip',d:'每 1.1 秒向前方甩出 7 米长鞭，横扫路径上的敌人并施加出血。',hint:'世代猎杀夜之一族的鞭子'},
   rally:{r:1,tag:'blood',n:'血之回响',icon:'echo2',d:'受伤后 3 秒内反击，可以把损失的生命按造成伤害的 20% 抢回来。',hint:'以血还血，越战越勇'},
   sandevistan:{r:2,tag:'motion',n:'义体·时滞加速',icon:'chip',d:'冲刺时激活神经加速义体：周围世界减速至 25%，持续 2.5 秒，留下残影。冷却 12 秒。',hint:'义体让时间为你放慢'},
-  quickhack:{r:2,tag:'volt',n:'骇入义眼',icon:'hack',d:'每 6 秒远程骇入 3 名亡者：短路、过热、系统重启或病毒扩散，随机其一。',hint:'用义眼远程入侵'},
+  quickhack:{r:2,tag:'volt',n:'骇入义眼',icon:'hack',d:'每 6 秒远程骇入 3 名敌人：短路、过热、系统重启或病毒扩散，随机其一。',hint:'用义眼远程入侵'},
   sortinghat:{r:2,tag:'gold',n:'分院之帽',icon:'hat',d:'戴上这顶会说话的旧帽子，它会根据你的构筑把你分进四个学院之一，获得对应学院的永久加成。',hint:'它会读你的心'},
-  patronus:{r:2,tag:'frost',n:'银色守护兽',icon:'stag',d:'每 7 秒召唤银色雄鹿冲过亡者群；对怨灵与幽魂伤害 ×3 并使其惊逃。',hint:'用最快乐的回忆召唤守护'},
+  patronus:{r:2,tag:'frost',n:'银色守护兽',icon:'stag',d:'每 7 秒召唤银色雄鹿冲过敌人群；对怨灵与幽魂伤害 ×3 并使其惊逃。',hint:'用最快乐的回忆召唤守护'},
   deadpool:{r:3,tag:'blood',n:'嘴炮佣兵的面罩',icon:'katana',d:'再生因子：每秒回复 2% 生命。被包围时双刀乱斩。每 25 秒打破第四面墙，抄起血条痛殴最强的敌人。',hint:'红衣、双刀、话很多'},
-  truthbullet:{r:2,tag:'gold',n:'真相言弹',icon:'bullet',d:'每 5 秒向最强的亡者射出一发言弹；命中精英或首领时当场驳倒：造成其当前生命 25% 的伤害（首领 5%）。',hint:'用言弹击穿矛盾'},
+  truthbullet:{r:2,tag:'gold',n:'真相言弹',icon:'bullet',d:'每 5 秒向最强的敌人射出一发言弹；命中精英或首领时当场驳倒：造成其当前生命 25% 的伤害（首领 5%）。',hint:'用言弹击穿矛盾'},
   divergence:{r:3,tag:'time',n:'世界线变动率计',icon:'meter',d:'持续记录过去 10 秒。你将要死亡时，意识跳回 8 秒前的世界线（每层一次）。',hint:'跳回过去，改变世界线'},
 };
 for(const[k,v]of Object.entries(HOMAGE))RELICS[k]=v;
@@ -141,7 +141,7 @@ function homageUpdate(dt){const r=P.rel,h=hm();
       if(h.dn.t<=0){const e=h.dn.e;h.dn=null;showReact(e,'心脏骤停');if(e.boss){const v=e.max*.1;e.hp-=v;track('relic',v)}else{track('relic',e.hp);e.hp=0;kill(e,{})}}}}
   // 篝火
   h.bfCd-=dt;h.bfBuff-=dt;for(const f of h.fires)f.t-=dt;h.fires=h.fires.filter(f=>f.t>0);
-  if(r.bonfire&&h.bfCd<=0&&P.stillT>=3&&!inRange(P.x,P.z,6).length){h.bfCd=60;h.bfBuff=20;h.fires.push({x:P.x+.8,z:P.z+.8,t:20});P.hp=S.maxHp;banner('篝火已点燃','生命回满——但亡者复活了');AU.sfx('heal');
+  if(r.bonfire&&h.bfCd<=0&&P.stillT>=3&&!inRange(P.x,P.z,6).length){h.bfCd=60;h.bfBuff=20;h.fires.push({x:P.x+.8,z:P.z+.8,t:20});P.hp=S.maxHp;banner('篝火已点燃','生命回满——但敌人复活了');AU.sfx('heal');
     for(let i=0;i<8;i++){const a=i/8*TAU;spawnEnemy(pickType(),P.x+Math.sin(a)*10,P.z+Math.cos(a)*10)}}
   // 满血剑气
   if(r.swordbeam&&P.hp>=S.maxHp-.01){h.swT-=dt;if(h.swT<=0){h.swT=1/r.swordbeam;const t=nearest(P.x,P.z,20);const a=t?Math.atan2(t.x-P.x,t.z-P.z):P.face;shoot('crescent',a,20,{dmg:26,pierce:4,life:1,el:'phys',src:'relic'})}}

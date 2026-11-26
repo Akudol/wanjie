@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>永夜挽歌</title>
+<title>万界乱斗</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@500;700;900&family=Cinzel:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="pxui.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -59,12 +60,12 @@
 <!-- ===== 主菜单 ===== -->
 <div id="menu" class="screen">
   <div class="arch">
-    <div class="moon"></div>
-    <h1>永夜挽歌</h1>
-    <div class="sub">Nocturne of the Ashen Crypt</div>
-    <p class="lore">血月悬于墓园之上，亡者不再安息。提起你的灯，猎人——穿过三层深渊，击败血月领主，迎接黎明。</p>
+    <div class="moon"><i></i><i></i><i></i></div>
+    <h1>万界乱斗</h1>
+    <div class="sub">MULTIVERSE BRAWL</div>
+    <p class="lore">次元裂缝撕开了无数个世界，来自不同故事的英雄被卷进同一个战场。穿过三个世界的次元之门，击败最终首领，成为万界最强！</p>
     <nav class="mnav">
-      <button class="btn" id="go">开始狩猎</button>
+      <button class="btn" id="go">开始乱斗</button>
       <div class="mrow"><button class="btn ghost" id="tocodex">图鉴</button><button class="btn ghost" id="torec">记录</button><button class="btn ghost" id="toset">设置</button><button class="btn ghost" id="toguide">指南</button></div>
     </nav>
     <div class="best" id="lastrun"></div>
@@ -75,11 +76,11 @@
 <!-- ===== 猎人选择 ===== -->
 <div id="select" class="screen page" hidden>
   <div class="pagebox wide">
-    <header class="ph"><button class="back">← 返回</button><h2>选择猎人</h2></header>
+    <header class="ph"><button class="back">← 返回</button><h2>选择角色</h2></header>
     <div id="hunters"></div>
     <h3 class="sec">难度</h3>
     <div id="diffs" class="segs"></div>
-    <div class="foot"><button class="btn" id="hunt">踏入墓园</button></div>
+    <div class="foot"><button class="btn" id="hunt">进入战场</button></div>
   </div>
 </div>
 
@@ -95,10 +96,10 @@
 <!-- ===== 记录 ===== -->
 <div id="records" class="screen page" hidden>
   <div class="pagebox wide">
-    <header class="ph"><button class="back">← 返回</button><h2>狩猎记录</h2></header>
+    <header class="ph"><button class="back">← 返回</button><h2>战绩</h2></header>
     <div id="totals" class="stats"></div>
-    <h3 class="sec">猎人最佳</h3>
-    <div class="scroll"><table class="tbl"><thead><tr><th>猎人</th><th>最远抵达</th><th class="n">击杀</th><th class="n">用时</th><th class="n">等级</th></tr></thead><tbody id="hrec"></tbody></table></div>
+    <h3 class="sec">角色最佳</h3>
+    <div class="scroll"><table class="tbl"><thead><tr><th>角色</th><th>最远抵达</th><th class="n">击杀</th><th class="n">用时</th><th class="n">等级</th></tr></thead><tbody id="hrec"></tbody></table></div>
     <h3 class="sec">成就</h3>
     <div id="achs"></div>
   </div>
@@ -115,14 +116,14 @@
 <!-- ===== 指南 ===== -->
 <div id="guide" class="screen page" hidden>
   <div class="pagebox wide">
-    <header class="ph"><button class="back">← 返回</button><h2>猎人指南</h2></header>
+    <header class="ph"><button class="back">← 返回</button><h2>游戏指南</h2></header>
     <div class="ggrid">
       <section><h3 class="sec">操作</h3>
-        <ul class="keys2"><li><kbd>W A S D</kbd>移动（相对镜头方向）</li><li><kbd>鼠标</kbd>转动视角（点击画面锁定）· 滚轮缩放</li><li><kbd>V</kbd>切换第三人称 / 俯视</li><li><kbd>空格</kbd>跳跃（跳起时可越过地面亡者）</li><li><kbd>Shift</kbd>冲刺（无敌）</li><li><kbd>Q</kbd>释放大招</li><li><kbd>E</kbd>与宝箱、祭坛、神龛交互</li><li><kbd>Tab</kbd> / <kbd>M</kbd>全地图</li><li><kbd>Esc</kbd>暂停 · 查看构筑</li><li><kbd>1 2 3</kbd>选卡 · <kbd>R</kbd>重抽</li></ul>
+        <ul class="keys2"><li><kbd>W A S D</kbd>移动（相对镜头方向）</li><li><kbd>鼠标</kbd>转动视角（点击画面锁定）· 滚轮缩放</li><li><kbd>V</kbd>切换第三人称 / 俯视</li><li><kbd>空格</kbd>跳跃（跳起时可越过地面敌人）</li><li><kbd>Shift</kbd>冲刺（无敌）</li><li><kbd>Q</kbd>释放大招</li><li><kbd>E</kbd>与宝箱、祭坛、神龛交互</li><li><kbd>Tab</kbd> / <kbd>M</kbd>全地图</li><li><kbd>Esc</kbd>暂停 · 查看构筑</li><li><kbd>1 2 3</kbd>选卡 · <kbd>R</kbd>重抽</li></ul>
         <p class="muted">手机：左侧拖动移动，右下角按钮跳跃、冲刺、大招、交互。</p>
         <h3 class="sec">狩猎流程</h3>
-        <p>每层有一座<b class="c-red">首领祭坛</b>。你可以随时去祭坛召唤首领，也可以先收集宝物——5 分钟后首领会被强行唤醒。击败首领后祭坛处开启<b class="c-red">深渊之门</b>，进入下一层。三层之后，黎明降临。</p>
-        <p>升级获得<b>武器强化</b>与<b>典籍</b>，卡牌有稀有度，越稀有强化越多。<b>遗物</b>只能从宝箱、祭坛与精英亡者身上获得，它们会改变武器的行为。</p>
+        <p>每层有一座<b class="c-red">首领擂台</b>。你可以随时去祭坛召唤首领，也可以先收集宝物——5 分钟后首领会被强行唤醒。击败首领后祭坛处开启<b class="c-red">次元之门</b>，进入下一层。三层之后，万界制霸。</p>
+        <p>升级获得<b>武器强化</b>与<b>典籍</b>，卡牌有稀有度，越稀有强化越多。<b>遗物</b>只能从宝箱、祭坛与精英敌人身上获得，它们会改变武器的行为。</p>
         <p><b>圣骸匣</b>：遗物放在 5×3 的格子里（暂停页可调整）。同一行或同一列连续三件同印记遗物构成<b>仪式</b>；骸骨圣匣复制右侧、左手之罪强化左侧、衔尾蛇吞噬相邻、蜡制遗物逐层熔化——摆放本身就是构筑。</p>
       </section>
       <section><h3 class="sec">元素与状态</h3><ul class="elist" id="elems"></ul>
@@ -135,7 +136,7 @@
 <!-- ===== 选择卡 ===== -->
 <div id="choice" class="screen" hidden>
   <div class="panel">
-    <h2 id="ctitle">灵魂升华</h2>
+    <h2 id="ctitle">等级提升！</h2>
     <p class="hint" id="chint"></p>
     <div id="cards" class="cards"></div>
     <div id="cactions" class="row"></div>
@@ -147,7 +148,7 @@
   <div class="pagebox wide">
     <header class="ph"><h2 id="pauseh">暂停</h2><div id="ptabs" class="tabs inline"><button class="tab on" data-t="box">圣骸匣</button><button class="tab" data-t="build">构筑</button><button class="tab" data-t="map">地图</button><button class="tab" data-t="set">设置</button></div></header>
     <div id="pbody"></div>
-    <div class="foot row"><button class="btn" id="resume">继续狩猎</button><button class="btn ghost" id="quit">结束本局</button></div>
+    <div class="foot row"><button class="btn" id="resume">继续战斗</button><button class="btn ghost" id="quit">结束本局</button></div>
   </div>
 </div>
 
@@ -172,7 +173,7 @@
 <!-- ===== 结局 ===== -->
 <div id="over" class="screen" hidden>
   <div class="panel">
-    <h2 id="otitle">你已陨落</h2>
+    <h2 id="otitle">战斗失败</h2>
     <p class="hint" id="osub"></p>
     <div class="stats" id="ostats"></div>
     <h3 class="sec">伤害来源</h3>
@@ -195,6 +196,7 @@
 <script src="js/hunters.js"></script>
 <script src="js/weapons2.js"></script>
 <script src="js/hunters2.js"></script>
+<script src="js/worlds.js"></script>
 <script src="js/pxui.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/hud.js"></script>

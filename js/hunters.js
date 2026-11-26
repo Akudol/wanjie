@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 致敬猎人 ============
+/* ============ 万界乱斗 · 致敬猎人 ============
    用"原型特征组合"营造熟悉感：不复刻任何具体角色的服装、配色组合或标志。 */
 function baseHero(g,f,view,c){const b=WALK.bob[f],sw=WALK.sw[f],back=view==='back';
   heroLegs(g,f,{legs:c.legs,boots:c.boots},12,36+b);
@@ -57,17 +57,17 @@ const NEW_HUNTERS={
   fighter:{n:'金焰武斗家',t:'愤怒点燃金色的武者',icon:'spiky',w:'aura',coat:0x9a2020,acc:0xffd040,hp:120,armor:1,relics:['sayan','spiritbomb'],
     p:'自带「怒发金焰」「众生之力球」；怒气积攒速度 ×2。',ult:{n:'双掌光束',d:'双掌合蓄，向前方放出贯穿一切的巨大光束。'},draw:drawFighter},
   student:{n:'面具学生',t:'内心藏着另一个人格',icon:'hmask',w:'frost',coat:0x24263c,acc:0xb01c2c,hp:100,armor:0,relics:['persona','persona'],
-    p:'自带两层「人格面具」（技能冷却减半）。',ult:{n:'全员围殴',d:'召集伙伴一拥而上，烟尘中痛殴周围所有亡者并使其眩晕。'},draw:drawStudent},
+    p:'自带两层「人格面具」（技能冷却减半）。',ult:{n:'全员围殴',d:'召集伙伴一拥而上，烟尘中痛殴周围所有敌人并使其眩晕。'},draw:drawStudent},
   standuser:{n:'替身使者',t:'摆着华丽姿势的灵体主人',icon:'fist',w:'orbit',coat:0x3a2458,acc:0xe8c048,hp:110,armor:0,relics:['stand','stand'],
-    p:'自带两层「灵魂替身」（连打更频繁）。',ult:{n:'连打风暴',d:'替身冲进亡者群，逐一对周围每名亡者打出连拳。'},draw:drawStandUser},
+    p:'自带两层「灵魂替身」（连打更频繁）。',ult:{n:'连打风暴',d:'替身冲进敌人群，逐一对周围每名敌人打出连拳。'},draw:drawStandUser},
   cyber:{n:'霓虹义体佣兵',t:'改造到骨头里的街头传说',icon:'chip',w:'scythe',coat:0x2a1638,acc:0xff2a8a,hp:95,armor:0,relics:['sandevistan','quickhack'],
-    p:'自带「义体·时滞加速」「骇入义眼」；冲刺冷却 -30%。',ult:{n:'系统崩溃',d:'对视野内所有亡者发动骇入：短路、眩晕、感电。'},draw:drawCyber},
+    p:'自带「义体·时滞加速」「骇入义眼」；冲刺冷却 -30%。',ult:{n:'系统崩溃',d:'对视野内所有敌人发动骇入：短路、眩晕、感电。'},draw:drawCyber},
   wizard:{n:'学院巫师',t:'戴着圆框眼镜的魔杖使',icon:'stag',w:'bolt',coat:0x16121c,acc:0xd8a838,hp:95,armor:0,relics:['patronus','sortinghat'],
     p:'自带「银色守护兽」「分院之帽」；经验获取 +15%。',ult:{n:'守护兽群',d:'六头银色雄鹿向四面八方冲锋。'},draw:drawWizard},
   merc:{n:'嘴炮佣兵',t:'话太多的不死雇佣兵',icon:'katana',w:'dagger',coat:0x8a1622,acc:0xf4f4f4,hp:140,armor:0,relics:['deadpool'],
-    p:'自带「嘴炮佣兵的面罩」；生命上限 +40。',ult:{n:'打破第四面墙',d:'直接抄起屏幕上的界面，砸向视野内所有亡者。'},draw:drawMerc},
+    p:'自带「嘴炮佣兵的面罩」；生命上限 +40。',ult:{n:'打破第四面墙',d:'直接抄起屏幕上的界面，砸向视野内所有敌人。'},draw:drawMerc},
   debater:{n:'学级辩手',t:'头顶一根呆毛的辩论者',icon:'bullet',w:'dagger',coat:0x4a4e5c,acc:0xffd860,hp:95,armor:0,relics:['truthbullet','truthbullet'],
-    p:'自带两层「真相言弹」（发射频率翻倍）。',ult:{n:'学级裁判',d:'当场开庭：视野内的精英与首领被驳倒，普通亡者直接崩溃。'},draw:drawDebater},
+    p:'自带两层「真相言弹」（发射频率翻倍）。',ult:{n:'学级裁判',d:'当场开庭：视野内的精英与首领被驳倒，普通敌人直接崩溃。'},draw:drawDebater},
   scientist:{n:'疯狂科学家',t:'自称来自未来的研究员',icon:'meter',w:'frost',coat:0xeceae4,acc:0x8af4ff,hp:100,armor:0,relics:['divergence','stopwatch'],
     p:'自带「世界线变动率计」「凝滞怀表」。',ult:{n:'时间跳跃',d:'跳回过去：生命回到 5 秒前的最高值，武器与冲刺冷却全部重置，时间停止 2 秒。'},draw:drawScientist},
 };

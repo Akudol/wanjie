@@ -1,16 +1,16 @@
-/* ============ 永夜挽歌 · 基础遗物改造 ============
+/* ============ 万界乱斗 · 基础遗物改造 ============
    去掉"纯加数值"的同质化效果，换成本作独有的机制。保留原 id，武器进化与腐化关系不变。 */
-Object.assign(RELICS.whetstone,{n:'断头台之刃',d:'生命低于 15% 的普通亡者（精英 8%）被你命中时当场处决，掉落双倍结晶。'});
+Object.assign(RELICS.whetstone,{n:'断头台之刃',d:'生命低于 15% 的普通敌人（精英 8%）被你命中时当场处决，掉落双倍结晶。'});
 Object.assign(RELICS.feather,{n:'渡鸦信使',d:'冲刺后 2 秒内，武器投射物速度 ×1.6、穿透 +2。'});
 Object.assign(RELICS.boneshield,{n:'白骨壁垒',d:'站定时每秒长出 1 层骨甲（最多 10 层），每层抵挡 1 点伤害；移动时每秒剥落 2 层。'});
-Object.assign(RELICS.holywater,{n:'圣水瓶',d:'拾取结晶时 6% 几率洒下一洼圣水（6 秒）：你在其中每秒回复 3 生命，踏入的亡者被圣火灼烧。'});
+Object.assign(RELICS.holywater,{n:'圣水瓶',d:'拾取结晶时 6% 几率洒下一洼圣水（6 秒）：你在其中每秒回复 3 生命，踏入的敌人被圣火灼烧。'});
 Object.assign(RELICS.coinpurse,{n:'守墓人的契约',d:'每持有 50 金币，伤害 +4%（最多 +40%）。花掉金币，力量也随之流失。'});
-Object.assign(RELICS.candle,{n:'引魂之烛',d:'拾取范围 +25%；被吸向你的结晶会穿过并灼伤沿途的亡者。'});
-Object.assign(RELICS.fang,{n:'猩红獠牙',d:'击杀出血的亡者时，按其出血层数回复生命，并把剩余出血传给附近的亡者。'});
-Object.assign(RELICS.ember,{n:'余烬之戒',d:'被灼烧的亡者死亡时留下一团余烬（3 秒），持续灼烧踏入的亡者。'});
-Object.assign(RELICS.frostheart,{n:'霜之心',d:'击杀冻结的亡者时，它碎裂成 6 片冰刺向四周飞射。'});
+Object.assign(RELICS.candle,{n:'引魂之烛',d:'拾取范围 +25%；被吸向你的结晶会穿过并灼伤沿途的敌人。'});
+Object.assign(RELICS.fang,{n:'猩红獠牙',d:'击杀出血的敌人时，按其出血层数回复生命，并把剩余出血传给附近的敌人。'});
+Object.assign(RELICS.ember,{n:'余烬之戒',d:'被灼烧的敌人死亡时留下一团余烬（3 秒），持续灼烧踏入的敌人。'});
+Object.assign(RELICS.frostheart,{n:'霜之心',d:'击杀冻结的敌人时，它碎裂成 6 片冰刺向四周飞射。'});
 Object.assign(RELICS.lens,{n:'猎魔透镜',d:'连续命中精英与首领会叠加弱点（每层受伤 +3%，最多 30 层），3 秒未命中则清空。'});
-Object.assign(RELICS.thorns,{n:'荆棘圣衣',d:'受到的伤害以 300% 储存为荆棘；下次冲刺时，荆棘撕裂冲刺路径上的每一名亡者。'});
+Object.assign(RELICS.thorns,{n:'荆棘圣衣',d:'受到的伤害以 300% 储存为荆棘；下次冲刺时，荆棘撕裂冲刺路径上的每一名敌人。'});
 
 /* ---------- 地面效果：圣水与余烬 ---------- */
 const RW={pools:[],embers:[]};
@@ -35,7 +35,7 @@ function reworkUpdate(dt){const r=P.rel;
   // 余烬
   for(const em of RW.embers){em.t-=dt;em.k-=dt;if(Math.random()<.3)burst(em.x,hAt(em.x,em.z)+.2,em.z,0xff7020,1,1);if(em.k<=0){em.k=.5;inRange(em.x,em.z,1.6).forEach(e=>hit(e,5,{el:'fire',src:'relic',np:1}))}}
   RW.embers=RW.embers.filter(e=>e.t>0);
-  // 引魂之烛：飞行中的结晶灼伤亡者
+  // 引魂之烛：飞行中的结晶灼伤敌人
   if(r.candle){let n=0;for(const gm of gems){if(!gm.pull||n>40)continue;n++;query(gm.x,gm.z,.6,e=>{if((e.x-gm.x)**2+(e.z-gm.z)**2<(e.r+.3)**2&&(e.hc.cd||0)<RUN.t){e.hc.cd=RUN.t+.4;hit(e,4*r.candle,{el:'fire',src:'relic',np:1})}})}}
   // 圣水视觉
   poolMeshes.forEach((m,i)=>{const p=RW.pools[i];if(p){m.m.visible=true;drape(m.m,p.x,p.z,4,G.rt*.3,.1);m.m.material.opacity=Math.min(1,p.t)*.7}else m.m.visible=false});

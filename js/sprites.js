@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 精细像素角色生成器 ============
+/* ============ 万界乱斗 · 精细像素角色生成器 ============
    用简单几何（矩形 / 椭圆 / 多边形 / 粗线）在像素网格上画出各个部件，
    再自动加上：顶部高光、底部与右侧阴影、圆柱体明暗抖动、按部件颜色加深的选择性描边。 */
 const PXG=(()=>{
@@ -82,7 +82,7 @@ function drawRaven(g,f,view){const pal={legs:'#18202e',boots:'#0a0a12'},b=WALK.b
   g.poly(hood,[[16,2+b],[23,10+b],[23,19+b],[9,19+b],[9,10+b]]);
   if(!back){g.ell(face,16,13+b,4,4.5);g.px(eye,14,12+b);g.px(eye,18,12+b);g.rect(mask,13,15+b,7,3)}else g.line(cloakD,16,4+b,16,18+b,1)}
 
-/* ---------- 亡者 ---------- */
+/* ---------- 敌人 ---------- */
 function drawGhoul(g,f,c){const b=WALK.bob[f],sw=WALK.sw[f],skin=g.part(c.skin),rib=g.part(c.rib),rag=g.part(c.rag),eye=g.part(c.eye,{flat:1,noOutline:1}),mouth=g.part('#1a0a0a',{flat:1}),tooth=g.part('#e8e0c8',{flat:1}),claw=g.part('#e0d8c0');
   g.line(skin,13,30+b,12,38,2.2);g.line(skin,19,30+b,20,38,2.2);if(sw>0)g.line(skin,12,34,11,38,2.2);if(sw<0)g.line(skin,20,34,21,38,2.2);
   g.ell(skin,16,24+b,7,7);g.ell(skin,16,20+b,9,4);g.poly(rag,[[10,28+b],[22,28+b],[21,33+b],[18,31+b],[16,34+b],[14,31+b],[11,33+b]]);

@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 界面与主循环 ============ */
+/* ============ 万界乱斗 · 界面与主循环 ============ */
 const SCREENS=['menu','select','codex','records','settings','guide','choice','pause','clear','over','bigmap'];
 let settingsBack='menu';
 function show(id){if(id&&id!=='bigmap')releaseMouse();for(const s of SCREENS){const el=$('#'+s);if(el)el.hidden=s!==id}}
@@ -27,28 +27,28 @@ function renderSelect(){
       <div class="hinfo"><b>${H.n}</b><small>${H.t}</small>
       <dl><dt>初始武器</dt><dd><span class="el" style="color:${ELEM[W.el].c}">${svg(W.icon)}</span>${W.n}</dd>
       <dt>天赋 · ${H.pn||''}</dt><dd>${H.p}</dd><dt>大招 · ${H.ult.n}</dt><dd>${H.ult.d}</dd></dl>
-      <p class="rec">${rec?`最远抵达 ${STAGES[rec.stage].n} · 击杀 ${rec.kills}`:'尚未出猎'}</p></div></button>`}).join('');
+      <p class="rec">${rec?`最远抵达 ${STAGES[rec.stage].n} · 击杀 ${rec.kills}`:'尚未出战'}</p></div></button>`}).join('');
   $('#diffs').innerHTML=DIFFS.map((d,i)=>`<button class="seg ${i===selDiff?'on':''}" data-d="${i}"><b>${d.n}</b><small>${d.d}</small></button>`).join('');
   $$('#hunters .hunter').forEach(b=>b.onclick=()=>{selHunter=b.dataset.h;AU.sfx('ui');dressHunter(selHunter);setHero(selHunter);renderSelect()});
   $$('#diffs .seg').forEach(b=>b.onclick=()=>{selDiff=+b.dataset.d;AU.sfx('ui');renderSelect()});
 }
 let codexTab='w';
 function renderCodex(){
-  const C=SAVE.codex,tabs={w:'武器',r:'遗物',f:'眷属',e:'亡者'};
+  const C=SAVE.codex,tabs={w:'武器',r:'遗物',f:'眷属',e:'敌人'};
   $('#codextabs').innerHTML=Object.entries(tabs).map(([k,n])=>`<button class="tab ${k===codexTab?'on':''}" data-t="${k}">${n}</button>`).join('');
   $$('#codextabs .tab').forEach(b=>b.onclick=()=>{codexTab=b.dataset.t;AU.sfx('ui');renderCodex()});
   let items=[];
   if(codexTab==='w')items=Object.entries(WEAPONS).map(([id,W])=>({ok:C.w.includes(id),icon:W.icon,n:W.n,tag:ELEM[W.el].n,c:ELEM[W.el].c,d:W.d+`<br><em>进化：${W.n} 满 5 级 + ${RELICS[W.evo.relic].n} → ${W.evo.n}</em><br>${W.evo.d}`}));
   else if(codexTab==='r')items=Object.entries(RELICS).map(([id,R])=>({ok:C.r.includes(id),icon:R.icon,n:R.n,tag:RAR[R.r].n,c:RAR[R.r].c,d:R.d}));
   else if(codexTab==='f')items=Object.entries(FAMS).flatMap(([id,F])=>F.n.map((n,s)=>({ok:C.f.includes(id+s),icon:F.icon,n,tag:['幼体','成体','终极'][s],c:ELEM[F.el].c,d:s===0?F.d:s===1?`击杀 ${FAM_EVO[0]} 后进化。伤害大幅提升。`:`击杀 ${FAM_EVO[1]} 后进化。最终形态。`})));
-  else items=[...Object.entries(ENEMIES).map(([id,E])=>({ok:C.e.includes(id),icon:'skull',n:E.n,tag:'亡者',c:'#bdb4a8',d:`生命 ${E.hp} · 速度 ${E.spd} · 伤害 ${E.dmg}`})),
+  else items=[...Object.entries(ENEMIES).map(([id,E])=>({ok:C.e.includes(id),icon:'skull',n:E.n,tag:'敌人',c:'#bdb4a8',d:`生命 ${E.hp} · 速度 ${E.spd} · 伤害 ${E.dmg}`})),
     ...Object.entries(BOSSES).map(([id,B])=>({ok:C.e.includes(id),icon:'crown',n:B.n,tag:'首领',c:'#ff4a62',d:`生命 ${B.hp}。${{colossus:'冲锋践踏，召唤食尸鬼。',bishop:'螺旋弹幕，瞬移，召唤怨灵。',lord:'血环弹幕，血柱预警，召唤狱火骑士。'}[id]}`}))];
   const got=items.filter(i=>i.ok).length;
   $('#codexcount').textContent=`已发现 ${got} / ${items.length}`;
   $('#codexgrid').innerHTML=items.map(i=>`<div class="entry ${i.ok?'':'locked'}" style="--c:${i.c}"><div class="ic">${svg(i.icon)}</div><div><b>${i.ok?i.n:'？？？'}</b><small>${i.tag}</small><p>${i.ok?i.d:'尚未遭遇。'}</p></div></div>`).join('');
 }
 function renderRecords(){const t=SAVE.tot;
-  $('#totals').innerHTML=[['出猎次数',t.runs],['累计击杀',t.kills],['通关次数',t.clears],['累计金币',t.gold],['狩猎时长',fmt(t.time)]].map(([n,v])=>`<div><b>${v}</b>${n}</div>`).join('');
+  $('#totals').innerHTML=[['出战次数',t.runs],['累计击杀',t.kills],['通关次数',t.clears],['累计金币',t.gold],['战斗时长',fmt(t.time)]].map(([n,v])=>`<div><b>${v}</b>${n}</div>`).join('');
   $('#hrec').innerHTML=Object.entries(HUNTERS).map(([id,H])=>{const r=SAVE.rec[id];return`<tr><td>${H.n}</td><td>${r?STAGES[r.stage].n:'—'}</td><td class="n">${r?r.kills:'—'}</td><td class="n">${r?fmt(r.time):'—'}</td><td class="n">${r?r.lvl:'—'}</td></tr>`}).join('');
   $('#achs').innerHTML=Object.entries(ACH).map(([id,A])=>`<div class="ach ${SAVE.ach.includes(id)?'on':''}">${svg(SAVE.ach.includes(id)?'crown':'skull')}<div><b>${A.n}</b><small>${A.d}</small></div></div>`).join('');
 }
@@ -64,9 +64,9 @@ function renderSettings(el){const s=SAVE.settings;
   el.querySelectorAll('[data-cam]').forEach(b=>b.onclick=()=>{AU.sfx('ui');if(P&&G.state!=='menu')setCamMode(b.dataset.cam);else{CAM.mode=s.cam=b.dataset.cam;persist()}renderSettings(el)});
   el.querySelector('#wipe').onclick=()=>{const b=el.querySelector('#wipe');if(b.dataset.c){try{localStorage.removeItem(SAVE_KEY)}catch(e){}SAVE.codex={w:[],r:[],f:[],e:[]};SAVE.rec={};SAVE.ach=[];SAVE.tot={runs:0,kills:0,clears:0,gold:0,time:0};persist();b.textContent='已清除';b.disabled=true}else{b.dataset.c=1;b.textContent='再次点击确认清除'}}}
 function renderGuide(){
-  $('#reacts').innerHTML=[['霜寒 + 雷霆','碎冰','冰冻的亡者被雷击中时碎裂，对周围造成范围伤害','frost'],['冰霜 + 圣火','融蚀','对带冰霜的亡者造成双倍伤害','fire'],['鲜血 + 圣火','沸血','出血 3 层以上被点燃时，血液沸腾爆炸','blood'],['暗咒 + 雷霆','黑雷','诅咒的亡者被雷击时，闪电跳跃 3 次','dark'],['圣火 + 霜寒','蒸腾','灼烧中的亡者受冰霜时伤害 ×1.6','frost']]
+  $('#reacts').innerHTML=[['霜寒 + 雷霆','碎冰','冰冻的敌人被雷击中时碎裂，对周围造成范围伤害','frost'],['冰霜 + 圣火','融蚀','对带冰霜的敌人造成双倍伤害','fire'],['鲜血 + 圣火','沸血','出血 3 层以上被点燃时，血液沸腾爆炸','blood'],['暗咒 + 雷霆','黑雷','诅咒的敌人被雷击时，闪电跳跃 3 次','dark'],['圣火 + 霜寒','蒸腾','灼烧中的敌人受冰霜时伤害 ×1.6','frost']]
     .map(r=>`<tr><td>${r[0]}</td><td><b class="r-${r[3]}">${r[1]}</b></td><td>${r[2]}</td></tr>`).join('');
-  $('#elems').innerHTML=Object.entries({blood:'出血：每层每 0.5 秒持续伤害，最多 10 层',fire:'灼烧：3 秒持续伤害',frost:'冰霜：减速，叠满 3 层冻结（首领只减速）',dark:'诅咒：受到伤害 +25%，死亡时传染 3 名亡者',volt:'感电：受到伤害 +12%',phys:'物理：无附加状态，但可触发遗物'}).map(([k,d])=>`<li><b style="color:${ELEM[k].c}">${ELEM[k].n}</b>${d}</li>`).join('');
+  $('#elems').innerHTML=Object.entries({blood:'出血：每层每 0.5 秒持续伤害，最多 10 层',fire:'灼烧：3 秒持续伤害',frost:'冰霜：减速，叠满 3 层冻结（首领只减速）',dark:'诅咒：受到伤害 +25%，死亡时传染 3 名敌人',volt:'感电：受到伤害 +12%',phys:'物理：无附加状态，但可触发遗物'}).map(([k,d])=>`<li><b style="color:${ELEM[k].c}">${ELEM[k].n}</b>${d}</li>`).join('');
   $('#poilegend').innerHTML=Object.entries(POI_INFO).map(([k,p])=>`<li><span style="color:${p.c}">${svg(p.icon)}</span><b>${p.n}</b>${p.d}</li>`).join('');
 }
 
@@ -109,13 +109,13 @@ function levelChoice(){
         apply:()=>{w.lvl++;if(stat==='cd')w.cd*=1-v;else w[stat]+=v}}}
     if(t==='n'){const W=WEAPONS[id];return{key,rar:0,icon:W.icon,ec:ELEM[W.el].c,name:W.n,tag:`新武器 · ${ELEM[W.el].n}`,desc:W.d,apply:()=>{const w=addWeapon(id);if(rar>0){w.dmg*=1+.15*rar}}}}
     const T=TOMES[id],v=T.v*m;return{key,rar,icon:T.icon,name:T.n,tag:`${RAR[rar].n} · 典籍`,desc:T.f(v),apply:()=>{P.b[T.s]+=v;const hb=P.b;stats();if(T.s==='hp')healP(v)}}});
-  return{title:'灵魂升华',hint:`等级 ${P.lvl} · 选择一项强化 · 按 1 / 2 / 3`,cards,level:true,sound:'level'}}
+  return{title:'等级提升！',hint:`等级 ${P.lvl} · 选择一项强化 · 按 1 / 2 / 3`,cards,level:true,sound:'level'}}
 function chestChoice(q){
   for(const w of P.weapons){const W=WEAPONS[w.id];if(w.lvl>=5&&!w.evo&&P.rel[W.evo.relic])
     return{title:'圣器觉醒',hint:`${W.n} 与 ${RELICS[W.evo.relic].n} 产生共鸣`,reveal:true,sound:'evo',cards:[{rar:3,icon:W.icon,ec:ELEM[W.el].c,name:W.evo.n,tag:'武器进化',desc:W.evo.d,
       apply:()=>{w.evo=true;w.dmg*=1.5;unlockAch('evo');G.flash=.6}}]}}
   const rar=rollRar(q.minR||0),list=Object.keys(RELICS).filter(id=>RELICS[id].r===rar&&relicAllowed(id)),id=pick(list),R=RELICS[id],have=P.box.filter(it=>it&&it.id===id).length,T=TAGS[R.tag];
-  return{title:q.free?'亡者遗物':q.minR?'血之祭坛':'宝箱开启',hint:boxFree()<0&&!R.consume&&id!=='waxbones'?'圣骸匣已满——收下后需要选择替换的格子':'点击收下 · 将放入圣骸匣',reveal:true,sound:rar===3?'legend':'chest',
+  return{title:q.free?'战利品':q.minR?'献血台':'宝箱开启',hint:boxFree()<0&&!R.consume&&id!=='waxbones'?'圣骸匣已满——收下后需要选择替换的格子':'点击收下 · 将放入圣骸匣',reveal:true,sound:rar===3?'legend':'chest',
     cards:[{rar,icon:R.icon,name:R.n,tag:`${RAR[rar].n} · <span style="color:${T.c}">${T.n}印</span>${have?' · 已持有 '+have:''}`,desc:R.d,note:R.curse?'诅咒遗物：伴随代价':R.pos?'位置遗物：在圣骸匣中的摆放决定效果':'',
       apply:()=>{addRelic(id);if(R.r>=2)G.flash=.3;
         const ev=P.weapons.find(w=>WEAPONS[w.id].evo.relic===id&&!w.evo);if(ev)toast('共鸣',`${WEAPONS[ev.id].n} 满 5 级后可在宝箱中进化`,ev.id)}}]}}
@@ -123,7 +123,7 @@ function boonChoice(){const ids=Object.keys(TOMES).sort(()=>Math.random()-.5).sl
   return{title:'神龛祝福',hint:'神龛回应了你的祈祷 · 选择一项',sound:'chest',cards:ids.map(id=>{const T=TOMES[id],rar=rollRar(),v=T.v*RAR[rar].m*1.5;
     return{rar,icon:T.icon,name:T.n.replace('典籍','祝福'),tag:RAR[rar].n+' · 祝福',desc:T.f(v),apply:()=>{P.b[T.s]+=v;stats();if(T.s==='hp')healP(v)}}})}}
 function nestChoice(){const cards=[];
-  if(fams.length<2)for(const id in FAMS){if(fams.some(f=>f.id===id))continue;const F=FAMS[id];cards.push({rar:1,icon:F.icon,ec:ELEM[F.el].c,name:F.n[0],tag:'孵化眷属',desc:F.d+`<br><span class="hint2">→ ${F.n[1]} → ${F.n[2]}</span>`,apply:()=>{addFam(id);toast(F.n[0]+' 加入了狩猎',F.d,F.icon)}})}
+  if(fams.length<2)for(const id in FAMS){if(fams.some(f=>f.id===id))continue;const F=FAMS[id];cards.push({rar:1,icon:F.icon,ec:ELEM[F.el].c,name:F.n[0],tag:'孵化眷属',desc:F.d+`<br><span class="hint2">→ ${F.n[1]} → ${F.n[2]}</span>`,apply:()=>{addFam(id);toast(F.n[0]+' 加入了战斗',F.d,F.icon)}})}
   if(fams.length)cards.push({rar:2,icon:'nest',name:'喂养眷属',tag:'滋养',desc:'所有眷属立刻获得 100 点成长。',apply:()=>fams.forEach(f=>famGain(f,100))});
   return{title:'眷属之巢',hint:fams.length<2?'选择一只眷属与你同行（最多 2 只）':'你的眷属已满',sound:'chest',cards}}
 
@@ -160,7 +160,7 @@ function updHud(dt){hudT-=dt;if(typeof hudExtra==='function')hudExtra(dt);
   $('#xp i').style.width=(P.xp/P.next*100).toFixed(1)+'%';$('#hpbar i').style.width=(P.hp/S.maxHp*100).toFixed(1)+'%';
   $('#hptxt').textContent=Math.ceil(P.hp)+' / '+S.maxHp;$('#gold').textContent=RUN.gold;$('#lvtag').textContent='LV '+P.lvl;$('#kc').textContent=RUN.kills;
   $('#timer').textContent=fmt(RUN.stageT);
-  const bt=$('#bosstime');if(RUN.bossDead){bt.textContent='深渊之门已开启';bt.className='bt open'}else if(RUN.bossSummoned){bt.textContent='首领已苏醒';bt.className='bt warn'}else{bt.textContent='首领将在 '+fmt(STAGE_T-RUN.stageT)+' 后苏醒';bt.className='bt'}
+  const bt=$('#bosstime');if(RUN.bossDead){bt.textContent='次元之门已开启';bt.className='bt open'}else if(RUN.bossSummoned){bt.textContent='首领已登场';bt.className='bt warn'}else{bt.textContent='首领将在 '+fmt(STAGE_T-RUN.stageT)+' 后苏醒';bt.className='bt'}
   const bb=$('#boss');if(boss&&!boss.dead&&!P.rel.veil){bb.style.display='block';$('#bname').textContent=boss.name;$('#boss p i').style.width=Math.max(0,boss.hp/boss.max*100)+'%'}else bb.style.display='none';
   const u=$('#ult');u.style.setProperty('--p',P.ult);u.classList.toggle('ready',P.ult>=100);$('#ultpct').textContent=P.ult>=100?'就绪':Math.floor(P.ult)+'%';
   const dc=$('#dashcd');dc.style.setProperty('--p',P.dash>0?(1-P.dash/S.dashCd)*100:100);
@@ -177,7 +177,7 @@ function updHud(dt){hudT-=dt;if(typeof hudExtra==='function')hudExtra(dt);
   else pr.hidden=true;
   $('#camhint').hidden=!(CAM.mode==='tp'&&!CAM.locked&&!document.body.classList.contains('touch'));
   if(hudT<=0){hudT=.5;renderFams()}
-  if(SAVE.settings.fps){fpsN++;fpsT+=dt;if(fpsT>=.5){$('#fps').textContent=Math.round(fpsN/fpsT)+' FPS · '+enemies.length+' 亡者';fpsN=0;fpsT=0}}
+  if(SAVE.settings.fps){fpsN++;fpsT+=dt;if(fpsT>=.5){$('#fps').textContent=Math.round(fpsN/fpsT)+' FPS · '+enemies.length+' 敌人';fpsN=0;fpsT=0}}
 }
 /* ---------- 小地图 ---------- */
 const mm=$('#minimap'),mmx=mm.getContext('2d');let mmT=0;
@@ -210,7 +210,7 @@ function pause(on){if(on&&window.__nopause)return;
   else if(!on&&G.state==='pause'){if(placeMode){endPlace();return}G.state='play';show(null)}}
 function renderPause(){
   $$('#ptabs .tab').forEach(b=>{b.classList.toggle('on',b.dataset.t===pauseTab);b.disabled=placeMode&&b.dataset.t!=='box'});
-  $('#pauseh').textContent=placeMode?'放置遗物':'暂停';$('#quit').hidden=placeMode;$('#resume').textContent=placeMode?'放弃并继续':'继续狩猎';
+  $('#pauseh').textContent=placeMode?'放置遗物':'暂停';$('#quit').hidden=placeMode;$('#resume').textContent=placeMode?'放弃并继续':'继续战斗';
   const el=$('#pbody');
   if(pauseTab==='box')renderBox(el);
   else if(pauseTab==='build'){const st=[['伤害',Math.round(S.dmg*dynMul()*100)+'%'],['冷却',Math.round(S.cd*100)+'%'],['范围',Math.round(S.area*100)+'%'],['移速',S.spd.toFixed(1)],['生命',Math.ceil(P.hp)+' / '+S.maxHp],['回复',S.regen.toFixed(1)+'/秒'],['护甲',S.armor.toFixed(1)],['暴击',Math.round(S.crit*100)+'%'],['幸运',Math.round(S.luck*100)+'%'],['拾取',S.mag.toFixed(1)+' 米'],['经验',Math.round(S.xp*100)+'%'],['诅咒',Math.round(P.curseLv*100)+'%']];
@@ -224,20 +224,20 @@ function renderPause(){
 
 /* ---------- 流程 ---------- */
 function startRun(){AU.init();newRun(selHunter,selDiff);CAM.yaw=0;CAM.ty=null;$('#vbtn').textContent=CAM.mode==='tp'?'俯':'背';loadStage(0);show(null);showHud(true);G.state='play';renderSlots();
-  banner(STAGES[0].n,STAGES[0].sub+' · 寻找首领祭坛，或撑到首领苏醒');discover('e','ghoul')}
+  banner(STAGES[0].n,STAGES[0].sub+' · 找到首领擂台，或撑到首领登场');discover('e','ghoul')}
 function loadStage(i){if(i>0)relicStageEnter();RUN.stage=i;RUN.stageT=0;RUN.bossSummoned=false;RUN.bossDead=false;RUN.nextElite=40;RUN.nextSwarm=55;RUN.spawnAcc=0;RUN.stageKills=RUN.kills;RUN.stageGold=RUN.goldTotal;
   const leftover=gems.reduce((s,g)=>s+g.v,0);enemies=[];proj=[];gems=[];coins=[];parts=[];ebolts=[];picks=[];frostRings=[];teleList=[];boss=null;
   buildStage(i);P.x=0;P.z=0;P.y=hAt(0,0);P.vy=0;fams.forEach(f=>{f.x=1;f.z=1});camera.position.set(camOff.x,camOff.y+P.y,camOff.z);if(leftover)gainXp(leftover*S.xp);
   if(i===1)unlockAch('stage2')}
 function stageClear(){G.state='clear';toggleMap(false);const st=STAGES[RUN.stage],last=RUN.stage===STAGES.length-1;
   if(last){endRun(true);return}
-  $('#cltitle').textContent=st.n+' · 已净化';$('#clsub').textContent='深渊之门在你身后关闭。下一层：'+STAGES[RUN.stage+1].n;
+  $('#cltitle').textContent=st.n+'  · 已攻破';$('#clsub').textContent='次元之门在你身后关闭。下一界：'+STAGES[RUN.stage+1].n;
   $('#clstats').innerHTML=[['用时',fmt(RUN.stageT)],['本层击杀',RUN.kills-RUN.stageKills],['本层金币',RUN.goldTotal-RUN.stageGold],['等级',P.lvl]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join('');
   show('clear');AU.sfx('legend')}
 function endRun(win){G.state='over';showHud(false);toggleMap(false);
   const o=$('#over');o.className='screen'+(win?' win':'');show('over');
-  $('#otitle').textContent=win?'黎明降临':'你已陨落';
-  $('#osub').textContent=win?'晨光刺破血月，深渊重归寂静。你活了下来，猎人。':`你倒在了${STAGES[RUN.stage].n}。亡者将你的灯火吞没。`;
+  $('#otitle').textContent=win?'万界制霸':'战斗失败';
+  $('#osub').textContent=win?'万界的裂缝被你一一封印。你，就是最强的乱斗者。':`你倒在了${STAGES[RUN.stage].n}。再来一局，下次一定赢！`;
   $('#ostats').innerHTML=[['总用时',fmt(RUN.t)],['击杀',RUN.kills],['等级',P.lvl],['抵达',STAGES[RUN.stage].n],['金币',RUN.goldTotal],['元素反应',RUN.react]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join('');
   const names=Object.assign({},...Object.keys(WEAPONS).map(k=>({[k]:WEAPONS[k].n})),{burn:'灼烧',bleed:'出血',react:'元素反应',relic:'遗物',fam:'眷属',ult:'大招',other:'其他'});
   const rows=Object.entries(RUN.dealt).sort((a,b)=>b[1]-a[1]),max=rows.length?rows[0][1]:1;
@@ -248,7 +248,7 @@ function endRun(win){G.state='over';showHud(false);toggleMap(false);
   const t=SAVE.tot;t.runs++;t.kills+=RUN.kills;t.gold+=RUN.goldTotal;t.time+=Math.floor(RUN.t);
   const r=SAVE.rec[P.hunter];if(!r||RUN.stage>r.stage||(RUN.stage===r.stage&&RUN.kills>r.kills))SAVE.rec[P.hunter]={stage:RUN.stage,kills:RUN.kills,time:Math.floor(RUN.t),lvl:P.lvl};
   persist()}
-function toMenu(){show('menu');showHud(false);G.state='menu';$('#lastrun').textContent=SAVE.tot.runs?`已出猎 ${SAVE.tot.runs} 次 · 累计击杀 ${SAVE.tot.kills}`:''}
+function toMenu(){show('menu');showHud(false);G.state='menu';$('#lastrun').textContent=SAVE.tot.runs?`已出战 ${SAVE.tot.runs} 次 · 累计击杀 ${SAVE.tot.kills}`:''}
 
 /* ---------- 按钮绑定 ---------- */
 click('#go',()=>{renderSelect();show('select')});
@@ -260,7 +260,7 @@ click('.back',()=>{if(settingsBack==='pause'&&!$('#settings').hidden){settingsBa
 click('#hunt',startRun);
 click('#resume',()=>pause(false));
 click('#quit',()=>{endRun(false)});
-click('#next',()=>{loadStage(RUN.stage+1);show(null);G.state='play';banner(STAGES[RUN.stage].n,STAGES[RUN.stage].sub+' · 亡者更加凶残')});
+click('#next',()=>{loadStage(RUN.stage+1);show(null);G.state='play';banner(STAGES[RUN.stage].n,STAGES[RUN.stage].sub+' · 敌人更强了')});
 click('#again',()=>{startRun()});click('#home',toMenu);
 click('#pbtn',()=>pause(true));click('#vbtn',()=>setCamMode(CAM.mode==='tp'?'top':'tp'));click('#mapbtn',()=>toggleMap());click('#mapclose',()=>toggleMap(false));
 $$('#ptabs .tab').forEach(b=>b.onclick=()=>{pauseTab=b.dataset.t;AU.sfx('ui');renderPause()});
@@ -339,7 +339,7 @@ function sync(dt,rt){
   }else{const a=rt*.06;player.position.set(0,hAt(0,0),0);player.visible=true;player.rotation.y=a*2;camera.position.set(Math.sin(a)*14,hAt(0,0)+7.5,Math.cos(a)*14);camera.lookAt(0,hAt(0,0)+1.5,0);moonSpr.position.set(-60,55,-140);
     lantern.position.set(.5,hAt(0,0)+1.6,.5);moon.position.set(-12,30,-8);moon.target.position.set(0,0,0);pShadow.position.set(0,hAt(0,0)+.05,0)}
   lantern.intensity=2.2+Math.sin(rt*13)*.15+Math.sin(rt*7.3)*.12;updateHero(dt);
-  // 亡者
+  // 敌人
   for(const k in EK)EK[k].begin();
   for(const e of enemies){let y=e.y+(e.D.y||0)*(e.boss?1:1);if(e.D.fly)y+=Math.sin(e.t*3)*.2;else if(e.D.ghost)y+=Math.sin(e.t*1.5)*.15;else y+=Math.abs(Math.sin(e.t*3))*.06;
     const st=e.st;let tint=e.tint;if(st.frozen>0||G.timeStop>0)tint=ST_TINT.frozen;else if(st.burn>0&&Math.sin(rt*20)>0)tint=ST_TINT.burn;else if(st.curse>0)tint=ST_TINT.curse;else if(e.elite)tint=ST_TINT.elite;

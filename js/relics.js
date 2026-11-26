@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 新遗物与圣骸匣（邻接遗物格） ============ */
+/* ============ 万界乱斗 · 新遗物与圣骸匣（邻接遗物格） ============ */
 /* 圣骸匣：5×3 的遗物格。位置决定复制/重触发/吞噬目标；同一直线上三件同印记遗物构成「仪式」。 */
 const BOX_W=5,BOX_H=3,BOX_N=BOX_W*BOX_H;
 const TAGS={
@@ -7,7 +7,7 @@ const TAGS={
 };
 const RITUALS={
   blood:{n:'血之仪式',d:'出血伤害 ×2，吸血獠牙几率 ×2'},fire:{n:'火之仪式',d:'灼烧伤害 ×2'},frost:{n:'霜之仪式',d:'冻结时长 ×2'},
-  volt:{n:'雷之仪式',d:'感电的亡者死亡时放出 3 跳闪电'},dark:{n:'暗之仪式',d:'诅咒增伤 25% → 50%'},bone:{n:'骨之仪式',d:'护甲 +3，生命上限 +20'},
+  volt:{n:'雷之仪式',d:'感电的敌人死亡时放出 3 跳闪电'},dark:{n:'暗之仪式',d:'诅咒增伤 25% → 50%'},bone:{n:'骨之仪式',d:'护甲 +3，生命上限 +20'},
   gold:{n:'金之仪式',d:'宝箱价格 -30%'},time:{n:'时之仪式',d:'大招充能 +50%'},motion:{n:'动之仪式',d:'冲刺冷却 -30%'},
 };
 // 旧遗物补上印记
@@ -35,14 +35,14 @@ const NEW_RELICS={
   bloodDark:{r:3,tag:'blood',n:'血暗同源',icon:'blood',d:'血与暗互相视为对方：血系命中附带诅咒，暗系命中附带出血。'},
   reliquary:{r:3,tag:'bone',n:'骸骨圣匣',icon:'altar',d:'复制圣骸匣中紧邻其右的那件遗物。',pos:'right'},
   beam:{r:3,tag:'volt',n:'光束圣痕',icon:'beam',d:'银十字匕首化为贯穿一切的圣光光束，伤害 +30%。',need:'dagger'},
-  eternal:{r:3,tag:'fire',n:'永燃之誓',icon:'ember',d:'元素反应不再消耗状态；同一亡者每 2 秒至多触发一次同种反应。'},
+  eternal:{r:3,tag:'fire',n:'永燃之誓',icon:'ember',d:'元素反应不再消耗状态；同一敌人每 2 秒至多触发一次同种反应。'},
   // —— 史诗 ——
-  drowned:{r:2,tag:'time',n:'溺亡者的手势',icon:'drown',d:'大招充能 ×2.5。代价：充满即自动释放，无法保留。'},
+  drowned:{r:2,tag:'time',n:'溺敌人的手势',icon:'drown',d:'大招充能 ×2.5。代价：充满即自动释放，无法保留。'},
   overflow:{r:2,tag:'time',n:'余烬沙漏',icon:'hourglass',d:'大招充能可溢出到 200%，存下第二发连续释放。'},
   servant:{r:2,tag:'bone',n:'主仆易位',icon:'hound',d:'眷属的每次攻击都会触发你的遗物；眷属伤害 +40%。'},
   lefthand:{r:2,tag:'dark',n:'左手之罪',icon:'fang',d:'紧邻其左的那件遗物效果翻倍（触发两次）。',pos:'left'},
   echo:{r:2,tag:'time',n:'回声挽钟',icon:'echo',d:'释放大招 1.5 秒后，在原地留下残影以 50% 威力重放一次。'},
-  ledger:{r:2,tag:'motion',n:'罪印账本',icon:'pact',d:'每次命中叠一层罪印；冲刺穿过 ≥8 层罪印的亡者时引爆，造成其已损失生命 20%（首领 5%）。'},
+  ledger:{r:2,tag:'motion',n:'罪印账本',icon:'pact',d:'每次命中叠一层罪印；冲刺穿过 ≥8 层罪印的敌人时引爆，造成其已损失生命 20%（首领 5%）。'},
   stigmata:{r:2,tag:'gold',n:'圣痕账簿',icon:'stigma',d:'受伤先扣金币（1 金抵 1 血）；金币为 0 时受到双倍伤害。'},
   gcup:{r:2,tag:'blood',n:'饕餮之杯',icon:'chalice',d:'满血时溢出的治疗存为血之积液；满最大生命 10% 时射出猩红颅骨。'},
   waxbones:{r:2,tag:'fire',n:'蜡封圣骨',icon:'wax',d:'立刻获得 3 件随机普通遗物的蜡制版；每进入新的一层，最左侧的蜡制遗物熔化。'},
@@ -52,27 +52,27 @@ const NEW_RELICS={
   judgement:{r:2,tag:'volt',n:'审判之钟',icon:'bell',d:'每 30 秒在脚下降下 8 米钟环 10 秒：环内所有单位（包括你）受伤 +60%。'},
   boomerang:{r:2,tag:'motion',n:'回旋圣环',icon:'ring',d:'投射物到达射程末端后折返，返程可再次命中且必定暴击。'},
   // —— 稀有 ——
-  doctrine:{r:1,tag:'frost',n:'霜之教义',icon:'frost',d:'被减速的亡者视为冻结，可被雷击碎；冻结时长 -50%。'},
-  midnight:{r:1,tag:'time',n:'午夜丧钟',icon:'bell',d:'击杀溢出的伤害收入钟内；每 100 次击杀，钟响，把积蓄平分给周围亡者。'},
-  feastbeat:{r:1,tag:'blood',n:'狂宴节拍',icon:'blood',d:'1 秒内击杀 12 名亡者：本层武器冷却 -3%（最多 15 层）。'},
-  vigil:{r:1,tag:'time',n:'静默守夜',icon:'still',d:'站定 2 秒后，下一轮所有武器立刻齐射且伤害 ×3，并击退周围亡者。'},
+  doctrine:{r:1,tag:'frost',n:'霜之教义',icon:'frost',d:'被减速的敌人视为冻结，可被雷击碎；冻结时长 -50%。'},
+  midnight:{r:1,tag:'time',n:'午夜丧钟',icon:'bell',d:'击杀溢出的伤害收入钟内；每 100 次击杀，钟响，把积蓄平分给周围敌人。'},
+  feastbeat:{r:1,tag:'blood',n:'狂宴节拍',icon:'blood',d:'1 秒内击杀 12 名敌人：本层武器冷却 -3%（最多 15 层）。'},
+  vigil:{r:1,tag:'time',n:'静默守夜',icon:'still',d:'站定 2 秒后，下一轮所有武器立刻齐射且伤害 ×3，并击退周围敌人。'},
   nightcloak:{r:1,tag:'motion',n:'夜行斗篷',icon:'cloak',d:'移动中武器冷却 -20%；静止超过 1 秒冷却 +20%。'},
   starfall:{r:1,tag:'motion',n:'坠星之踵',icon:'boot2',d:'落地产生冲击波，伤害随下落高度提升；悬空时武器伤害 +25%。'},
-  ashstep:{r:1,tag:'fire',n:'灰烬步伐',icon:'feather',d:'冲刺穿过的亡者被施加你最高级武器的元素，并留下 2 秒同元素尾迹。'},
-  bmagnet:{r:1,tag:'blood',n:'血契磁石',icon:'magnet',d:'拾取范围 +30%；范围内的亡者每秒受到伤害（随拾取范围提升）。'},
-  refreeze:{r:1,tag:'frost',n:'碎冰重凝',icon:'frostheart',d:'碎冰后亡者立刻可再冻结，并让周围亡者叠一层冰霜。'},
+  ashstep:{r:1,tag:'fire',n:'灰烬步伐',icon:'feather',d:'冲刺穿过的敌人被施加你最高级武器的元素，并留下 2 秒同元素尾迹。'},
+  bmagnet:{r:1,tag:'blood',n:'血契磁石',icon:'magnet',d:'拾取范围 +30%；范围内的敌人每秒受到伤害（随拾取范围提升）。'},
+  refreeze:{r:1,tag:'frost',n:'碎冰重凝',icon:'frostheart',d:'碎冰后敌人立刻可再冻结，并让周围敌人叠一层冰霜。'},
 };
 // 腐化版本（只能由枯萎圣餐产生）
 const CORRUPT={
   fang:{n:'腐牙',d:'只在冲刺中吸血：冲刺时每次命中回复 3 生命。'},
-  ember:{n:'冷烬',d:'灼烧不再造成伤害；被灼烧的亡者受到伤害 +30%。'},
+  ember:{n:'冷烬',d:'灼烧不再造成伤害；被灼烧的敌人受到伤害 +30%。'},
   holywater:{n:'污血瓶',d:'不再回血；每次击杀回复 0.6 生命。'},
   whetstone:{n:'断刃',d:'再也无法暴击；全部伤害 +35%。'},
   feather:{n:'断羽',d:'移速 -12%；冲刺冷却 -60%。'},
   candle:{n:'黑烛',d:'拾取范围 -40%；经验获取 +45%。'},
   boneshield:{n:'骨棘',d:'失去护甲；受伤时向四周射出 10 根骨刺。'},
   coinpurse:{n:'贪婪之口',d:'金币获取 ×2；宝箱价格 +40%。'},
-  frostheart:{n:'冰狱之心',d:'冻结中的亡者被击杀时，冻结其周围 3 米的亡者。'},
+  frostheart:{n:'冰狱之心',d:'冻结中的敌人被击杀时，冻结其周围 3 米的敌人。'},
 };
 Object.assign(RELICS,NEW_RELICS);
 for(const[k,c]of Object.entries(CORRUPT))RELICS['c_'+k]={r:RELICS[k].r,tag:RELICS[k].tag,n:c.n,icon:RELICS[k].icon,d:c.d,cor:1};
@@ -170,7 +170,7 @@ function relicUpdate(dt){const r=P.rel;
   if(r.vigil&&P.stillT>=2&&!P.vigilUsed){P.vigilUsed=true;P.vigilT=.4;for(const w of P.weapons)w.t=0;inRange(P.x,P.z,5).forEach(e=>hit(e,20,{src:'relic',np:1,kb:12,fx:e.x-P.x,fz:e.z-P.z}));fxRing(P.x,P.z,5,0x7dd8c8);showReact({x:P.x,y:P.y,z:P.z,s:1},'守夜齐射')}
   if(P.vigilT>0)P.vigilT-=dt;
   P.ouroT-=dt;
-  // 溺亡者：充满即放
+  // 溺敌人：充满即放
   if(r.drowned&&P.ult>=100)castUlt();
   // 回声
   for(const q of P.echoQ){q.t-=dt;if(q.t<=0){q.done=true;echoUlt(q)}}P.echoQ=P.echoQ.filter(q=>!q.done);

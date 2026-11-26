@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 像素界面：像素图标、像素边框 ============ */
+/* ============ 万界乱斗 · 像素界面：像素图标、像素边框 ============ */
 /* 图标：把矢量图标栅格化成 16×16 的硬边像素，再放大 4 倍作为可着色的遮罩 */
 function buildPixIcons(done){const keys=Object.keys(ICONS);let left=keys.length;
   for(const k of keys){const body=ICONS[k].replace(/currentColor/g,'#fff');
@@ -18,12 +18,12 @@ function pxFrame(fill,hi,lo,edge,gem){const c=document.createElement('canvas');c
   if(gem)for(const[x,y]of[[2,2],[20,2],[2,20],[20,20]]){p(x,y,gem,2,2);p(x,y,'#fff8d8',1,1)}
   return`url(${c.toDataURL()})`}
 function applyPixelUI(){const r=document.documentElement.style;
-  r.setProperty('--fr-panel',pxFrame('#170c16','#5a3c50','#0c060c','#050205','#c9a35a'));
-  r.setProperty('--fr-card',pxFrame('#1c1020','#6a4a5e','#100810','#050205',null));
-  r.setProperty('--fr-gold',pxFrame('#24160e','#e0b860','#6a4a20','#0a0604','#fff0b0'));
-  r.setProperty('--fr-btn',pxFrame('#8c1424','#e8566a','#4a0612','#14020a',null));
-  r.setProperty('--fr-ghost',pxFrame('#24182a','#6a5070','#120a14','#08040a',null));
-  r.setProperty('--fr-hud',pxFrame('#120a12','#4a3444','#080408','#030103',null));
-  r.setProperty('--fr-tip',pxFrame('#140a14','#c9a35a','#5a4020','#050205',null))}
+  r.setProperty('--fr-panel',pxFrame('#161b38','#4a5ad8','#0a0d20','#04050c','#ffd23a'));
+  r.setProperty('--fr-card',pxFrame('#1c2244','#5a6ae8','#0e1228','#04050c',null));
+  r.setProperty('--fr-gold',pxFrame('#2a2410','#ffd23a','#8a6a10','#0a0804','#ffffff'));
+  r.setProperty('--fr-btn',pxFrame('#ff2e6e','#ff9ac0','#a0103e','#20040e',null));
+  r.setProperty('--fr-ghost',pxFrame('#24305e','#6a82f0','#121a38','#04050c',null));
+  r.setProperty('--fr-hud',pxFrame('#121630','#3a4aa8','#080a18','#020308',null));
+  r.setProperty('--fr-tip',pxFrame('#141a36','#3af0ff','#1a6a80','#04050c',null))}
 applyPixelUI();
 buildPixIcons(()=>{try{if(typeof renderSlots==='function'&&P)renderSlots();if(typeof toMenu==='function'&&G.state==='menu'){}document.body.classList.add('pxicons')}catch(e){}});

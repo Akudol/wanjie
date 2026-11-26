@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 致敬武器（全部进入公共升级池） ============ */
+/* ============ 万界乱斗 · 致敬武器（全部进入公共升级池） ============ */
 Object.assign(ICONS,{
   kiorb:'<circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',
   finger:'<path d="M3 12h10M13 12l4-4M13 12l4 4"/><path d="M15 6h6M15 18h6M17 12h4"/>',
@@ -13,25 +13,25 @@ Object.assign(ICONS,{
   cuts:'<path d="M4 4l16 16M20 4L4 20M12 2v20"/>',
 });
 const W2={
-  kiblast:{n:'气功弹',el:'volt',icon:'kiorb',d:'向亡者射出会爆裂的气功弹。',base:{dmg:14,cd:.9,count:1,area:1,speed:18},ups:['dmg','count','area','cd'],evo:{relic:'sayan',n:'金色气功炮',d:'气功弹变得巨大并穿透一切。'}},
+  kiblast:{n:'气功弹',el:'volt',icon:'kiorb',d:'向敌人射出会爆裂的气功弹。',base:{dmg:14,cd:.9,count:1,area:1,speed:18},ups:['dmg','count','area','cd'],evo:{relic:'sayan',n:'金色气功炮',d:'气功弹变得巨大并穿透一切。'}},
   maskblade:{n:'人格之刃',el:'dark',icon:'hmask',d:'挥刀斩击前方，每第三刀召来元素落雷。',base:{dmg:16,cd:.8,area:1},ups:['dmg','area','cd'],evo:{relic:'persona',n:'千面之刃',d:'每一刀都召来元素攻击。'}},
-  standrush:{n:'替身拳',el:'phys',icon:'fist',d:'替身对近处的亡者打出 6 连拳。',base:{dmg:5,cd:1.3,count:6,area:1},ups:['dmg','count','cd'],evo:{relic:'stand',n:'无尽连打',d:'连拳翻倍，最后一拳击飞。'}},
-  armblade:{n:'义体臂刃',el:'volt',icon:'chip',d:'弹出臂刃，对附近亡者连斩两次并感电。',base:{dmg:18,cd:1.4,area:1},ups:['dmg','area','cd'],evo:{relic:'sandevistan',n:'超载臂刃',d:'每次斩击都会短暂放慢周围亡者。'}},
+  standrush:{n:'替身拳',el:'phys',icon:'fist',d:'替身对近处的敌人打出 6 连拳。',base:{dmg:5,cd:1.3,count:6,area:1},ups:['dmg','count','cd'],evo:{relic:'stand',n:'无尽连打',d:'连拳翻倍，最后一拳击飞。'}},
+  armblade:{n:'义体臂刃',el:'volt',icon:'chip',d:'弹出臂刃，对附近敌人连斩两次并感电。',base:{dmg:18,cd:1.4,area:1},ups:['dmg','area','cd'],evo:{relic:'sandevistan',n:'超载臂刃',d:'每次斩击都会短暂放慢周围敌人。'}},
   spellbolt:{n:'魔杖光弹',el:'fire',icon:'stag',d:'挥动魔杖射出追踪的三色咒语光弹。',base:{dmg:11,cd:1,count:2,area:1},ups:['dmg','count','cd'],evo:{relic:'patronus',n:'守护咒光',d:'光弹命中后分裂出银色光点。'}},
   katanas:{n:'佣兵双刀',el:'phys',icon:'katana',d:'原地旋身双刀乱斩。',base:{dmg:15,cd:1,area:1},ups:['dmg','area','cd'],evo:{relic:'deadpool',n:'嘴炮旋风',d:'旋斩两圈，并附带吐槽。'}},
   truthgun:{n:'言弹手枪',el:'phys',icon:'bullet',d:'快速射出穿透的言弹。',base:{dmg:9,cd:.45,count:1,pierce:2,area:1,speed:30},ups:['dmg','count','pierce','cd'],evo:{relic:'truthbullet',n:'完全论破',d:'言弹必定暴击。'}},
-  gelbanana:{n:'凝胶香蕉炮',el:'frost',icon:'banana',d:'抛出一根会炸开绿色凝胶的香蕉，减速并伤害范围内亡者。',base:{dmg:12,cd:1.6,area:1},ups:['dmg','area','cd'],evo:{relic:'divergence',n:'世界线凝胶',d:'凝胶冻结亡者。'}},
-  objection:{n:'异议之指',el:'phys',icon:'finger',d:'伸手一指，前方扇形冲击波击退亡者。',base:{dmg:20,cd:2,area:1},ups:['dmg','area','cd'],evo:{relic:'lens',n:'决定性证据',d:'冲击波范围翻倍并眩晕亡者。'}},
-  handgun:{n:'警用手枪',el:'phys',icon:'gun',d:'精准点射（高暴击），亡者贴身时改用战术刀。',base:{dmg:13,cd:.5,count:1,area:1,speed:34},ups:['dmg','count','cd'],evo:{relic:'whetstone',n:'破甲马格南',d:'子弹穿透并必定暴击。'}},
+  gelbanana:{n:'凝胶香蕉炮',el:'frost',icon:'banana',d:'抛出一根会炸开绿色凝胶的香蕉，减速并伤害范围内敌人。',base:{dmg:12,cd:1.6,area:1},ups:['dmg','area','cd'],evo:{relic:'divergence',n:'世界线凝胶',d:'凝胶冻结敌人。'}},
+  objection:{n:'异议之指',el:'phys',icon:'finger',d:'伸手一指，前方扇形冲击波击退敌人。',base:{dmg:20,cd:2,area:1},ups:['dmg','area','cd'],evo:{relic:'lens',n:'决定性证据',d:'冲击波范围翻倍并眩晕敌人。'}},
+  handgun:{n:'警用手枪',el:'phys',icon:'gun',d:'精准点射（高暴击），敌人贴身时改用战术刀。',base:{dmg:13,cd:.5,count:1,area:1,speed:34},ups:['dmg','count','cd'],evo:{relic:'whetstone',n:'破甲马格南',d:'子弹穿透并必定暴击。'}},
   rebellion:{n:'双枪大剑',el:'fire',icon:'twin',d:'双枪连射之后一记大剑横扫。',base:{dmg:20,cd:1.4,count:4,area:1},ups:['dmg','count','area','cd'],evo:{relic:'ember',n:'魔剑狂欢',d:'横扫附带火焰，射击次数翻倍。'}},
-  yamato:{n:'次元斩',el:'dark',icon:'cuts',d:'在亡者所在处凭空斩出次元裂隙，片刻后爆发。',base:{dmg:24,cd:1.6,count:2,area:1},ups:['dmg','count','area','cd'],evo:{relic:'stopwatch',n:'次元斩·绝',d:'裂隙数量翻倍。'}},
-  striker:{n:'利己射门',el:'phys',icon:'ball2',d:'一脚踢出足球，在亡者之间连续反弹。',base:{dmg:18,cd:1.4,count:3,area:1,speed:22},ups:['dmg','count','cd'],evo:{relic:'feather',n:'无回转射门',d:'足球反弹次数翻倍且越弹越快。'}},
+  yamato:{n:'次元斩',el:'dark',icon:'cuts',d:'在敌人所在处凭空斩出次元裂隙，片刻后爆发。',base:{dmg:24,cd:1.6,count:2,area:1},ups:['dmg','count','area','cd'],evo:{relic:'stopwatch',n:'次元斩·绝',d:'裂隙数量翻倍。'}},
+  striker:{n:'利己射门',el:'phys',icon:'ball2',d:'一脚踢出足球，在敌人之间连续反弹。',base:{dmg:18,cd:1.4,count:3,area:1,speed:22},ups:['dmg','count','cd'],evo:{relic:'feather',n:'无回转射门',d:'足球反弹次数翻倍且越弹越快。'}},
   nullify:{n:'无效之触',el:'dark',icon:'note',d:'身边形成无效领域：消除敌方弹幕，剥夺精英的强化。',base:{dmg:6,cd:.5,area:1},ups:['dmg','area','cd'],evo:{relic:'codex',n:'人间失格',d:'领域翻倍，被剥夺的精英受到大量伤害。'}},
   gauntlet:{n:'碎星手套',el:'phys',icon:'gaunt',d:'挥拳打出扇形冲击；镶嵌的六颗晶石轮流赋予元素。',base:{dmg:30,cd:1.8,area:1},ups:['dmg','area','cd'],evo:{relic:'crown',n:'六晶齐鸣',d:'每拳同时附带全部元素。'}},
   hfblade:{n:'高周波刀',el:'volt',icon:'rapier',d:'极快的前方连斩，命中时少量回复生命。',base:{dmg:9,cd:.35,area:1},ups:['dmg','area','cd'],evo:{relic:'fang',n:'斩夺之刃',d:'斩击回复量翻三倍。'}},
-  chemistry:{n:'蓝色结晶',el:'dark',icon:'flask',d:'向亡者群扔出烧瓶，生成蓝色毒雾并诅咒。',base:{dmg:5,cd:2.2,area:1},ups:['dmg','area','cd'],evo:{relic:'seed',n:'纯度 99%',d:'毒雾范围与伤害大幅提升。'}},
+  chemistry:{n:'蓝色结晶',el:'dark',icon:'flask',d:'向敌人群扔出烧瓶，生成蓝色毒雾并诅咒。',base:{dmg:5,cd:2.2,area:1},ups:['dmg','area','cd'],evo:{relic:'seed',n:'纯度 99%',d:'毒雾范围与伤害大幅提升。'}},
   dragonslayer:{n:'屠龙铁块',el:'phys',icon:'bigsword',d:'抡起巨大的铁块横扫一圈；每第三次发射义手炮。',base:{dmg:45,cd:2.2,area:1},ups:['dmg','area','cd'],evo:{relic:'pact',n:'狂战之刃',d:'每一击都发射义手炮。'}},
-  falconrapier:{n:'银隼细剑',el:'phys',icon:'rapier',d:'朝最近的亡者连续直刺。',base:{dmg:20,cd:.7,count:2,area:1},ups:['dmg','count','cd'],evo:{relic:'saint',n:'白鹰之梦',d:'直刺距离翻倍。'}},
+  falconrapier:{n:'银隼细剑',el:'phys',icon:'rapier',d:'朝最近的敌人连续直刺。',base:{dmg:20,cd:.7,count:2,area:1},ups:['dmg','count','cd'],evo:{relic:'saint',n:'白鹰之梦',d:'直刺距离翻倍。'}},
 };
 for(const[k,v]of Object.entries(W2))WEAPONS[k]=v;
 

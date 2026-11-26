@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 渲染核心 / 音频 / 存档 ============ */
+/* ============ 万界乱斗 · 渲染核心 / 音频 / 存档 ============ */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const rand=(a,b)=>a+Math.random()*(b-a),TAU=Math.PI*2,clamp=(v,a,b)=>v<a?a:v>b?b:v;
 const pick=a=>a[(Math.random()*a.length)|0];

@@ -1,4 +1,4 @@
-/* ============ 永夜挽歌 · 第二批致敬猎人 ============
+/* ============ 万界乱斗 · 第二批致敬猎人 ============
    只取原型特征组合，不复刻具体角色的服装、配色组合与标志。 */
 function drawLawyer(g,f,view){const o=baseHero(g,f,view,{top:'#2a48a0',topD:'#1a2e70',legs:'#22367a',boots:'#141018',skin:'#ecd2bc',hair:'#16121a',open:1,noArms:1}),{b,sw,back}=o;
   const shirt=g.part('#eeeae4'),tie=g.part('#c01c2c'),badge=g.part('#e8c048',{flat:1});
@@ -56,17 +56,17 @@ function drawFalcon(g,f,view){const o=baseHero(g,f,view,{top:'#e8ecf4',topD:'#b8
   g.poly(o.hair,[[9,20+b],[9,9+b],[12,5+b],[20,5+b],[23,9+b],[23,20+b],[21,13+b],[20,9+b],[12,9+b],[11,13+b]]);if(!back)eyes(g,b,'#6a8ab8',14)}
 
 const H2={
-  lawyer:{n:'逆转律师',t:'指着对方大喊的辩护人',icon:'finger',w:'objection',coat:0x2a48a0,acc:0xe8c048,hp:100,armor:0,relics:['lens'],pn:'逆转',p:'生命低于 30% 时伤害 ×1.6。',ult:{n:'证据确凿',d:'眩晕视野内全部亡者，并把敌方弹幕反弹回去。'},draw:drawLawyer},
-  leon:{n:'生还警探',t:'在丧尸城活下来的新人',icon:'gun',w:'handgun',coat:0x5a3a24,acc:0xb8904a,hp:110,armor:1,relics:[],pn:'求生',p:'暴击率 +15%。',ult:{n:'回旋踢',d:'一记回旋踢踹飞周围所有亡者，短暂无敌。'},draw:drawLeon},
+  lawyer:{n:'逆转律师',t:'指着对方大喊的辩护人',icon:'finger',w:'objection',coat:0x2a48a0,acc:0xe8c048,hp:100,armor:0,relics:['lens'],pn:'逆转',p:'生命低于 30% 时伤害 ×1.6。',ult:{n:'证据确凿',d:'眩晕视野内全部敌人，并把敌方弹幕反弹回去。'},draw:drawLawyer},
+  leon:{n:'生还警探',t:'在丧尸城活下来的新人',icon:'gun',w:'handgun',coat:0x5a3a24,acc:0xb8904a,hp:110,armor:1,relics:[],pn:'求生',p:'暴击率 +15%。',ult:{n:'回旋踢',d:'一记回旋踢踹飞周围所有敌人，短暂无敌。'},draw:drawLeon},
   dante:{n:'红衣魔狩',t:'穿红风衣的恶魔猎人',icon:'twin',w:'rebellion',coat:0xb41c24,acc:0xececf2,hp:120,armor:0,relics:[],pn:'风格',p:'连斩越高评价越高（D→SSS），每级伤害 +6%。',ult:{n:'魔人化',d:'10 秒内化身魔人：伤害 ×1.6、移速 +20%、每秒回复 3% 生命。'},draw:drawDante},
-  vergil:{n:'蓝衣剑魔',t:'追求力量的孤高剑客',icon:'cuts',w:'yamato',coat:0x24306e,acc:0xe8ecf4,hp:105,armor:0,relics:['stopwatch'],pn:'瞬步',p:'冲刺冷却 -40%，冲刺穿过的亡者被斩伤。',ult:{n:'绝次元',d:'收刀一瞬，周围空间被数十道次元斩撕裂。'},draw:drawVergil},
+  vergil:{n:'蓝衣剑魔',t:'追求力量的孤高剑客',icon:'cuts',w:'yamato',coat:0x24306e,acc:0xe8ecf4,hp:105,armor:0,relics:['stopwatch'],pn:'瞬步',p:'冲刺冷却 -40%，冲刺穿过的敌人被斩伤。',ult:{n:'绝次元',d:'收刀一瞬，周围空间被数十道次元斩撕裂。'},draw:drawVergil},
   striker:{n:'利己前锋',t:'只为进球而生的前锋',icon:'ball2',w:'striker',coat:0x14161e,acc:0x2a8aff,hp:100,armor:0,relics:['feather'],pn:'利己',p:'连斩每 5 次伤害 +1%（最多 +30%）。',ult:{n:'直接射门',d:'全力一脚，巨球贯穿前方一切。'},draw:drawStriker},
   dazai:{n:'绷带侦探',t:'缠满绷带、总想着解脱的侦探',icon:'note',w:'nullify',coat:0xc8b88a,acc:0xf2f0ea,hp:95,armor:0,relics:['codex'],pn:'失格',p:'受到的伤害有 35% 几率被无效化。',ult:{n:'人间失格',d:'6 秒内一切攻击对你无效，首领技能停摆，精英失去强化。'},draw:drawDazai},
-  titan:{n:'紫晶暴君',t:'戴着六晶手套的泰坦',icon:'gaunt',w:'gauntlet',coat:0x8a6aa8,acc:0xd8a838,hp:200,armor:2,relics:['crown'],pn:'泰坦',p:'生命 200、护甲 2，但移速 -10%。',ult:{n:'响指',d:'打个响指，场上一半的普通亡者化为尘埃，首领损失 15% 生命。'},draw:drawTitan},
-  ninja:{n:'改造忍者',t:'全身义体的高频刀剑士',icon:'rapier',w:'hfblade',coat:0xd4d8e2,acc:0xff2030,hp:110,armor:1,relics:['fang'],pn:'电解',p:'每次击杀回复 1 生命。',ult:{n:'刀锋模式',d:'时间放慢，对周围亡者精准连斩 30 刀，每刀回复生命。'},draw:drawNinja},
+  titan:{n:'紫晶暴君',t:'戴着六晶手套的泰坦',icon:'gaunt',w:'gauntlet',coat:0x8a6aa8,acc:0xd8a838,hp:200,armor:2,relics:['crown'],pn:'泰坦',p:'生命 200、护甲 2，但移速 -10%。',ult:{n:'响指',d:'打个响指，场上一半的普通敌人化为尘埃，首领损失 15% 生命。'},draw:drawTitan},
+  ninja:{n:'改造忍者',t:'全身义体的高频刀剑士',icon:'rapier',w:'hfblade',coat:0xd4d8e2,acc:0xff2030,hp:110,armor:1,relics:['fang'],pn:'电解',p:'每次击杀回复 1 生命。',ult:{n:'刀锋模式',d:'时间放慢，对周围敌人精准连斩 30 刀，每刀回复生命。'},draw:drawNinja},
   chemist:{n:'化学教师',t:'穿防护服的化学天才',icon:'flask',w:'chemistry',coat:0xe0c030,acc:0x40c8ff,hp:100,armor:0,relics:['seed'],pn:'化学',p:'元素反应伤害 +40%，金币 +30%。',ult:{n:'雷汞爆破',d:'扔出一块"结晶"，片刻后引发大爆炸。'},draw:drawChemist},
   guts:{n:'黑剑士',t:'背着铁块的复仇者',icon:'bigsword',w:'dragonslayer',coat:0x2a2a30,acc:0xd01c2c,hp:150,armor:1,relics:['pact'],pn:'烙印',p:'生命越低伤害越高（最多 +60%）。',ult:{n:'狂战铠甲',d:'10 秒内不会死亡、伤害 ×1.8、移速 +25%；结束时失去 20% 生命。'},draw:drawSwordsman},
-  falcon:{n:'白鹰团长',t:'银发的白色骑士',icon:'rapier',w:'falconrapier',coat:0xe8ecf4,acc:0x3a5aa8,hp:105,armor:1,relics:['capture'],pn:'鹰团',p:'眷属与盟友伤害 +40%。',ult:{n:'蚀之刻',d:'天空被蚀，周围 8 名亡者成为你的部下（20 秒）。'},draw:drawFalcon},
+  falcon:{n:'白鹰团长',t:'银发的白色骑士',icon:'rapier',w:'falconrapier',coat:0xe8ecf4,acc:0x3a5aa8,hp:105,armor:1,relics:['capture'],pn:'鹰团',p:'眷属与盟友伤害 +40%。',ult:{n:'蚀之刻',d:'天空被蚀，周围 8 名敌人成为你的部下（20 秒）。'},draw:drawFalcon},
 };
 (function(){for(const[id,H]of Object.entries(H2)){HUNTERS[id]=H;NEW_HUNTERS[id]=H;const cv=PXG.sheet(32,48,8,(g,f)=>H.draw(g,f%4,f>=4?'back':'front'));SPR2[id]={w:32,h:48,canvas:cv};
   HERO_PX[id]=new PixKind(SPR2[id],4,4,id==='titan'?2.8:2.4,10,8);const c=document.createElement('canvas');c.width=32;c.height=48;c.getContext('2d').drawImage(cv,0,0,32,48,0,0,32,48);HERO_PORTRAIT[id]=c.toDataURL()}})();
