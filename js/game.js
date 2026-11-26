@@ -139,21 +139,21 @@ function nearest(x,z,maxD,skip){let best=null,bd=maxD*maxD;for(const e of enemie
 function spawnRadius(){return Math.max(26,15*camera.aspect+9)+(innerHeight>innerWidth?10:0)}
 function spawnPoint(R){const B=WORLD.H-4;for(let k=0;k<8;k++){const a=Math.random()*TAU,x=P.x+Math.sin(a)*R,z=P.z+Math.cos(a)*R;if(Math.abs(x)<B&&Math.abs(z)<B)return[x,z]}
   const a=Math.random()*TAU;return[clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B)]}
-function hpScale(){const T=RUN.stageT,st=STAGES[RUN.stage];return(1+T/110+(T/300)**2)*st.mul*DIFFS[RUN.diff].hp*(1+P.curseLv)}
+function hpScale(){const T=RUN.stageT,st=STAGES[RUN.stage];return(1+T/110+(T/300)**2)*(RUN.route&&RUN.route.length===1?[1,1.35,1.7][RUN.stage]:st.mul)*DIFFS[RUN.diff].hp*(1+P.curseLv)}
 function spawnEnemy(type,x,z,o={}){
   if(x==null)[x,z]=spawnPoint(spawnRadius()+rand(0,5));
   const D=o.boss?BOSSES[type]:ENEMIES[type],el=!!o.elite,bs=!!o.boss;
   const s=bs?D.sc:(D.sc||1)*(el?1.6:rand(.92,1.1));
   const hp=bs?D.hp*DIFFS[RUN.diff].hp*(1+P.curseLv):D.hp*hpScale()*(el?10:1);
-  const e={type,D,kind:D.kind,x,z,y:0,hp,max:hp,spd:D.spd*(el?.9:1)*rand(.9,1.1),dmg:D.dmg*(1+RUN.stageT/400)*(1+RUN.stage*.35)*DIFFS[RUN.diff].dmg*(1+P.curseLv*.5)*(el?1.5:1),
+  const e={type,D,kind:D.kind,x,z,y:0,hp,max:hp,spd:D.spd*(el?.9:1)*rand(.9,1.1),dmg:D.dmg*(1+RUN.stageT/400)*(1+(RUN.ri||0)*.35)*DIFFS[RUN.diff].dmg*(1+P.curseLv*.5)*(el?1.5:1),
     r:(D.r||.6)*(bs?1:s/(D.sc||1)*(D.sc||1)),xp:(D.xp||20)*(el?10:1),s,elite:el,boss:bs,kx:0,kz:0,flash:0,t:Math.random()*10,rot:0,hc:{},ph:Math.random()*TAU,
     st:{burn:0,bleed:0,bleedT:0,frost:0,frozen:0,slow:0,curse:0,shock:0},dotT:.5,tint:D.tint?new THREE.Color(D.tint):null,tag:o.tag,a1:3,a2:6,a3:5,mode:0,mt:0};
   if(bs){e.r=D.r;boss=e;e.name=D.n;discover('e',type)}else discover('e',type);
   enemies.push(e);return e}
 function pickType(){const T=RUN.stageT,ro=STAGES[RUN.stage].roster.filter(r=>T>=r[1]);let s=0;for(const r of ro)s+=r[2]+(r[1]>0?T/90:0);let x=Math.random()*s;for(const r of ro){x-=r[2]+(r[1]>0?T/90:0);if(x<=0)return r[0]}return ro[0][0]}
 function director(dt){
-  const T=RUN.stageT,dif=DIFFS[RUN.diff],rate=Math.min(.7+T/16+(T/200)**2+RUN.stage*.8,30)*dif.spawn*(1+P.curseLv)*(RUN.bossDead?1.4:1);
-  const cap=Math.min(360,10+T*.7+RUN.stage*40);RUN.spawnAcc+=rate*dt;
+  const T=RUN.stageT,dif=DIFFS[RUN.diff],rate=Math.min(.7+T/16+(T/200)**2+(RUN.ri||0)*.8,30)*dif.spawn*(1+P.curseLv)*(RUN.bossDead?1.4:1);
+  const cap=Math.min(360,10+T*.7+(RUN.ri||0)*40);RUN.spawnAcc+=rate*dt;
   while(RUN.spawnAcc>=1){RUN.spawnAcc--;if(enemies.length<cap)spawnEnemy(pickType())}
   if(T>=RUN.nextElite){RUN.nextElite+=45;spawnEnemy(pickType(),null,null,{elite:true})}
   if(T>=RUN.nextSwarm){RUN.nextSwarm+=50;const n=Math.min(18+T/12,40),ty=pickType(),R=spawnRadius()-2;
@@ -232,7 +232,7 @@ function bossDown(e){boss=null;bossLight.intensity=0;RUN.bossDead=true;G.shake=1
   for(let i=0;i<14;i++)dropGem(e.x+rand(-3,3),e.z+rand(-3,3),25);for(let i=0;i<8;i++)coins.push({x:e.x+rand(-3,3),z:e.z+rand(-3,3),v:Math.ceil(8*S.gold),t:0,pull:false,sp:0});
   picks.push({k:'bag',x:e.x,z:e.z,t:0});
   const alt=POIS.find(p=>p.type==='boss'),px=alt?alt.x:e.x,pz=alt?alt.z:e.z,pt=addPoi('portal',px,pz);buildPoiMesh(pt);
-  if(RUN.stage===STAGES.length-1){banner('霸王倒下','次元之门已开启——走进去，完成万界之旅')}else banner('首领已被击败','次元之门已在首领擂台开启')}
+  if(isLastStage()){banner('霸王倒下','次元之门已开启——走进去，完成万界之旅')}else banner('首领已被击败','次元之门已在首领擂台开启')}
 function dropGem(x,z,v){if(gems.length>650){gems[(Math.random()*gems.length)|0].v+=v;return}gems.push({x:x+rand(-.3,.3),z:z+rand(-.3,.3),v,pull:false,sp:0,t:Math.random()*6})}
 function burst(x,y,z,col,n,sp){for(let i=0;i<n;i++){if(parts.length>750)parts.shift();const a=Math.random()*TAU,u=rand(.3,1);parts.push({x,y,z,vx:Math.sin(a)*sp*u,vy:rand(2,6),vz:Math.cos(a)*sp*u,life:rand(.4,.9),max:.9,c:new THREE.Color(col).offsetHSL(0,0,rand(-.1,.1))})}}
 
@@ -423,7 +423,8 @@ function poiTick(dt){nearPoi=null;let bd=9;
   for(const p of POIS){if(p.used&&p.type!=='portal')continue;const d=(p.x-P.x)**2+(p.z-P.z)**2;
     if(p.type==='charge'){if(d<9){p.prog+=dt/4;if(p.prog>=1){p.prog=1;poiSetUsed(p);RUN.queue.push({t:'boon'});AU.sfx('chest')}}else p.prog=Math.max(0,p.prog-dt/8);if(d<9){nearPoi=p;bd=d}continue}
     if(d<bd&&d<(p.type==='boss'||p.type==='portal'?16:7)){bd=d;nearPoi=p}}}
-function poiCost(p){return p.type==='chest'?(P.rel.gluttony?Math.ceil(P.hp*.2):chestPrice((12+RUN.chestsOpened*7)*(1+RUN.stage*.4))):0}
+function poiCost(p){return p.type==='chest'?(P.rel.gluttony?Math.ceil(P.hp*.2):chestPrice((12+RUN.chestsOpened*7)*(1+(RUN.ri||0)*.4))):0}
+function isLastStage(){return !RUN.route||RUN.ri>=RUN.route.length-1}
 function interact(){const p=nearPoi;if(!p||G.state!=='play')return;
   if(p.type==='chest'&&P.rel.gluttony){const c=poiCost(p);if(P.hp<=c+1){AU.sfx('deny');toast('鲜血不足','噬光圣杯要求献出当前生命的 20%');return}P.hp-=c;hurtFlash();RUN.chestsOpened++;poiSetUsed(p);RUN.queue.push({t:'chest'})}
   else if(p.type==='chest'){const c=poiCost(p);if(RUN.gold<c){AU.sfx('deny');toast('金币不足',`开启需要 ${c} 金币`);return}RUN.gold-=c;RUN.chestsOpened++;poiSetUsed(p);RUN.queue.push({t:'chest'})}

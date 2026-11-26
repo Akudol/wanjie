@@ -19,7 +19,7 @@ function hurtFlash(){const h=$('#hurt');h.style.transition='none';h.style.opacit
 function unlockAch(id){if(!RUN||RUN.ach.includes(id))return;RUN.ach.push(id);if(!SAVE.ach.includes(id)){SAVE.ach.push(id);persist();toast('成就解锁 · '+ACH[id].n,ACH[id].d,'crown')}}
 
 /* ---------- 主菜单 ---------- */
-let selHunter='warden',selDiff=1;
+let selHunter='warden',selDiff=1,selMap='all';
 function renderSelect(){
   $('#hunters').innerHTML=Object.entries(HUNTERS).map(([id,H])=>{const W=WEAPONS[H.w],rec=SAVE.rec[id];
     return`<button class="hunter ${id===selHunter?'on':''}" data-h="${id}">
@@ -28,6 +28,8 @@ function renderSelect(){
       <dl><dt>初始武器</dt><dd><span class="el" style="color:${ELEM[W.el].c}">${svg(W.icon)}</span>${W.n}</dd>
       <dt>天赋 · ${H.pn||''}</dt><dd>${H.p}</dd><dt>大招 · ${H.ult.n}</dt><dd>${H.ult.d}</dd></dl>
       <p class="rec">${rec?`最远抵达 ${STAGES[rec.stage].n} · 击杀 ${rec.kills}`:'尚未出战'}</p></div></button>`}).join('');
+  $('#maps').innerHTML=[['all','三界连闯','依次穿越三个世界，最终决战','linear-gradient(90deg,#2a1a6a,#7aa8e8,#3a8a30)'],...STAGES.map((s,i)=>[String(i),s.n,['夜色霓虹中的丧尸都市','白昼里的魔法城堡庭院','阳光下的草地与擂台'][i]||s.sub,'#'+(s.sky||s.fog).toString(16).padStart(6,'0')])].map(([v,n,d,bg])=>`<button class="seg map ${selMap===v?'on':''}" data-m="${v}"><i style="background:${bg}"></i><b>${n}</b><small>${d}</small></button>`).join('');
+  document.querySelectorAll('#maps .seg').forEach(b=>b.onclick=()=>{selMap=b.dataset.m;AU.sfx('ui');renderSelect()});
   $('#diffs').innerHTML=DIFFS.map((d,i)=>`<button class="seg ${i===selDiff?'on':''}" data-d="${i}"><b>${d.n}</b><small>${d.d}</small></button>`).join('');
   $$('#hunters .hunter').forEach(b=>b.onclick=()=>{selHunter=b.dataset.h;AU.sfx('ui');dressHunter(selHunter);setHero(selHunter);renderSelect()});
   $$('#diffs .seg').forEach(b=>b.onclick=()=>{selDiff=+b.dataset.d;AU.sfx('ui');renderSelect()});
@@ -83,7 +85,7 @@ function openChoice(cfg){G.state='choice';curChoice=cfg;banishMode=false;
   $('#cactions').innerHTML=cfg.level?`<button class="btn ghost small" id="reroll" ${P.rerolls?'':'disabled'}>重抽（${P.rerolls}）</button><button class="btn ghost small" id="banish" ${P.banish?'':'disabled'}>放逐（${P.banish}）</button><button class="btn ghost small" id="skip">跳过 +${8+RUN.stage*4} 金</button>`:'';
   if(cfg.level){$('#reroll').onclick=()=>{if(P.rerolls>0){P.rerolls--;AU.sfx('ui');openChoice(levelChoice())}};
     $('#banish').onclick=()=>{banishMode=!banishMode;$('#banish').classList.toggle('on',banishMode);$('#chint').textContent=banishMode?'点击一张卡牌，将其永久移出本局卡池':cfg.hint};
-    $('#skip').onclick=()=>{RUN.gold+=8+RUN.stage*4;closeChoice()}}
+    $('#skip').onclick=()=>{RUN.gold+=8+(RUN.ri||0)*4;closeChoice()}}
   show('choice');if(cfg.sound)AU.sfx(cfg.sound);setTimeout(()=>{const f=$('#cards .card');f&&f.focus({preventScroll:true})},60)}
 $('#cards').addEventListener('click',e=>{const c=e.target.closest('.card');if(!c||!curChoice)return;choose(+c.dataset.i)});
 function choose(i){if(G.state!=='choice'||!curChoice)return;const c=curChoice.cards[i];if(!c)return;
@@ -170,7 +172,7 @@ function updHud(dt){hudT-=dt;if(typeof hudExtra==='function')hudExtra(dt);
   if(nearPoi){const p=nearPoi,I=POI_INFO[p.type];let txt='';
     if(p.type==='charge')txt=`${I.n} · 充能 ${Math.round(p.prog*100)}%`;
     else if(p.type==='chest'){const c=poiCost(p);txt=`<kbd>E</kbd> 打开宝箱 · <span class="${RUN.gold>=c?'':'no'}">${c} 金</span>`}
-    else if(p.type==='boss')txt=`<kbd>E</kbd> 召唤首领`;else if(p.type==='portal')txt=`<kbd>E</kbd> 进入${RUN.stage<STAGES.length-1?'下一层':'黎明'}`;
+    else if(p.type==='boss')txt=`<kbd>E</kbd> 召唤首领`;else if(p.type==='portal')txt=`<kbd>E</kbd> 进入${!isLastStage()?'下一层':'黎明'}`;
     else txt=`<kbd>E</kbd> ${I.n}`;
     if(pr.dataset.t!==txt){pr.innerHTML=txt+(p.type==='charge'?`<i style="width:${p.prog*100}%"></i>`:'')+`<small>${I.d}</small>`;pr.dataset.t=txt}
     _v.set(p.x,p.y+3.2,p.z).project(camera);pr.style.left=((_v.x*.5+.5)*innerWidth)+'px';pr.style.top=((-_v.y*.5+.5)*innerHeight)+'px';pr.hidden=false;pr.style.setProperty('--c',I.c)}
@@ -223,15 +225,16 @@ function renderPause(){
   else renderSettings(el)}
 
 /* ---------- 流程 ---------- */
-function startRun(){AU.init();newRun(selHunter,selDiff);CAM.yaw=0;CAM.ty=null;$('#vbtn').textContent=CAM.mode==='tp'?'俯':'背';loadStage(0);show(null);showHud(true);G.state='play';renderSlots();
-  banner(STAGES[0].n,STAGES[0].sub+' · 找到首领擂台，或撑到首领登场');discover('e','ghoul')}
-function loadStage(i){if(i>0)relicStageEnter();RUN.stage=i;RUN.stageT=0;RUN.bossSummoned=false;RUN.bossDead=false;RUN.nextElite=40;RUN.nextSwarm=55;RUN.spawnAcc=0;RUN.stageKills=RUN.kills;RUN.stageGold=RUN.goldTotal;
+function startRun(){AU.init();newRun(selHunter,selDiff);CAM.yaw=0;CAM.ty=null;$('#vbtn').textContent=CAM.mode==='tp'?'俯':'背';
+  RUN.route=selMap==='all'?[0,1,2]:[+selMap];RUN.ri=0;loadStage(RUN.route[0]);show(null);showHud(true);G.state='play';renderSlots();
+  const s0=STAGES[RUN.route[0]];banner(s0.n,(RUN.route.length>1?s0.sub:'单界挑战')+' · 找到首领擂台，或撑到首领登场');discover('e','ghoul')}
+function loadStage(i){if((RUN.ri||0)>0)relicStageEnter();RUN.stage=i;RUN.stageT=0;RUN.bossSummoned=false;RUN.bossDead=false;RUN.nextElite=40;RUN.nextSwarm=55;RUN.spawnAcc=0;RUN.stageKills=RUN.kills;RUN.stageGold=RUN.goldTotal;
   const leftover=gems.reduce((s,g)=>s+g.v,0);enemies=[];proj=[];gems=[];coins=[];parts=[];ebolts=[];picks=[];frostRings=[];teleList=[];boss=null;
   buildStage(i);P.x=0;P.z=0;P.y=hAt(0,0);P.vy=0;fams.forEach(f=>{f.x=1;f.z=1});camera.position.set(camOff.x,camOff.y+P.y,camOff.z);if(leftover)gainXp(leftover*S.xp);
   if(i===1)unlockAch('stage2')}
-function stageClear(){G.state='clear';toggleMap(false);const st=STAGES[RUN.stage],last=RUN.stage===STAGES.length-1;
+function stageClear(){G.state='clear';toggleMap(false);const st=STAGES[RUN.stage],last=isLastStage();
   if(last){endRun(true);return}
-  $('#cltitle').textContent=st.n+'  · 已攻破';$('#clsub').textContent='次元之门在你身后关闭。下一界：'+STAGES[RUN.stage+1].n;
+  $('#cltitle').textContent=st.n+'  · 已攻破';$('#clsub').textContent='次元之门在你身后关闭。下一界：'+STAGES[RUN.route[RUN.ri+1]].n;
   $('#clstats').innerHTML=[['用时',fmt(RUN.stageT)],['本层击杀',RUN.kills-RUN.stageKills],['本层金币',RUN.goldTotal-RUN.stageGold],['等级',P.lvl]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join('');
   show('clear');AU.sfx('legend')}
 function endRun(win){G.state='over';showHud(false);toggleMap(false);
@@ -260,7 +263,7 @@ click('.back',()=>{if(settingsBack==='pause'&&!$('#settings').hidden){settingsBa
 click('#hunt',startRun);
 click('#resume',()=>pause(false));
 click('#quit',()=>{endRun(false)});
-click('#next',()=>{loadStage(RUN.stage+1);show(null);G.state='play';banner(STAGES[RUN.stage].n,STAGES[RUN.stage].sub+' · 敌人更强了')});
+click('#next',()=>{RUN.ri++;loadStage(RUN.route[RUN.ri]);show(null);G.state='play';banner(STAGES[RUN.stage].n,STAGES[RUN.stage].sub+' · 敌人更强了')});
 click('#again',()=>{startRun()});click('#home',toMenu);
 click('#pbtn',()=>pause(true));click('#vbtn',()=>setCamMode(CAM.mode==='tp'?'top':'tp'));click('#mapbtn',()=>toggleMap());click('#mapclose',()=>toggleMap(false));
 $$('#ptabs .tab').forEach(b=>b.onclick=()=>{pauseTab=b.dataset.t;AU.sfx('ui');renderPause()});
