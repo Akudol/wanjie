@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>永夜挽歌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="pxui.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="vig"></div><div id="hurt"></div><div id="lowhp"></div><div id="flash"></div>
+<div id="dmg"></div>
+<div id="php" hidden><i></i></div>
+<div id="prompt" hidden></div>
+
+<!-- ===== 游戏内 HUD ===== -->
+<div id="hud" hidden>
+  <div id="xp"><i></i><b id="xptxt"></b></div>
+  <div id="hpbox">
+    <div id="hpbar"><i></i></div>
+    <div class="hprow"><span id="hptxt" class="num">100 / 100</span><span class="gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v10"/></svg><b id="gold" class="num">0</b></span></div>
+    <div id="slots"></div>
+    <div id="relics"></div>
+    <div id="famsbar"></div>
+    <div id="buffs"></div>
+  </div>
+  <div id="center">
+    <div id="timer">00:00</div>
+    <div id="bosstime" class="bt"></div>
+    <div id="boss"><div id="bname">首领</div><p><i></i></p></div>
+  </div>
+  <div id="right">
+    <canvas id="minimap" width="160" height="160"></canvas>
+    <div class="rrow"><span id="lvtag">LV 1</span><span id="kills"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 3 1.5 5 3 6v3h2v-2h2v2h2v-2h2v2h2v-3c1.5-1 3-3 3-6a8 8 0 0 0-8-8zM8.5 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg><b id="kc">0</b></span></div>
+    <div id="objs"></div>
+    <div id="dps" class="num"></div>
+    <div id="toasts"></div>
+  </div>
+  <div id="abil">
+    <div id="dashcd" class="ring" title="冲刺 Shift"><span>冲刺</span><kbd>Shift</kbd></div>
+    <div id="ult" class="ring big" title="大招 Q"><span id="ultpct">0%</span><kbd>Q</kbd></div>
+  </div>
+  <div id="tbtns"><button id="bjump">跳</button><button id="bdash">冲</button><button id="bult">招</button><button id="buse">交互</button></div>
+  <div id="sysbtns"><button id="vbtn" aria-label="切换视角">俯</button><button id="mapbtn" aria-label="地图">图</button><button id="pbtn" aria-label="暂停">❚❚</button></div>
+  <div id="fps" hidden></div>
+  <div id="combo"><b>0</b><span>连斩</span><i></i></div>
+  <div id="ebars"></div>
+  <div id="edgearrow"><i></i><span></span></div>
+  <div id="keyhints"><span><kbd>空格</kbd>跳跃</span><span><kbd>Shift</kbd>冲刺</span><span><kbd>Q</kbd>大招</span><span><kbd>E</kbd>交互</span><span><kbd>Tab</kbd>地图</span><span><kbd>V</kbd>视角</span><span><kbd>Esc</kbd>暂停</span></div>
+  <div id="camhint" hidden>点击画面锁定鼠标转动视角 · 滚轮缩放 · <kbd>V</kbd> 切换俯视</div>
+</div>
+<div id="banner"></div>
+<div id="stick"><i></i></div>
+<div id="tip" hidden></div>
+
+<!-- ===== 主菜单 ===== -->
+<div id="menu" class="screen">
+  <div class="arch">
+    <div class="moon"></div>
+    <h1>永夜挽歌</h1>
+    <div class="sub">Nocturne of the Ashen Crypt</div>
+    <p class="lore">血月悬于墓园之上，亡者不再安息。提起你的灯，猎人——穿过三层深渊，击败血月领主，迎接黎明。</p>
+    <nav class="mnav">
+      <button class="btn" id="go">开始狩猎</button>
+      <div class="mrow"><button class="btn ghost" id="tocodex">图鉴</button><button class="btn ghost" id="torec">记录</button><button class="btn ghost" id="toset">设置</button><button class="btn ghost" id="toguide">指南</button></div>
+    </nav>
+    <div class="best" id="lastrun"></div>
+    <div class="muted" id="loadtag"></div>
+  </div>
+</div>
+
+<!-- ===== 猎人选择 ===== -->
+<div id="select" class="screen page" hidden>
+  <div class="pagebox wide">
+    <header class="ph"><button class="back">← 返回</button><h2>选择猎人</h2></header>
+    <div id="hunters"></div>
+    <h3 class="sec">难度</h3>
+    <div id="diffs" class="segs"></div>
+    <div class="foot"><button class="btn" id="hunt">踏入墓园</button></div>
+  </div>
+</div>
+
+<!-- ===== 图鉴 ===== -->
+<div id="codex" class="screen page" hidden>
+  <div class="pagebox wide">
+    <header class="ph"><button class="back">← 返回</button><h2>图鉴</h2><span id="codexcount" class="muted"></span></header>
+    <div id="codextabs" class="tabs"></div>
+    <div id="codexgrid"></div>
+  </div>
+</div>
+
+<!-- ===== 记录 ===== -->
+<div id="records" class="screen page" hidden>
+  <div class="pagebox wide">
+    <header class="ph"><button class="back">← 返回</button><h2>狩猎记录</h2></header>
+    <div id="totals" class="stats"></div>
+    <h3 class="sec">猎人最佳</h3>
+    <div class="scroll"><table class="tbl"><thead><tr><th>猎人</th><th>最远抵达</th><th class="n">击杀</th><th class="n">用时</th><th class="n">等级</th></tr></thead><tbody id="hrec"></tbody></table></div>
+    <h3 class="sec">成就</h3>
+    <div id="achs"></div>
+  </div>
+</div>
+
+<!-- ===== 设置 ===== -->
+<div id="settings" class="screen page" hidden>
+  <div class="pagebox">
+    <header class="ph"><button class="back">← 返回</button><h2>设置</h2></header>
+    <div id="setbody" class="setbody"></div>
+  </div>
+</div>
+
+<!-- ===== 指南 ===== -->
+<div id="guide" class="screen page" hidden>
+  <div class="pagebox wide">
+    <header class="ph"><button class="back">← 返回</button><h2>猎人指南</h2></header>
+    <div class="ggrid">
+      <section><h3 class="sec">操作</h3>
+        <ul class="keys2"><li><kbd>W A S D</kbd>移动（相对镜头方向）</li><li><kbd>鼠标</kbd>转动视角（点击画面锁定）· 滚轮缩放</li><li><kbd>V</kbd>切换第三人称 / 俯视</li><li><kbd>空格</kbd>跳跃（跳起时可越过地面亡者）</li><li><kbd>Shift</kbd>冲刺（无敌）</li><li><kbd>Q</kbd>释放大招</li><li><kbd>E</kbd>与宝箱、祭坛、神龛交互</li><li><kbd>Tab</kbd> / <kbd>M</kbd>全地图</li><li><kbd>Esc</kbd>暂停 · 查看构筑</li><li><kbd>1 2 3</kbd>选卡 · <kbd>R</kbd>重抽</li></ul>
+        <p class="muted">手机：左侧拖动移动，右下角按钮跳跃、冲刺、大招、交互。</p>
+        <h3 class="sec">狩猎流程</h3>
+        <p>每层有一座<b class="c-red">首领祭坛</b>。你可以随时去祭坛召唤首领，也可以先收集宝物——5 分钟后首领会被强行唤醒。击败首领后祭坛处开启<b class="c-red">深渊之门</b>，进入下一层。三层之后，黎明降临。</p>
+        <p>升级获得<b>武器强化</b>与<b>典籍</b>，卡牌有稀有度，越稀有强化越多。<b>遗物</b>只能从宝箱、祭坛与精英亡者身上获得，它们会改变武器的行为。</p>
+        <p><b>圣骸匣</b>：遗物放在 5×3 的格子里（暂停页可调整）。同一行或同一列连续三件同印记遗物构成<b>仪式</b>；骸骨圣匣复制右侧、左手之罪强化左侧、衔尾蛇吞噬相邻、蜡制遗物逐层熔化——摆放本身就是构筑。</p>
+      </section>
+      <section><h3 class="sec">元素与状态</h3><ul class="elist" id="elems"></ul>
+        <h3 class="sec">元素反应</h3><div class="scroll"><table class="tbl"><tbody id="reacts"></tbody></table></div></section>
+      <section><h3 class="sec">地图要素</h3><ul class="elist poi" id="poilegend"></ul></section>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 选择卡 ===== -->
+<div id="choice" class="screen" hidden>
+  <div class="panel">
+    <h2 id="ctitle">灵魂升华</h2>
+    <p class="hint" id="chint"></p>
+    <div id="cards" class="cards"></div>
+    <div id="cactions" class="row"></div>
+  </div>
+</div>
+
+<!-- ===== 暂停 ===== -->
+<div id="pause" class="screen page" hidden>
+  <div class="pagebox wide">
+    <header class="ph"><h2 id="pauseh">暂停</h2><div id="ptabs" class="tabs inline"><button class="tab on" data-t="box">圣骸匣</button><button class="tab" data-t="build">构筑</button><button class="tab" data-t="map">地图</button><button class="tab" data-t="set">设置</button></div></header>
+    <div id="pbody"></div>
+    <div class="foot row"><button class="btn" id="resume">继续狩猎</button><button class="btn ghost" id="quit">结束本局</button></div>
+  </div>
+</div>
+
+<!-- ===== 全地图 ===== -->
+<div id="bigmap" class="screen" hidden>
+  <div class="pagebox">
+    <header class="ph"><h2 id="mapstage">地图</h2><button class="back2" id="mapclose">关闭 · Tab</button></header>
+    <div class="mapwrap"><canvas id="bigcv" width="420" height="420"></canvas><ul class="legend" id="maplegend"></ul></div>
+  </div>
+</div>
+
+<!-- ===== 关卡结算 ===== -->
+<div id="clear" class="screen" hidden>
+  <div class="panel">
+    <h2 id="cltitle">已净化</h2>
+    <p class="hint" id="clsub"></p>
+    <div class="stats" id="clstats"></div>
+    <div class="row"><button class="btn" id="next">进入下一层</button></div>
+  </div>
+</div>
+
+<!-- ===== 结局 ===== -->
+<div id="over" class="screen" hidden>
+  <div class="panel">
+    <h2 id="otitle">你已陨落</h2>
+    <p class="hint" id="osub"></p>
+    <div class="stats" id="ostats"></div>
+    <h3 class="sec">伤害来源</h3>
+    <div id="dmgtable"></div>
+    <p id="newach" class="newach"></p>
+    <div class="row"><button class="btn" id="again">再次挑战</button><button class="btn ghost" id="home">回到标题</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/world.js"></script>
+<script src="js/game.js"></script>
+<script src="js/relics.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/pixel.js"></script>
+<script src="js/homage.js"></script>
+<script src="js/rework.js"></script>
+<script src="js/hunters.js"></script>
+<script src="js/pxui.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/hud.js"></script>
+</body>
+</html>

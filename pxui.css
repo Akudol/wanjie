@@ -1,0 +1,82 @@
+/* ================= 像素界面（覆盖 style.css） ================= */
+.pi{display:block;width:100%;height:100%;background:currentColor;-webkit-mask:var(--m) center/100% 100% no-repeat;mask:var(--m) center/100% 100% no-repeat}
+:root{--px:12px}
+.pagebox{background:none!important;border:16px solid transparent!important;border-image:var(--fr-panel) 8 fill/16px stretch!important;box-shadow:0 24px 60px rgba(0,0,0,.7)!important;padding:clamp(10px,2vw,22px)!important}
+.card,.hunter,.entry,.ach,.selcard,.placebar,.toast,.seg,.tab,.rel,.bw>span,#slots span,#famsbar span{border:var(--px) solid transparent!important;border-image:var(--fr-card) 8 fill/var(--px) stretch!important;background:none!important;box-shadow:none!important}
+.card{padding:6px 6px 8px!important}
+.card::before{content:"";position:absolute;left:4px;right:4px;top:-6px;height:3px;background:var(--rc)}
+.card:hover,.card:focus-visible,.hunter.on,.seg.on,.tab.on,.ach.on{border-image:var(--fr-gold) 8 fill/var(--px) stretch!important}
+.card:hover,.card:focus-visible{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--rc) 50%,transparent))}
+.card.rar-l{filter:drop-shadow(0 0 12px rgba(255,180,60,.45))}.card.rar-e{filter:drop-shadow(0 0 10px rgba(192,112,255,.35))}
+.card .ic,.entry .ic,.portrait,.selcard .ic{border:none!important;background:#0e070e!important;box-shadow:inset 0 0 0 2px #050205,inset 2px 2px 0 2px #3a2434}
+.hunter{padding:0!important}.hinfo{padding:10px 10px 12px}
+.btn{clip-path:none!important;border:12px solid transparent!important;border-image:var(--fr-btn) 8 fill/12px stretch!important;background:none!important;padding:2px 26px!important;text-shadow:0 2px 0 #3a0008;min-height:44px}
+.btn.ghost{border-image:var(--fr-ghost) 8 fill/12px stretch!important;text-shadow:0 2px 0 #000}
+.btn:hover,.btn:focus-visible{filter:brightness(1.25)!important;transform:translateY(-2px)!important}
+.back,.back2{border:10px solid transparent!important;border-image:var(--fr-ghost) 8 fill/10px stretch!important;background:none!important;padding:0 10px!important}
+#tip,#prompt{border:10px solid transparent!important;border-image:var(--fr-tip) 8 fill/10px stretch!important;background:none!important;box-shadow:none!important;padding:2px 8px 4px!important}
+#sysbtns button{border:10px solid transparent!important;border-image:var(--fr-ghost) 8 fill/10px stretch!important;background:none!important;width:48px;height:48px}
+kbd{border:none!important;background:#24182a!important;box-shadow:0 0 0 2px #050205,inset 0 -3px 0 #120a14,inset 0 2px 0 #4a3a54;padding:1px 6px 3px!important;font-family:"Silkscreen",sans-serif!important;font-size:11px!important;border-radius:0!important}
+.cell{border:var(--px) solid transparent!important;border-image:var(--fr-card) 8 fill/var(--px) stretch!important;background:none!important}
+.cell.rit,.cell.sel{border-image:var(--fr-gold) 8 fill/var(--px) stretch!important}
+.cell.empty{opacity:.55}
+#minimap{border:12px solid transparent;border-image:var(--fr-hud) 8 fill/12px stretch;clip-path:none!important;box-shadow:none!important;image-rendering:pixelated;box-sizing:content-box;width:136px!important;height:136px!important}
+.ring,.ring::before{border-radius:0!important;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)}
+/* 血条 / 经验条 */
+#hpbar{clip-path:none!important;height:18px!important;border:none!important;background:#1a080e!important;box-shadow:0 0 0 2px #050205,0 0 0 4px #5a3a48,0 0 0 6px #050205}
+#hpbar i{background:repeating-linear-gradient(90deg,#e2384e 0 7px,#b0202f 7px 9px)!important;box-shadow:inset 0 4px 0 rgba(255,255,255,.22),inset 0 -4px 0 rgba(0,0,0,.25)}
+#hpbox{margin-top:8px}.hprow{margin-top:8px}
+#xp{height:14px!important;background:#0e060c!important;border-bottom:2px solid #050205!important;box-shadow:inset 0 -2px 0 #3a2430}
+#xp i{background:repeating-linear-gradient(90deg,#d4243e 0 10px,#a81830 10px 12px)!important;box-shadow:inset 0 3px 0 rgba(255,200,200,.3)!important}
+#xptxt{position:absolute;left:50%;top:1px;transform:translateX(-50%);font:700 10px "Silkscreen",sans-serif;color:#fff2e6;text-shadow:1px 1px 0 #000;white-space:nowrap}
+#timer{font-family:"Silkscreen",Cinzel,serif!important;font-size:30px!important;text-shadow:3px 3px 0 #000,0 0 14px rgba(180,20,40,.6)!important;margin-top:6px}
+.dn{font-family:"Silkscreen",sans-serif!important;text-shadow:2px 2px 0 #000,-1px -1px 0 #000!important}
+/* 增益状态 */
+#buffs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;pointer-events:auto}
+.chip{--c:#c9a35a;position:relative;display:flex;align-items:center;gap:4px;padding:2px 6px 3px 3px;background:rgba(14,6,14,.85);box-shadow:0 0 0 2px #050205,inset 0 0 0 1px color-mix(in srgb,var(--c) 55%,transparent);color:var(--c);overflow:hidden}
+.chip svg,.chip .pi{width:16px;height:16px}.chip b{font:700 10px "Silkscreen",sans-serif;color:#f0e6d8}
+.chip i{position:absolute;left:0;bottom:0;height:2px;background:var(--c)}
+/* 武器冷却 */
+#slots span .cd{--p:0;position:absolute;inset:0;background:conic-gradient(rgba(0,0,0,.65) calc(var(--p)*1%),transparent 0);pointer-events:none}
+/* 目标 */
+#objs{margin-top:10px;padding:4px 6px 6px;width:176px;margin-left:-16px;border:10px solid transparent;border-image:var(--fr-hud) 8 fill/10px stretch}
+#objs h4{margin:0 0 4px;font-size:12px;color:var(--gold);font-weight:700}
+#objs ul{list-style:none;margin:0;padding:0;font-size:12px}
+#objs li{display:grid;grid-template-columns:16px 1fr auto;gap:5px;align-items:center;padding:2px 0;color:#d6c9b9}
+#objs li svg,#objs li .pi{width:14px;height:14px;color:var(--c)}
+#objs li em{font:700 10px "Silkscreen",sans-serif;font-style:normal;color:var(--c)}
+#objs li.done{opacity:.45}#objs li.done span{text-decoration:line-through}
+#dps{display:grid;grid-template-columns:auto 1fr;gap:0 8px;font-size:11px;margin:6px 0 0 -6px;color:var(--dim)}
+#dps b{font:700 11px "Silkscreen",sans-serif;color:#f0e6d8;text-align:right}
+/* 连斩 */
+#combo{position:absolute;right:200px;top:38%;text-align:center;opacity:0;transition:opacity .3s;pointer-events:none}
+#combo b{display:block;font:700 44px "Silkscreen",sans-serif;color:#ffe0a0;text-shadow:4px 4px 0 #3a0008,0 0 18px rgba(255,120,60,.5);transition:transform .12s}
+#combo span{font-size:14px;color:#ffd0a0;font-weight:900;letter-spacing:.3em}
+#combo i{display:block;height:3px;margin:4px auto 0;background:#ffb060;box-shadow:0 0 0 1px #000}
+#combo.t2 b{color:#ffb060}#combo.t3 b{color:#ff6a50}#combo.t4 b{color:#ff3a8a;text-shadow:4px 4px 0 #2a0030,0 0 24px #ff3a8a}
+/* 精英血条 */
+#ebars{position:fixed;inset:0;pointer-events:none}
+.eb{position:absolute;left:0;top:0;width:46px;height:6px;margin-left:-23px;background:#200a10;box-shadow:0 0 0 2px #050205;display:none}
+.eb i{display:block;height:100%;background:#e8b040;box-shadow:inset 0 2px 0 rgba(255,255,255,.3)}
+.eb.boss{width:90px;margin-left:-45px;height:8px}.eb.boss i{background:#ff2b45}
+/* 方位指示 */
+#edgearrow{position:fixed;left:0;top:0;opacity:0;pointer-events:none;transition:opacity .2s}
+#edgearrow i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;background:#ff3050;clip-path:polygon(100% 50%,20% 0,40% 50%,20% 100%);filter:drop-shadow(0 0 6px #ff3050)}
+#edgearrow span{position:absolute;left:-60px;top:18px;width:120px;text-align:center;font-size:12px;font-weight:700;color:#ffb0b8;text-shadow:1px 1px 0 #000,0 0 6px #000}
+#edgearrow.portal i{background:#ff8aa0}
+/* 低血量 */
+#lowhp{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(200,0,30,.75) 100%)}
+/* 按键提示 */
+#keyhints{position:absolute;left:14px;bottom:72px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:#bfb2a6;text-shadow:1px 1px 0 #000}
+#keyhints span{display:flex;gap:8px;align-items:center}#keyhints kbd{min-width:46px;text-align:center}
+body.touch #keyhints{display:none}
+@media(max-width:900px){#keyhints{display:none}#combo{right:20px;top:46%}}
+@media(max-width:700px){#objs{width:126px;margin-left:-6px}#objs li span{font-size:11px}#dps{display:none}#minimap{width:96px!important;height:96px!important}}
+
+/* 选角：像素立绘 */
+#hunters{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important}
+.portrait{height:132px!important}
+.pxport{height:120px;width:80px;image-rendering:pixelated;filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
+.hinfo dl{font-size:13px}
+#hud.wobble{animation:wob .9s}
+@keyframes wob{0%{transform:none}15%{transform:translate(-14px,8px) rotate(-2deg)}35%{transform:translate(12px,-6px) rotate(2deg)}55%{transform:translate(-8px,4px) rotate(-1deg)}80%{transform:translate(4px,-2px)}100%{transform:none}}

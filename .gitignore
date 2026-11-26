@@ -1,0 +1,5 @@
+# 只发布游戏本体；研究资料、打包文件和本地工具不上传
+research_notes/
+reports/
+*.zip
+.claude/
