@@ -381,7 +381,7 @@ function update(dt){
     if(p.curve){const a=Math.atan2(p.vx,p.vz)+p.curve*dt,v=Math.hypot(p.vx,p.vz);p.vx=Math.sin(a)*v;p.vz=Math.cos(a)*v;p.rot=a}
     p.x+=p.vx*dt;p.z+=p.vz*dt;
     query(p.x,p.z,.4,e=>{if(p.hits.has(e))return;const d=Math.hypot(e.x-p.x,e.z-p.z);if(d<e.r+.35){p.hits.add(e);
-      const r=hit(e,p.dmg,{el:p.el,src:p.src,kb:p.k==='raven'?3:6,fx:p.vx,fz:p.vz,fc:p.fc});if(p.leech&&Math.random()<.15)healP(1);
+      const r=hit(e,p.dmg,{el:p.el,src:p.src,kb:p.k==='raven'?3:6,fx:p.vx,fz:p.vz,fc:p.fc});if(p.onHit&&r)p.onHit(p,e,r);if(p.leech&&Math.random()<.15)healP(1);
       if(r&&r.killed&&P.rel.mirror&&p.k!=='shard')for(const s of[-.5,.5])proj.push({k:'shard',x:p.x,z:p.z,y:p.y,vx:Math.sin(p.rot+s)*18,vz:Math.cos(p.rot+s)*18,rot:p.rot+s,life:.6,dmg:p.dmg*.5*P.rel.mirror,pierce:1,hits:new Set([e]),el:p.el,src:'relic'});
       if(r&&r.crit&&p.evo&&p.k==='dagger')for(const s of[-.6,.6])proj.push({k:'shard',x:p.x,z:p.z,y:p.y,vx:Math.sin(p.rot+s)*18,vz:Math.cos(p.rot+s)*18,rot:p.rot+s,life:.5,dmg:p.dmg*.5,pierce:2,hits:new Set([e]),el:'phys',src:'dagger'});
       if(--p.pierce<=0){p.life=0;return false}}})}

@@ -26,7 +26,7 @@ function renderSelect(){
       <div class="portrait" style="--acc:#${H.acc.toString(16).padStart(6,'0')}">${(typeof heroPortrait==='function'&&heroPortrait(id))||svg(H.icon)}</div>
       <div class="hinfo"><b>${H.n}</b><small>${H.t}</small>
       <dl><dt>初始武器</dt><dd><span class="el" style="color:${ELEM[W.el].c}">${svg(W.icon)}</span>${W.n}</dd>
-      <dt>天赋</dt><dd>${H.p}</dd><dt>大招 · ${H.ult.n}</dt><dd>${H.ult.d}</dd></dl>
+      <dt>天赋 · ${H.pn||''}</dt><dd>${H.p}</dd><dt>大招 · ${H.ult.n}</dt><dd>${H.ult.d}</dd></dl>
       <p class="rec">${rec?`最远抵达 ${STAGES[rec.stage].n} · 击杀 ${rec.kills}`:'尚未出猎'}</p></div></button>`}).join('');
   $('#diffs').innerHTML=DIFFS.map((d,i)=>`<button class="seg ${i===selDiff?'on':''}" data-d="${i}"><b>${d.n}</b><small>${d.d}</small></button>`).join('');
   $$('#hunters .hunter').forEach(b=>b.onclick=()=>{selHunter=b.dataset.h;AU.sfx('ui');dressHunter(selHunter);setHero(selHunter);renderSelect()});
@@ -346,10 +346,10 @@ function sync(dt,rt){
     EK[e.kind].add(e.x,y,e.z,e.rot,e.s,st.frozen>0?0:e.t,e.flash,tint)}
   for(const k in EK)EK[k].end();
   // 投射物
-  for(const k of['dagger','scythe','sonic','wisp','raven','shard','skull','crescent','tbullet'])K[k].begin();
+  for(const k of['dagger','scythe','sonic','wisp','raven','shard','skull','crescent','tbullet','orbB','ball'])K[k].begin();
   for(const p of proj){if(p.k==='scythe')K.scythe.add(p.x,p.y,p.z,p.spin,p.sz);else K[p.k].add(p.x,p.y,p.z,p.rot,1,rt)}
   for(const[x,z]of orbitScythes)K.scythe.add(x,P.y+1,z,rt*14,S.area);
-  for(const k of['dagger','scythe','sonic','wisp','raven','shard','skull','crescent','tbullet'])K[k].end();
+  for(const k of['dagger','scythe','sonic','wisp','raven','shard','skull','crescent','tbullet','orbB','ball'])K[k].end();
   K.orb.begin();const ow=P&&getW('orbit');for(const[x,z]of orbs)K.orb.add(x,P.y+1+Math.sin(rt*4+x)*.1,z,0,(ow&&ow.evo?1.6:1)*S.area);K.orb.end();
   K.ebolt.begin();for(const b of ebolts)K.ebolt.add(b.x,hAt(b.x,b.z)+1.2,b.z,0,1);K.ebolt.end();
   K.gem.begin();for(const g of gems){g.t+=dt;tmpC.set(g.v>=20?0xff3050:g.v>=5?0xc070ff:0x6fb7ff);K.gem.add(g.x,hAt(g.x,g.z)+.45+Math.sin(g.t*3)*.08,g.z,g.t*2,g.v>=20?1.5:g.v>=5?1.2:1,0,0,tmpC)}K.gem.end();
