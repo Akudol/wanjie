@@ -11,7 +11,7 @@ const INVASIONS={
 };
 const INV_T=45;
 function invOn(id){return RUN&&RUN.inv&&RUN.inv.id===id}
-function startInvasion(){const ids=Object.keys(INVASIONS).filter(k=>k!==RUN.lastInv),id=pick(ids),I=INVASIONS[id];RUN.lastInv=id;
+function startInvasion(force){const ids=Object.keys(INVASIONS).filter(k=>k!==RUN.lastInv),id=force||pick(ids),I=INVASIONS[id];RUN.lastInv=id;
   RUN.inv={id,t:INV_T,tick:0,elites:[]};banner('次元入侵 · '+I.n,I.d);AU.sfx('boss');G.flash=.35;document.body.dataset.inv=id;$('#invtint').style.setProperty('--c',I.c);
   if(id==='rift')for(const e of enemies)e.spd*=1.25;
   if(id==='arena'){const R=spawnRadius()-4;for(let i=0;i<4;i++){const a=i/4*TAU+rand(0,.5);RUN.inv.elites.push(spawnEnemy(pickType(),P.x+Math.sin(a)*R,P.z+Math.cos(a)*R,{elite:true,tag:'inv'}))}}

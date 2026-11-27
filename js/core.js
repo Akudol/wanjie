@@ -6,7 +6,9 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const fmt=t=>{t=Math.max(0,Math.floor(t));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
 
 /* ---------- 存档与设置 ---------- */
-const SAVE_KEY='nocturne-save-v2';
+// 本地账号：每个账号一份独立存档；未登录（游客）沿用旧存档
+const ACC_CUR=(()=>{try{return localStorage.getItem('wanjie-cur')||''}catch(e){return''}})();
+const SAVE_KEY=ACC_CUR?'wanjie-save-'+ACC_CUR:'nocturne-save-v2';
 const SAVE=(()=>{let s=null;try{s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null')}catch(e){}
   s=s||{};s.settings=Object.assign({pix:3,cam:'tp',sens:.45,invY:false,vol:.7,music:.5,sfx:.8,shake:true,nums:true,shadows:true,hidpi:true,fps:false},s.settings||{});
   s.codex=Object.assign({w:[],r:[],f:[],e:[]},s.codex||{});s.rec=s.rec||{};s.tot=Object.assign({runs:0,kills:0,clears:0,gold:0,time:0},s.tot||{});s.ach=s.ach||[];
