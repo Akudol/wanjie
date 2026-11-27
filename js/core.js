@@ -10,11 +10,11 @@ const fmt=t=>{t=Math.max(0,Math.floor(t));return String(Math.floor(t/60)).padSta
 const ACC_CUR=(()=>{try{return localStorage.getItem('wanjie-cur')||''}catch(e){return''}})();
 const SAVE_KEY=ACC_CUR?'wanjie-save-'+ACC_CUR:'nocturne-save-v2';
 const SAVE=(()=>{let s=null;try{s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null')}catch(e){}
-  s=s||{};s.settings=Object.assign({pix:2,cam:'tp',sens:.45,invY:false,vol:.7,music:.5,sfx:.8,shake:true,nums:true,shadows:true,hidpi:true,fps:false},s.settings||{});
+  s=s||{};s.settings=Object.assign({pix:3,cam:'tp',sens:.45,invY:false,vol:.7,music:.5,sfx:.8,shake:true,nums:true,shadows:true,hidpi:true,fps:false},s.settings||{});
   s.codex=Object.assign({w:[],r:[],f:[],e:[]},s.codex||{});s.rec=s.rec||{};s.tot=Object.assign({runs:0,kills:0,clears:0,gold:0,time:0},s.tot||{});s.ach=s.ach||[];
   return s})();
-// 角色像素提升到 2 倍精度后，默认像素颗粒改为「细」，老存档的「中」也自动迁移一次
-if(!SAVE.settings.pixv){if(SAVE.settings.pix===3)SAVE.settings.pix=2;SAVE.settings.pixv=2}
+// 撤销 2 倍精度时，把当时被自动改成「细」的像素颗粒恢复为「中」（只执行一次）
+if(SAVE.settings.pixv===2){if(SAVE.settings.pix===2)SAVE.settings.pix=3;delete SAVE.settings.pixv}
 function persist(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(SAVE))}catch(e){}}
 function discover(cat,id){if(!SAVE.codex[cat].includes(id)){SAVE.codex[cat].push(id);persist()}}
 

@@ -1,18 +1,6 @@
 /* ============ 万界乱斗 · 角色侧面像素帧 ============
    侧面 = 专门绘制的侧身躯干 / 侧向迈步的双腿 / 侧脸，
    再把各角色自己的配饰（发型、帽子、武器等）沿水平方向压缩叠上去，保留辨识度。 */
-/* ---------- 2 倍精度下的脸部与衣物细节（正面）：眉毛、鼻影、嘴巴、腮红、袖口、衣摆线 ---------- */
-const mixHex=(a,b,t)=>{const A=parseInt(a.slice(1),16),B=parseInt(b.slice(1),16);return'#'+[16,8,0].map(s=>Math.round(((A>>s)&255)*(1-t)+((B>>s)&255)*t).toString(16).padStart(2,'0')).join('')};
-const hexSh=(h,k)=>{const n=parseInt(h.slice(1),16),c=[(n>>16)&255,(n>>8)&255,n&255].map(v=>k>=0?Math.round(v+(255-v)*k):Math.round(v*(1+k)));return'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('')};
-wrapHook('baseHero',o=>(g,f,view,c)=>{const r=o(g,f,view,c);if(!g.fpx||g.side||view!=='front')return r;const b=r.b,S=2,F=(p,x,y)=>g.fpx(p,x,y);
-  const brow=g.part(c.hair||'#201820',{flat:1,noOutline:1}),mouth=g.part(hexSh(c.skin,-.42),{flat:1,noOutline:1}),nose=g.part(hexSh(c.skin,-.16),{flat:1,noOutline:1}),blush=g.part(mixHex(c.skin,'#ff8a9a',.28),{flat:1,noOutline:1});
-  const y0=(13+b)*S;
-  for(const x of[27,28,29])F(brow,x,y0-2);for(const x of[35,36,37])F(brow,x,y0-2);
-  F(nose,32,y0+3);F(mouth,31,y0+6);F(mouth,32,y0+6);F(mouth,33,y0+6);
-  F(blush,26,y0+4);F(blush,38,y0+4);
-  // 袖口与衣摆的细线
-  if(!c.noArms){const cuff=g.part(hexSh(c.sleeve||c.top,-.3),{flat:1});for(const[x,sw]of[[7,-r.sw],[22,r.sw]])for(let i=0;i<6;i++)F(cuff,x*S+i,(31+b+sw)*S-1)}
-  return r});
 function sideProxy(g){const k=.62,sx=x=>16+(x-16)*k+1;
   return{side:true,raw:g,W:g.W,H:g.H,parts:g.parts,part:(c,o)=>g.part(c,o),
     rect:(p,x,y,w,h)=>{const a=Math.round(sx(x)),b2=Math.round(sx(x+w));g.rect(p,a,y,Math.max(1,b2-a),h)},
@@ -36,6 +24,3 @@ wrapHook('baseHero',o=>(g,f,view,c)=>{if(!g.side)return o(g,f,view,c);const R=g.
   for(const id in HUNTERS){const fn=HUNTERS[id].draw||BASE[id];if(!fn||!HERO_PX[id])continue;
     let cv;try{cv=PXG.sheet(32,48,12,(g,f)=>f<8?fn(g,f%4,f>=4?'back':'front'):fn(sideProxy(g),f%4,'side'))}catch(e){console.warn('side',id,e);continue}
     SPR2[id]={w:32,h:48,canvas:cv};scene.remove(HERO_PX[id].m);HERO_PX[id]=new PixKind(SPR2[id],4,8,id==='titan'?2.8:2.4,10,8)}})();
-/* 头像：从（2 倍精度的）正面第一帧裁出 */
-(function(){for(const id in HUNTERS){const s=SPR2[id];if(!s||!s.canvas)continue;const H=s.canvas.height,W=Math.round(H*s.w/s.h),c=document.createElement('canvas');c.width=W;c.height=H;
-  c.getContext('2d').drawImage(s.canvas,0,0,W,H,0,0,W,H);HERO_PORTRAIT[id]=c.toDataURL()}})();
