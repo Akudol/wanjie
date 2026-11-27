@@ -1,0 +1,157 @@
+/* ================= 万界乱斗 · 新版圆角卡片界面（覆盖像素边框主题） ================= */
+:root{--pnl:rgba(22,28,62,.88);--pnl2:rgba(32,40,84,.92);--edge:rgba(255,255,255,.14);--orange:#ff8a3a;--blue:#4a9aff;--pink:#ff3a7a;--r:18px}
+/* ---------- 通用：页面、按钮、分段、标签 ---------- */
+.pagebox{border:none!important;border-image:none!important;border-radius:26px!important;background:linear-gradient(180deg,rgba(30,38,82,.96),rgba(16,20,46,.97))!important;box-shadow:0 0 0 2px var(--edge),0 18px 50px rgba(0,0,0,.55)!important;padding:clamp(16px,2.4vw,28px)!important}
+.btn{border:none!important;border-image:none!important;clip-path:none!important;border-radius:999px!important;padding:10px 34px!important;min-height:46px;background:linear-gradient(180deg,#ff5a8a,#e8245e)!important;box-shadow:0 5px 0 #a8133f,0 10px 20px rgba(232,36,94,.35)!important;text-shadow:0 2px 0 rgba(0,0,0,.25)!important;transition:transform .12s,box-shadow .12s,filter .12s!important}
+.btn:hover,.btn:focus-visible{transform:translateY(-2px)!important;filter:brightness(1.08)!important}
+.btn:active{transform:translateY(3px)!important;box-shadow:0 2px 0 #a8133f!important}
+.btn.ghost{background:linear-gradient(180deg,#3a4a9a,#28347a)!important;box-shadow:0 5px 0 #18205a,0 8px 16px rgba(0,0,0,.3)!important}
+.btn.ghost:active{box-shadow:0 2px 0 #18205a!important}
+.btn[disabled]{filter:grayscale(.7) brightness(.7)!important;cursor:default}
+.back,.back2{border:none!important;border-image:none!important;border-radius:999px!important;background:rgba(255,255,255,.1)!important;padding:6px 16px!important;color:#fff!important;font-weight:700}
+.seg,.tab{border:none!important;border-image:none!important;border-radius:14px!important;background:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)!important}
+.seg.on,.tab.on{background:linear-gradient(180deg,#ffb04a,#ff7a2a)!important;color:#fff!important;box-shadow:0 4px 0 #c0521a!important}
+.seg.map i{border-radius:10px}
+.hunter,.entry,.ach,.selcard,.rel,.upg,.acard{border:none!important;border-image:none!important;border-radius:18px!important;background:var(--pnl2)!important;box-shadow:0 0 0 2px var(--edge)!important;overflow:hidden}
+.hunter.on{box-shadow:0 0 0 3px #ffb04a,0 0 24px rgba(255,176,74,.4)!important}
+.portrait{border-radius:0!important}
+kbd{border-radius:6px!important;background:#fff!important;color:#1c2244!important;box-shadow:0 2px 0 #9aa4d8!important;font:800 11px "Noto Sans SC",sans-serif!important;padding:1px 6px!important}
+.toast{border:none!important;border-image:none!important;border-radius:14px!important;background:var(--pnl)!important;box-shadow:0 0 0 2px var(--edge)!important}
+#tip,#prompt{border:none!important;border-image:none!important;border-radius:14px!important;background:var(--pnl)!important;box-shadow:0 0 0 2px var(--edge),0 8px 20px rgba(0,0,0,.4)!important;padding:8px 12px!important}
+/* ---------- 角色卡 ---------- */
+#hpbox{top:14px!important;left:14px!important;width:min(330px,40vw)!important;margin-top:0!important}
+#pcard{--acc:#ff8a3a;display:flex;gap:12px;align-items:center;padding:10px 14px 10px 10px;background:linear-gradient(90deg,var(--pnl),rgba(22,28,62,.7));border-radius:60px 20px 20px 60px;box-shadow:0 0 0 2px var(--edge),0 8px 20px rgba(0,0,0,.35)}
+#pcard .pav{position:relative;flex:none;width:76px;height:76px}
+#pcard .pimg{width:76px;height:76px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 70%,color-mix(in srgb,var(--acc) 55%,#fff),color-mix(in srgb,var(--acc) 40%,#1c2244));box-shadow:0 0 0 4px #fff,0 0 0 7px var(--acc);display:grid;place-items:center}
+#pcard .pimg>*{width:100%;height:100%}#pcard .pimg canvas,#pcard .pimg img{image-rendering:pixelated;width:86%;height:auto;margin-top:6px}
+#pcard .plv{position:absolute;left:-6px;bottom:-6px;padding:2px 9px;border-radius:999px;background:#1c2244;color:#9ad8ff;font:800 italic 12px "Noto Sans SC",sans-serif;box-shadow:0 0 0 2px #fff}
+#pcard .plv b{font-size:17px;color:#fff}
+#pcard .pinfo{flex:1;min-width:0}
+#pcard .pname{display:flex;align-items:center;gap:8px;margin-bottom:6px}#pcard .pname b{font:900 18px "Noto Sans SC",sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pcard .pel{padding:1px 8px;border-radius:999px;font:800 11px "Noto Sans SC",sans-serif;color:#10153a}
+#hpbar{height:14px!important;border-radius:999px!important;overflow:hidden;background:#0c1030!important;box-shadow:0 0 0 2px rgba(255,255,255,.2)!important;border:none!important}
+#hpbar i{border-radius:999px;background:linear-gradient(180deg,#7aff8a,#2ac85a)!important;box-shadow:inset 0 3px 0 rgba(255,255,255,.35)!important}
+#pcard .hprow{margin-top:4px!important;display:flex;justify-content:space-between;font-size:12px}
+#pcard .hprow .gold{display:none!important}
+#pcard .pxp{height:5px;margin-top:5px;border-radius:999px;background:#0c1030;overflow:hidden}#pcard .pxp i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4ad8ff,#9a7aff);border-radius:999px}
+#xp{height:6px!important;background:rgba(0,0,0,.35)!important;border:none!important;box-shadow:none!important}#xp i{background:linear-gradient(90deg,#4ad8ff,#9a7aff)!important;box-shadow:0 0 8px #4ad8ff!important}
+#xptxt{display:none}
+#relics.mini,#buffs,#famsbar{margin-top:8px}
+#relics span,#famsbar span{border-radius:10px!important}
+.chip{border-radius:999px!important;padding:2px 9px 2px 4px!important;background:rgba(22,28,62,.88)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 60%,transparent)!important}
+.chip b{font:800 11px "Noto Sans SC",sans-serif!important}
+/* ---------- 顶部关卡条与计时 ---------- */
+#center{top:10px!important;width:min(620px,52vw)!important}
+#stagebar{display:flex;justify-content:space-between;align-items:center;padding:8px 18px;background:var(--pnl);border-radius:18px;box-shadow:0 0 0 2px var(--edge),0 8px 20px rgba(0,0,0,.3);text-align:left}
+#stagebar .sl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}#stagebar .sname{font:900 18px "Noto Sans SC",sans-serif;color:#fff}
+#stagebar .sidx,#stagebar .sdiff{padding:1px 9px;border-radius:999px;font:800 11px "Noto Sans SC",sans-serif;background:rgba(255,255,255,.12);color:#c8d0f4}
+#stagebar .sdiff{background:#4ad870;color:#0c2a14}#stagebar .sdiff[data-d="0"]{background:#7ad8ff;color:#0c2030}#stagebar .sdiff[data-d="2"]{background:#ff4a6a;color:#fff}
+#stagebar .sr{text-align:right;line-height:1.1}#stagebar .stot{font:900 italic 18px "Noto Sans SC",sans-serif;color:#fff}#stagebar small{display:block;font-size:10px;color:#9aa4d8}
+#timer{display:inline-flex!important;align-items:center;gap:8px;margin:-6px auto 0!important;padding:4px 22px 4px 8px;border-radius:999px;background:linear-gradient(180deg,#3a3a9a,#24246a);box-shadow:0 0 0 3px #5a6ae8,0 6px 14px rgba(0,0,0,.35);
+  font:900 italic 30px "Noto Sans SC",sans-serif!important;color:#c8d8ff!important;text-shadow:0 2px 0 #10153a!important;letter-spacing:.04em;position:relative;z-index:1}
+#timer .tic{width:28px;height:28px;border-radius:50%;background:conic-gradient(#ff3a6a 0 50%,#fff 0);box-shadow:0 0 0 3px #10153a inset,0 0 0 2px #fff}
+#cpills{display:flex;justify-content:center;gap:6px;margin-top:6px}
+#cpills span{display:inline-flex;align-items:center;gap:5px;padding:2px 12px 2px 6px;border-radius:999px;background:var(--pnl);box-shadow:0 0 0 2px var(--edge);font:900 15px "Noto Sans SC",sans-serif;color:#ffd23a}
+#cpills .ck{color:#ff9a7a}#cpills svg,#cpills .pi{width:16px;height:16px}
+.bt{margin-top:4px;font-size:12px!important}
+#boss div{font-family:"Noto Sans SC",sans-serif!important;font-weight:900!important}#boss p{border-radius:999px;overflow:hidden;height:12px!important}
+/* ---------- 圆形小地图 ---------- */
+#right{width:190px!important;top:12px!important}
+#minimap{width:176px!important;height:176px!important;border:none!important;border-image:none!important;border-radius:50%!important;clip-path:none!important;box-shadow:0 0 0 4px #ff5a7a,0 0 0 7px rgba(16,20,46,.9),0 10px 24px rgba(0,0,0,.45)!important;display:block;margin-left:auto}
+#compass{position:absolute;left:0;top:0;width:0;height:0;z-index:2;pointer-events:none}
+#compass span{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:#fff;color:#1c2244;font:900 11px/18px "Noto Sans SC",sans-serif;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.3)}
+#compass span:first-child{background:#ff3a6a;color:#fff}
+.rrow{display:none!important}
+#objs{border:none!important;border-image:none!important;border-radius:16px!important;background:var(--pnl)!important;box-shadow:0 0 0 2px var(--edge)!important;padding:8px 10px!important;margin:12px 0 0 auto!important;width:180px!important}
+#objs li em{font-family:"Noto Sans SC",sans-serif!important;font-weight:900!important;font-size:11px!important}
+#dps{margin-left:auto!important;width:180px}
+/* ---------- 底部：武器栏 / 技能 / 系统按钮 ---------- */
+#slots{position:fixed;left:16px;bottom:16px;gap:8px!important;margin:0!important;z-index:2}
+#slots span{width:62px!important;height:62px!important;border:none!important;border-image:none!important;border-radius:16px!important;background:linear-gradient(180deg,#ff9a4a,#e8642a)!important;box-shadow:0 4px 0 #a8401a,0 0 0 2px rgba(255,255,255,.35) inset!important;color:#fff!important}
+#slots span:nth-child(3n+2){background:linear-gradient(180deg,#6aa8ff,#3a6ae8)!important;box-shadow:0 4px 0 #1a3aa8,0 0 0 2px rgba(255,255,255,.35) inset!important}
+#slots span:nth-child(3n){background:linear-gradient(180deg,#b07aff,#7a4ae8)!important;box-shadow:0 4px 0 #4a1aa8,0 0 0 2px rgba(255,255,255,.35) inset!important}
+#slots span.empty{background:rgba(255,255,255,.08)!important;box-shadow:inset 0 0 0 2px rgba(255,255,255,.15)!important;opacity:1!important}
+#slots span svg,#slots span .pi{width:30px!important;height:30px!important;filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
+#slots span .wn{position:absolute;left:50%;top:-9px;transform:translateX(-50%);padding:0 6px;border-radius:999px;background:#1c2244;color:#fff;font:800 10px/16px "Noto Sans SC",sans-serif;font-style:normal;white-space:nowrap;box-shadow:0 0 0 1.5px rgba(255,255,255,.4)}
+#slots span b{right:4px!important;bottom:1px!important;font:900 italic 14px "Noto Sans SC",sans-serif!important;color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.4)!important}
+#slots span .cd{border-radius:16px}
+#abil{bottom:18px!important;gap:18px!important}
+.ring{clip-path:none!important;border-radius:50%!important;width:70px!important;height:70px!important;padding:6px!important;box-shadow:0 0 0 3px #10153a,0 6px 14px rgba(0,0,0,.4)}
+.ring.big{width:86px!important;height:86px!important}
+.ring::before{border-radius:50%!important;clip-path:none!important;background:radial-gradient(circle at 50% 35%,#3a4a9a,#1c2244)!important}
+.ring span{font:900 13px "Noto Sans SC",sans-serif!important}
+.ring kbd{bottom:-6px!important;left:auto!important;right:-6px;transform:none!important}
+#sysbtns{left:auto!important;right:16px!important;top:auto!important;bottom:16px!important}
+#sysbtns button{border:none!important;border-image:none!important;border-radius:14px!important;background:var(--pnl)!important;box-shadow:0 0 0 2px var(--edge)!important;width:42px!important;height:42px!important;font-weight:900}
+#keyhints{bottom:100px!important}
+/* ---------- 连斩 ---------- */
+#combo{right:24px!important;top:auto!important;bottom:42%;text-align:right!important}
+#combo span{display:block;font:900 14px "Noto Sans SC",sans-serif!important;color:#ff8ac8!important;letter-spacing:.2em}
+#combo b{font:900 italic 64px "Noto Sans SC",sans-serif!important;background:linear-gradient(180deg,#a8ffb8,#2ad88a);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:none!important;filter:drop-shadow(0 4px 0 #0a5a3a) drop-shadow(0 0 12px rgba(80,255,160,.35))}
+#combo b::before{content:'x';font-size:40px}
+#combo.t2 b{background-image:linear-gradient(180deg,#fff0a0,#ffb030)}#combo.t3 b{background-image:linear-gradient(180deg,#ffb0a0,#ff4a3a)}#combo.t4 b{background-image:linear-gradient(180deg,#ffb0ff,#d040ff)}
+#combo i{height:5px!important;border-radius:999px;background:linear-gradient(90deg,#ff8ac8,#b07aff)!important;box-shadow:none!important;margin:4px 0 0 auto!important}
+/* ---------- 升级卡片 ---------- */
+#choice{background:radial-gradient(ellipse at center,rgba(20,24,60,.55),rgba(8,10,30,.85))!important;backdrop-filter:blur(3px)}
+#ctitle{margin:0 0 6px!important}
+.ribbon{display:inline-block;padding:6px 40px;transform:rotate(-3deg);background:linear-gradient(90deg,#ff8a3a,#ff5a5a);color:#fff;border-radius:14px;font:900 italic clamp(28px,4vw,44px) "Noto Sans SC",sans-serif;text-shadow:0 3px 0 #a8301a;box-shadow:0 6px 0 #a8301a,0 12px 30px rgba(255,90,60,.4)}
+.ribbon.alt{background:linear-gradient(90deg,#4a9aff,#8a6aff);text-shadow:0 3px 0 #1a3aa8;box-shadow:0 6px 0 #1a3aa8,0 12px 30px rgba(74,154,255,.4)}
+#chint{margin:14px 0 16px!important;color:#c8d0f4!important}
+.cards{gap:18px!important}
+.card.c2{padding:0!important;border:none!important;border-image:none!important;border-radius:22px!important;overflow:hidden;background:#1c2244!important;box-shadow:0 0 0 3px rgba(255,255,255,.1),0 12px 30px rgba(0,0,0,.45)!important;filter:none!important;text-align:left;display:flex;flex-direction:column;min-height:300px}
+.card.c2::before{display:none}
+.card.c2:hover,.card.c2:focus-visible{transform:translateY(-8px)!important;box-shadow:0 0 0 3px var(--rc),0 18px 40px rgba(0,0,0,.5),0 0 30px color-mix(in srgb,var(--rc) 50%,transparent)!important}
+.card.c2 .band{position:relative;height:128px;display:grid;place-items:center;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--rc) 80%,#fff) 0 16px,var(--rc) 16px 32px)}
+.card.c2.rar-c .band{background:repeating-linear-gradient(135deg,#e8ecf4 0 16px,#cfd6e4 16px 32px)}
+.card.c2 .bic{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#fff,#e8ecff);box-shadow:0 6px 0 rgba(0,0,0,.18),0 0 0 4px rgba(255,255,255,.6);color:var(--ec,#ff6a2a)}
+.card.c2 .bic svg,.card.c2 .bic .pi{width:50px;height:50px}
+.chip2{position:absolute;top:10px;padding:2px 10px;border-radius:999px;font:900 12px "Noto Sans SC",sans-serif;background:rgba(16,20,46,.75);color:#fff}
+.chip2.rr{left:12px}.chip2.kt{right:12px;background:#fff;color:#1c2244}.chip2.k-n{background:#2ad88a;color:#fff}.chip2.k-w{background:#ff8a3a;color:#fff}.chip2.k-r{background:#8a6aff;color:#fff}.chip2.k-x{background:linear-gradient(90deg,#ff3a7a,#ffb03a);color:#fff}
+.card.c2 .cbody{padding:14px 18px 34px;flex:1}
+.card.c2 .cbody b{display:block;font:900 22px "Noto Sans SC",sans-serif;color:#fff}
+.card.c2 .cbody small{display:block;margin:2px 0 10px;color:#9aa4d8;font-weight:700;font-size:13px}
+.card.c2 .cdesc{color:#e8ecff;font-size:15px;line-height:1.65;font-weight:600}
+.card.c2 .cdesc .hint2{color:#ffd23a!important}
+.card.c2 .kb{position:absolute;right:12px;bottom:10px;padding:0 8px;border-radius:8px;background:#0c1030;color:#fff;font:900 13px/22px "Noto Sans SC",sans-serif}
+.card.c2.rar-l{box-shadow:0 0 0 3px #ffd23a,0 0 34px rgba(255,210,58,.5),0 12px 30px rgba(0,0,0,.45)!important}
+#cactions{gap:12px!important;margin-top:20px!important;flex-wrap:wrap;justify-content:center}
+#cactions .btn{min-height:40px;padding:6px 18px!important;font-size:15px!important}
+#cactions .btn i{font-style:normal;margin-right:6px}
+#cactions .btn kbd{margin-left:8px}
+#reroll{background:linear-gradient(180deg,#5ab0ff,#2a7ae8)!important;box-shadow:0 4px 0 #1a4aa8!important}
+#skip{background:linear-gradient(180deg,#3a3f5a,#262a40)!important;box-shadow:0 4px 0 #14172a!important}
+#banish{background:linear-gradient(180deg,#ff6a6a,#e83a4a)!important;box-shadow:0 4px 0 #a81a2a!important}#banish.on{outline:3px solid #fff}
+#cown{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+#cown span{padding:3px 12px;border-radius:999px;background:linear-gradient(180deg,#ff9a4a,#e8642a);color:#fff;font:900 12px "Noto Sans SC",sans-serif;box-shadow:0 3px 0 #a8401a}
+/* ---------- 设置页 ---------- */
+.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.setsec{padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
+.setsec h4{margin:0 0 6px;font:900 16px "Noto Sans SC",sans-serif;color:#ffb04a;letter-spacing:.1em}
+.setsec .row2{border-bottom:1px solid rgba(255,255,255,.07)!important;grid-template-columns:96px 1fr 40px!important}
+.setsec .row2.tog{grid-template-columns:96px 1fr!important}.setsec .row2:last-child{border-bottom:none!important}
+.row2 input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;background:linear-gradient(90deg,#ffb04a,#ff7a2a);outline:none}
+.row2 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 2px 0 #c0521a,0 0 0 3px #ff8a3a}
+.row2 input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #ff8a3a}
+.row2.tog i{background:#2a3060!important;border:none!important;border-radius:999px!important}
+.row2.tog input:checked+i{background:linear-gradient(90deg,#2ad88a,#1ab06a)!important}.row2.tog input:checked+i::after{background:#fff!important}
+.segs.mini .seg{min-height:34px!important;padding:5px 14px!important;border-radius:999px!important}
+#wipe{margin-top:6px}
+/* ---------- 手机 ---------- */
+@media(max-width:700px){
+  #hpbox{width:46vw!important}#pcard{padding:6px 8px 6px 6px;gap:8px}#pcard .pav,#pcard .pimg{width:50px;height:50px}#pcard .pname b{font-size:14px}#pcard .pel{display:none}
+  #center{width:42vw!important}#stagebar{padding:5px 10px}#stagebar .sname{font-size:13px}#stagebar .sr,#stagebar .sidx{display:none}#timer{font-size:20px!important;padding:2px 14px 2px 6px}#timer .tic{width:18px;height:18px}
+  #cpills span{font-size:12px;padding:1px 8px 1px 4px}
+  #right{width:112px!important}#minimap{width:104px!important;height:104px!important}#objs{width:112px!important}
+  #slots{bottom:auto;top:96px;left:10px;flex-direction:row}#slots span{width:42px!important;height:42px!important;border-radius:12px!important}#slots span .wn{display:none}#slots span svg,#slots span .pi{width:22px!important;height:22px!important}
+  #sysbtns{right:auto!important;left:10px!important;top:auto!important;bottom:16px!important;flex-direction:row!important}
+  .ring{width:54px!important;height:54px!important}.ring.big{width:64px!important;height:64px!important}
+  #combo b{font-size:40px!important}.card.c2{min-height:0}.card.c2 .band{height:84px}.card.c2 .bic{width:58px;height:58px}.card.c2 .bic svg,.card.c2 .bic .pi{width:34px;height:34px}
+  .ribbon{padding:4px 22px}.setsec .row2{grid-template-columns:80px 1fr 36px!important}
+}
+@media(min-width:701px) and (max-width:1150px){#hpbox{width:30vw!important}#center{width:38vw!important}#stagebar .sr{display:none}#stagebar .sname{font-size:15px}#pcard .pel{display:none}}
+.btn.ghost,.btn.small,.btn.ghost.small,#cactions .btn{border:none!important;border-image:none!important}
+.card.c2 .bic{background:radial-gradient(circle at 40% 35%,#3a4a9a,#141a3c)!important;box-shadow:0 6px 0 rgba(0,0,0,.25),0 0 0 4px rgba(255,255,255,.85),0 0 22px color-mix(in srgb,var(--ec,#fff) 45%,transparent)!important;color:var(--ec,#ffd23a)!important}
+.seg.on,.tab.on,.hunter.on,.ach.on,.seg:hover,.tab:hover,.cell,.cell.rit,.cell.sel{border:none!important;border-image:none!important}.cell{border-radius:14px!important;background:rgba(255,255,255,.07)!important}.cell.rit,.cell.sel{box-shadow:0 0 0 3px #ffb04a!important}
+.seg.on small,.tab.on small{color:#fff!important;opacity:.95}
+@media(max-width:700px){#stagebar{display:none!important}#center{top:12px!important}#slots{max-width:200px;flex-wrap:wrap!important}
+  #sysbtns{left:10px!important;right:auto!important;bottom:auto!important;top:206px!important;flex-direction:row!important}#sysbtns button{width:38px!important;height:38px!important}}

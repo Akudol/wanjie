@@ -341,7 +341,7 @@ function sync(dt,rt){
     moonSpr.position.set(camera.position.x-60,camera.position.y+55,camera.position.z-140);
   }else{const a=rt*.06;player.position.set(0,hAt(0,0),0);player.visible=true;player.rotation.y=a*2;camera.position.set(Math.sin(a)*14,hAt(0,0)+7.5,Math.cos(a)*14);camera.lookAt(0,hAt(0,0)+1.5,0);moonSpr.position.set(-60,55,-140);
     lantern.position.set(.5,hAt(0,0)+1.6,.5);moon.position.set(-12,30,-8);moon.target.position.set(0,0,0);pShadow.position.set(0,hAt(0,0)+.05,0)}
-  lantern.intensity=2.2+Math.sin(rt*13)*.15+Math.sin(rt*7.3)*.12;updateHero(dt);
+  lantern.intensity=WORLD.day?0:1.5+Math.sin(rt*13)*.08+Math.sin(rt*7.3)*.06;updateHero(dt);
   // 敌人
   for(const k in EK)EK[k].begin();
   for(const e of enemies){let y=e.y+(e.D.y||0)*(e.boss?1:1);if(e.D.fly)y+=Math.sin(e.t*3)*.2;else if(e.D.ghost)y+=Math.sin(e.t*1.5)*.15;else y+=Math.abs(Math.sin(e.t*3))*.06;

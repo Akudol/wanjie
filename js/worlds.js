@@ -66,4 +66,4 @@ wrapHook('groundCanvas',o=>G=>{if(!['asphalt','cobble','arena'].includes(G.style
 })});
 wrapHook('buildStage',o=>idx=>{o(idx);const st=STAGES[idx];scene.background.set(st.sky||st.fog);mistM.color.set(st.mist||0xffffff);mistM.opacity=st.moonVis?.14:.03;ashMat.color.set(st.ash||0xffffff);
   if(typeof moonSpr!=='undefined'){moonSpr.visible=!!st.moonVis;moonSpr.material.color.set(st.moonVis?0xb8d8ff:0xffffff)}
-  lantern.intensity=st.moonVis?2.6:.6;renderer.toneMappingExposure=st.moonVis?1.3:.92});
+  WORLD.day=!st.moonVis;lantern.intensity=st.moonVis?2.6:0;renderer.toneMappingExposure=st.moonVis?1.3:.92});
