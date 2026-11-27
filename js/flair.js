@@ -31,7 +31,7 @@ wrapHook('showReact',o=>(e,txt)=>{o(e,txt);if(!P||!e||Math.abs(e.x-P.x)>.05||Mat
   fxRing(P.x,P.z,2.6,c);spark(P.x,P.y+1.4,P.z,c,14,6,.55,5);spark(P.x,P.y+1.4,P.z,0xffffff,5,4,.4,4);pillar(P.x,P.y,P.z,c,1,8,.45)});
 /* ---------- 常驻：脚下光点 + 光柱动画 ---------- */
 wrapHook('relicUpdate',o=>dt=>{o(dt);talT-=dt;
-  if(parts.length<650&&Math.random()<.35){const a=rand(0,TAU),r=rand(.3,.8);parts.push({x:P.x+Math.sin(a)*r,y:P.y+.1,z:P.z+Math.cos(a)*r,vx:0,vy:rand(2.5,4.5),vz:0,life:.5,max:.5,c:vcol(accOf())})}
+  if(parts.length<650&&Math.random()<.35*(typeof PART_MUL!=="undefined"?PART_MUL:1)){const a=rand(0,TAU),r=rand(.3,.8);parts.push({x:P.x+Math.sin(a)*r,y:P.y+.1,z:P.z+Math.cos(a)*r,vx:0,vy:rand(2.5,4.5),vz:0,life:.5,max:.5,c:vcol(accOf())})}
   for(const p of pillars){if(p.life<=0)continue;p.life-=dt;const k=Math.max(0,p.life/p.max);p.m.material.opacity=k*.32;const s=p.r*(1+(1-k)*.6);p.m.scale.x=p.m.scale.z=s;if(p.life<=0)p.m.visible=false}});
 (function(){document.body.insertAdjacentHTML('beforeend','<div id="ultflash"></div>');const st=document.createElement('style');st.textContent=`
 #sayb{position:fixed;left:0;top:0;display:none;pointer-events:none;z-index:4;will-change:transform}

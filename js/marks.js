@@ -16,7 +16,7 @@ wrapHook('hudExtra',o=>dt=>{o(dt);if(!P||!RUN)return;const play=G.state==='play'
     const el=MK.get(n++),I=POI_INFO[p.type];
     if(el._t!==p.type){el._t=p.type;el.style.setProperty('--c',I.c);el.firstChild.innerHTML=svg(I.icon)}
     let x=s.x,y=s.y,a=0;
-    if(!on){let dx=s.x-W/2,dy=s.y-H/2;if(!s.front){dx=-dx;dy=-dy}a=Math.atan2(dy,dx);const rx=W/2-m,ry=H/2-m-34,k=1/Math.max(Math.abs(Math.cos(a))/rx,Math.abs(Math.sin(a))/ry);x=W/2+Math.cos(a)*k;y=H/2+Math.sin(a)*k;if(x>RB.left-30&&y<RB.bottom+16)x=RB.left-30;if(KB.width&&x<KB.right+28&&y>KB.top-24)y=KB.top-24;if(y>H-110)y=H-110;if(inR(HB,x,y,6))x=HB.right+34}
+    if(!on){let dx=s.x-W/2,dy=s.y-H/2;if(!s.front){dx=-dx;dy=-dy}a=Math.atan2(dy,dx);const rx=W/2-m,ry=H/2-m-34,k=1/Math.max(Math.abs(Math.cos(a))/rx,Math.abs(Math.sin(a))/ry);x=W/2+Math.cos(a)*k;y=H/2+Math.sin(a)*k;if(x>RB.left-30&&y<RB.bottom+16)x=RB.left-30;if(KB.width&&x<KB.right+28&&y>KB.top-24)y=KB.top-24;if(y>H-110)y=H-110;if(inR(HB,x,y,6))x=HB.right+34;const SB=$("#sysbtns").getBoundingClientRect(),TB=$("#tbtns").getBoundingClientRect();if(inR(SB,x,y,8))x=SB.right+30;if(inR(TB,x,y,8))y=TB.top-34}
     el.style.display='';el.className='mk'+(on?'':' edge')+(key?' key':'');
     const sc=on?clamp(1.2-d/140,.72,1.12):.82;el.style.transform=`translate(${x|0}px,${y|0}px) scale(${sc.toFixed(2)})`;el.style.opacity=on?clamp(1.35-d/100,.5,1).toFixed(2):.92;
     const txt=(on&&d<30?I.n+' · ':'')+Math.round(d)+'米';if(el.children[1].textContent!==txt)el.children[1].textContent=txt;

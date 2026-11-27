@@ -141,7 +141,7 @@ function nearest(x,z,maxD,skip){let best=null,bd=maxD*maxD;for(const e of enemie
 function spawnRadius(){return Math.max(26,15*camera.aspect+9)+(innerHeight>innerWidth?10:0)}
 function spawnPoint(R){const B=WORLD.lim(4);for(let k=0;k<8;k++){const a=Math.random()*TAU,x=P.x+Math.sin(a)*R,z=P.z+Math.cos(a)*R;if(Math.abs(x)<B&&Math.abs(z)<B)return[x,z]}
   const a=Math.random()*TAU;return[clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B)]}
-function hpScale(){const T=RUN.stageT,st=STAGES[RUN.stage];return(1+T/110+(T/300)**2)*(RUN.route&&RUN.route.length===1?[1,1.35,1.7][RUN.stage]:st.mul)*DIFFS[RUN.diff].hp*(1+P.curseLv)}
+function hpScale(){const T=RUN.stageT,st=STAGES[RUN.stage];return(1+T/110+(T/300)**2)*(RUN.route&&RUN.route.length===1?[1,1.35,1.7,2.1][RUN.stage]:st.mul)*DIFFS[RUN.diff].hp*(1+P.curseLv)}
 function spawnEnemy(type,x,z,o={}){
   if(x==null)[x,z]=spawnPoint(spawnRadius()+rand(0,5));
   const D=o.boss?BOSSES[type]:ENEMIES[type],el=!!o.elite,bs=!!o.boss;

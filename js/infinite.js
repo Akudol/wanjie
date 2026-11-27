@@ -1,7 +1,7 @@
 /* ============ 万界乱斗 · 无限地图 ============
    世界被切成 40×40 的地块：玩家周围 7×7 块常驻渲染，走近未知区域时即时生成新地块（装饰、小路、植被、随机据点），
    生成过的地块会被记住，回头还是原来的样子。地面网格跟随玩家整格平移，小地图底图随玩家重新绘制。 */
-const CH=40,CR=3,GS2=440,GSEG2=176,GSNAP=16;
+let CR=3,GFX_SKIP=()=>false;const CH=40,GS2=440,GSEG2=176,GSNAP=16;
 const groundGeo2=new THREE.PlaneGeometry(GS2,GS2,GSEG2,GSEG2);groundGeo2.rotateX(-Math.PI/2);
 groundGeo2.setAttribute('color',new THREE.BufferAttribute(new Float32Array(groundGeo2.attributes.position.count*3).fill(1),3));
 ground.geometry=groundGeo2;ground.frustumCulled=false;groundMat.vertexColors=true;groundMat.needsUpdate=true;
@@ -51,7 +51,7 @@ function genChunk(i,j){const st=INF.st,N=st.nature,x0=i*CH,z0=j*CH,items=[],path
     for(let n=cnt(N.flowers*A);n>0;n--){const[x,z]=rp(1);if(near(x,z,1)||nearPoi(x,z,4))continue;for(let q=Math.random()<.6?2:1;q>0;q--)items.push({k:'flower',x:x+rand(-.8,.8),z:z+rand(-.8,.8),r:rand(0,TAU),s:rand(.8,1.4),tilt:0})}}}
 function rebuildDecor(){for(const k in DK)DK[k].begin();
   for(let i=INF.ci-CR;i<=INF.ci+CR;i++)for(let j=INF.cj-CR;j<=INF.cj+CR;j++){const c=INF.chunks.get(ckey(i,j));if(!c)continue;
-    for(const d of c.items){if(d.y==null)d.y=hAt(d.x,d.z)+(d.k==='pool'?.02:0);if(d.c===undefined)d.c=DTINT[d.k]?new THREE.Color(pick(DTINT[d.k])):d.k==='glass'?new THREE.Color(pick([0x8a60ff,0xff4060,0x40a0ff,0xffb040])):null;
+    for(const d of c.items){if(GFX_SKIP(d))continue;if(d.y==null)d.y=hAt(d.x,d.z)+(d.k==='pool'?.02:0);if(d.c===undefined)d.c=DTINT[d.k]?new THREE.Color(pick(DTINT[d.k])):d.k==='glass'?new THREE.Color(pick([0x8a60ff,0xff4060,0x40a0ff,0xffb040])):null;
       DK[d.k].add(d.x,d.y,d.z,d.r,d.s,0,0,d.c,d.tilt)}}
   for(const k in DK)DK[k].end()}
 function streamTick(px,pz){if(!INF.st)return;const ci=Math.floor(px/CH),cj=Math.floor(pz/CH);

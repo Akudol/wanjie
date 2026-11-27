@@ -9,7 +9,7 @@ function spark(x,y,z,col,n=4,sp=4,life=.45,up=3){if(parts.length>760)return;cons
 const colOf=(src,el)=>SRCCOL[src]||ECOL[el]||0xffffff;
 // 投射物拖尾 + 冰环冰晶 + 光环火星
 wrapHook('relicUpdate',o=>dt=>{o(dt);
-  for(const p of proj){if(parts.length>720)break;if(Math.random()<.55){const c=vcol(colOf(p.src,p.el));parts.push({x:p.x+rand(-.08,.08),y:(p.y||1)+rand(-.08,.08),z:p.z+rand(-.08,.08),vx:-(p.vx||0)*.05,vy:rand(.2,.9),vz:-(p.vz||0)*.05,life:.28,max:.28,c})}}
+  for(const p of proj){if(parts.length>720)break;if(Math.random()<.55*(typeof PART_MUL!=="undefined"?PART_MUL:1)){const c=vcol(colOf(p.src,p.el));parts.push({x:p.x+rand(-.08,.08),y:(p.y||1)+rand(-.08,.08),z:p.z+rand(-.08,.08),vx:-(p.vx||0)*.05,vy:rand(.2,.9),vz:-(p.vz||0)*.05,life:.28,max:.28,c})}}
   for(const f of frostRings){if(f.delay>0||parts.length>700)continue;for(let i=0;i<2;i++){const a=Math.random()*TAU;parts.push({x:f.x+Math.sin(a)*f.r,y:hAt(f.x,f.z)+.3,z:f.z+Math.cos(a)*f.r,vx:0,vy:rand(1,3),vz:0,life:.4,max:.4,c:vcol(0xbff4ff)})}}
   const aw=getW('aura');if(aw&&Math.random()<.5){const R=2.6*aw.area*S.area*(aw.evo?1.8:1),a=Math.random()*TAU;spark(P.x+Math.sin(a)*R,hAt(P.x,P.z)+.2,P.z+Math.cos(a)*R,aw.evo?0xff3a10:0xffb040,1,.5,.6,2.5)}
   for(const[x,z]of orbs)if(Math.random()<.6)spark(x,P.y+1,z,0xff3050,1,.4,.3,.6)});

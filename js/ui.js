@@ -28,7 +28,7 @@ function renderSelect(){
       <dl><dt>初始武器</dt><dd><span class="el" style="color:${ELEM[W.el].c}">${svg(W.icon)}</span>${W.n}</dd>
       <dt>天赋 · ${H.pn||''}</dt><dd>${H.p}</dd><dt>大招 · ${H.ult.n}</dt><dd>${H.ult.d}</dd></dl>
       <p class="rec">${rec?`最远抵达 ${STAGES[rec.stage].n} · 击杀 ${rec.kills}`:'尚未出战'}</p></div></button>`}).join('');
-  $('#maps').innerHTML=[['all','三界连闯','依次穿越三个世界，最终决战','linear-gradient(90deg,#2a1a6a,#7aa8e8,#3a8a30)'],...STAGES.map((s,i)=>[String(i),s.n,['夜色霓虹中的丧尸都市','白昼里的魔法城堡庭院','阳光下的草地与擂台'][i]||s.sub,'#'+(s.sky||s.fog).toString(16).padStart(6,'0')])].map(([v,n,d,bg])=>`<button class="seg map ${selMap===v?'on':''}" data-m="${v}"><i style="background:${bg}"></i><b>${n}</b><small>${d}</small></button>`).join('');
+  $('#maps').innerHTML=[['all','万界连闯','依次穿越全部世界，最终决战','linear-gradient(90deg,#2a1a6a,#7aa8e8,#3a8a30,#f0d890)'],...STAGES.map((s,i)=>[String(i),s.n,['夜色霓虹中的丧尸都市','白昼里的魔法城堡庭院','阳光下的草地与擂台','阳光海岸与沉船港口'][i]||s.sub,'#'+(s.sky||s.fog).toString(16).padStart(6,'0')])].map(([v,n,d,bg])=>`<button class="seg map ${selMap===v?'on':''}" data-m="${v}"><i style="background:${bg}"></i><b>${n}</b><small>${d}</small></button>`).join('');
   document.querySelectorAll('#maps .seg').forEach(b=>b.onclick=()=>{selMap=b.dataset.m;AU.sfx('ui');renderSelect()});
   $('#diffs').innerHTML=DIFFS.map((d,i)=>`<button class="seg ${i===selDiff?'on':''}" data-d="${i}"><b>${d.n}</b><small>${d.d}</small></button>`).join('');
   $$('#hunters .hunter').forEach(b=>b.onclick=()=>{selHunter=b.dataset.h;AU.sfx('ui');dressHunter(selHunter);setHero(selHunter);renderSelect()});
@@ -226,7 +226,7 @@ function renderPause(){
 
 /* ---------- 流程 ---------- */
 function startRun(){AU.init();newRun(selHunter,selDiff);CAM.yaw=0;CAM.ty=null;$('#vbtn').textContent=CAM.mode==='tp'?'俯':'背';
-  RUN.route=selMap==='all'?[0,1,2]:[+selMap];RUN.ri=0;loadStage(RUN.route[0]);show(null);showHud(true);G.state='play';renderSlots();
+  RUN.route=selMap==='all'?STAGES.map((_,i)=>i):[+selMap];RUN.ri=0;loadStage(RUN.route[0]);show(null);showHud(true);G.state='play';renderSlots();
   const s0=STAGES[RUN.route[0]];banner(s0.n,(RUN.route.length>1?s0.sub:'单界挑战')+' · 找到首领擂台，或撑到首领登场');discover('e','ghoul')}
 function loadStage(i){if((RUN.ri||0)>0)relicStageEnter();RUN.stage=i;RUN.stageT=0;RUN.bossSummoned=false;RUN.bossDead=false;RUN.nextElite=40;RUN.nextSwarm=55;RUN.spawnAcc=0;RUN.stageKills=RUN.kills;RUN.stageGold=RUN.goldTotal;
   const leftover=gems.reduce((s,g)=>s+g.v,0);enemies=[];proj=[];gems=[];coins=[];parts=[];ebolts=[];picks=[];frostRings=[];teleList=[];boss=null;

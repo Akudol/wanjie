@@ -58,3 +58,13 @@ h1{font-family:"ZCOOL QingKe HuangYou","Noto Sans SC",sans-serif!important;font-
 .foot.sticky{position:sticky;bottom:-10px;padding:14px 0 6px;margin-bottom:-6px;background:linear-gradient(180deg,rgba(14,18,48,0),#141a3c 40%);z-index:2}
 .elist.poi li>em{grid-column:2;font-style:normal;color:#c8d0f4;font-size:13px;line-height:1.5}
 #reacts td:nth-child(-n+2){white-space:nowrap}#reacts td{vertical-align:top}
+/* 手机竖屏适配 */
+@media(max-width:520px){
+  #hpbox{width:30vw!important}#center{top:6px!important;width:36vw!important}#timer{font-size:20px!important}.bt{font-size:10px!important}
+  #objs{width:108px!important;margin-left:0!important;padding:2px 4px 4px!important}#objs h4{font-size:10px!important}#objs li{font-size:10px;gap:3px}#objs li:nth-child(n+3){display:none}#objs li span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}#objs li{grid-template-columns:12px minmax(0,1fr) auto!important}
+  #sysbtns{bottom:auto!important;top:44%;flex-direction:column}#sysbtns button{width:40px!important;height:40px!important}
+  body.touch #abil{right:150px!important;bottom:26px!important}
+  #invbar b{font-size:14px}#invbar small{display:none}
+  #accbadge{right:8px;top:8px;font-size:12px}
+}
+body.touch #tipbox{bottom:auto;top:150px}
