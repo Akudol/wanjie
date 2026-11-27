@@ -102,7 +102,7 @@ function nextQueued(){if(G.state!=='play'||!RUN.queue.length)return;const q=RUN.
 function levelChoice(){
   const pool=[],ban=RUN.banned||new Set();
   for(const w of P.weapons)if(w.lvl<8&&!ban.has('w:'+w.id))pool.push(['w:'+w.id,4]);
-  if(P.weapons.length<4)for(const id in WEAPONS)if(!getW(id)&&!ban.has('n:'+id))pool.push(['n:'+id,2.4]);
+  if(P.weapons.length<WMAX())for(const id in WEAPONS)if(!getW(id)&&!ban.has('n:'+id))pool.push(['n:'+id,2.4]);
   for(const id in TOMES)if(!ban.has('t:'+id))pool.push(['t:'+id,1]);
   const keys=[];while(keys.length<3&&pool.length){let s=0;for(const a of pool)s+=a[1];let r=Math.random()*s,i=0;for(;i<pool.length-1;i++){r-=pool[i][1];if(r<=0)break}keys.push(pool.splice(i,1)[0][0])}
   const cards=keys.map(key=>{const[t,id]=key.split(':'),rar=rollRar(),m=RAR[rar].m;
@@ -132,7 +132,7 @@ function nestChoice(){const cards=[];
 /* ---------- HUD ---------- */
 function renderSlots(){if(!P)return;
   $('#slots').innerHTML=P.weapons.map(w=>{const W=WEAPONS[w.id];return`<span class="${w.evo?'evo':''}" style="color:${ELEM[W.el].c}" data-tip="${esc((w.evo?W.evo.n:W.n)+' · 等级 '+w.lvl+'|'+ELEM[W.el].n+'系。伤害 '+w.dmg.toFixed(1)+(w.count?' · 数量 '+w.count:'')+' · 范围 '+Math.round(w.area*100)+'%')}">${svg(W.icon)}<b>${w.lvl}</b></span>`}).join('')
-    +Array(Math.max(0,4-P.weapons.length)).fill('<span class="empty"></span>').join('');
+    +Array(Math.max(0,WMAX()-P.weapons.length)).fill('<span class="empty"></span>').join('');
   renderRelics();renderFams()}
 function renderRelics(){if(!P||!P.box)return;const any=P.box.some(Boolean);$('#relics').className=any?'mini':'';
   $('#relics').innerHTML=any?P.box.map((it,i)=>{if(!it)return'<span class="e"></span>';const R=RELICS[it.id];return`<span class="${P.ritCells.has(i)?'rit':''}${it.wax?' wax':''}${R.cor?' cor':''}" style="--rc:${RAR[R.r].c}" data-tip="${esc(R.n+(it.wax?'（蜡制）':'')+'|'+R.d)}">${svg(R.icon)}</span>`}).join(''):''}
@@ -162,7 +162,7 @@ function updHud(dt){hudT-=dt;if(typeof hudExtra==='function')hudExtra(dt);
   $('#xp i').style.width=(P.xp/P.next*100).toFixed(1)+'%';$('#hpbar i').style.width=(P.hp/S.maxHp*100).toFixed(1)+'%';
   $('#hptxt').textContent=Math.ceil(P.hp)+' / '+S.maxHp;$('#gold').textContent=RUN.gold;$('#lvtag').textContent='LV '+P.lvl;$('#kc').textContent=RUN.kills;
   $('#timer').textContent=fmt(RUN.stageT);
-  const bt=$('#bosstime');if(RUN.bossDead){bt.textContent='次元之门已开启';bt.className='bt open'}else if(RUN.bossSummoned){bt.textContent='首领已登场';bt.className='bt warn'}else{bt.textContent='首领将在 '+fmt(STAGE_T-RUN.stageT)+' 后苏醒';bt.className='bt'}
+  const bt=$('#bosstime');if(RUN.bossDead){bt.textContent='次元之门已开启';bt.className='bt open'}else if(RUN.bossSummoned){bt.textContent='首领已登场';bt.className='bt warn'}else{bt.textContent='首领将在 '+fmt(bossT()-RUN.stageT)+' 后苏醒';bt.className='bt'}
   const bb=$('#boss');if(boss&&!boss.dead&&!P.rel.veil){bb.style.display='block';$('#bname').textContent=boss.name;$('#boss p i').style.width=Math.max(0,boss.hp/boss.max*100)+'%'}else bb.style.display='none';
   const u=$('#ult');u.style.setProperty('--p',P.ult);u.classList.toggle('ready',P.ult>=100);$('#ultpct').textContent=P.ult>=100?'就绪':Math.floor(P.ult)+'%';
   const dc=$('#dashcd');dc.style.setProperty('--p',P.dash>0?(1-P.dash/S.dashCd)*100:100);
@@ -189,7 +189,7 @@ function drawMinimap(){const W=mm.width,R=42,S2=W/(2*R),H=WORLD.H,bs=400/(2*H);
   mmx.fillStyle='#08060a';mmx.fillRect(0,0,W,W);
   const th=camYaw()-Math.PI,ct=Math.cos(th),st=Math.sin(th);
   mmx.save();mmx.translate(W/2,W/2);mmx.rotate(th);mmx.translate(-W/2,-W/2);
-  mmx.drawImage(mapBg,(P.x-R+H)*bs,(P.z-R+H)*bs,2*R*bs,2*R*bs,0,0,W,W);mmx.restore();
+  mmx.drawImage(mapBg,(P.x-MAPC.x-R+H)*bs,(P.z-MAPC.z-R+H)*bs,2*R*bs,2*R*bs,0,0,W,W);mmx.restore();
   const tr=(x,z)=>{const dx=(x-P.x)*S2,dz=(z-P.z)*S2;return[W/2+dx*ct-dz*st,W/2+dx*st+dz*ct]};
   mmx.fillStyle='rgba(255,60,70,.85)';let n=0;for(const e of enemies){if(n++>250)break;const[x,y]=tr(e.x,e.z);if(x<0||y<0||x>W||y>W)continue;mmx.fillRect(x-1,y-1,e.elite?4:2,e.elite?4:2)}
   for(const p of POIS){let[x,y]=tr(p.x,p.z);const out=x<4||y<4||x>W-4||y>W-4;x=clamp(x,5,W-5);y=clamp(y,5,W-5);if(out&&p.used)continue;mmx.globalAlpha=out?.7:1;drawPoiIcon(mmx,p,x,y,out?3:4.5);mmx.globalAlpha=1}
@@ -198,9 +198,9 @@ function drawMinimap(){const W=mm.width,R=42,S2=W/(2*R),H=WORLD.H,bs=400/(2*H);
   if(CAM.mode==='tp'){mmx.fillStyle='rgba(255,240,200,.08)';mmx.beginPath();mmx.moveTo(W/2,W/2);mmx.arc(W/2,W/2,W,-Math.PI/2-.5,-Math.PI/2+.5);mmx.fill()}
   mmx.save();mmx.translate(W/2,W/2);mmx.rotate(-P.face+Math.PI+th);mmx.fillStyle='#fff2d8';mmx.beginPath();mmx.moveTo(0,-7);mmx.lineTo(5,5);mmx.lineTo(0,2);mmx.lineTo(-5,5);mmx.fill();mmx.restore()}
 function drawBigMap(cv2,leg){const g=cv2.getContext('2d'),W=cv2.width,H=WORLD.H,s=W/(2*H);g.drawImage(mapBg,0,0,W,W);
-  for(const p of POIS)drawPoiIcon(g,p,(p.x+H)*s,(p.z+H)*s,7);
-  if(boss){g.fillStyle='#ff2030';g.beginPath();g.arc((boss.x+H)*s,(boss.z+H)*s,10,0,TAU);g.fill()}
-  g.save();g.translate((P.x+H)*s,(P.z+H)*s);g.rotate(-P.face+Math.PI);g.fillStyle='#fff2d8';g.strokeStyle='#000';g.lineWidth=2;g.beginPath();g.moveTo(0,-11);g.lineTo(8,8);g.lineTo(0,3);g.lineTo(-8,8);g.closePath();g.stroke();g.fill();g.restore();
+  for(const p of POIS)drawPoiIcon(g,p,(p.x-MAPC.x+H)*s,(p.z-MAPC.z+H)*s,7);
+  if(boss){g.fillStyle='#ff2030';g.beginPath();g.arc((boss.x-MAPC.x+H)*s,(boss.z-MAPC.z+H)*s,10,0,TAU);g.fill()}
+  g.save();g.translate((P.x-MAPC.x+H)*s,(P.z-MAPC.z+H)*s);g.rotate(-P.face+Math.PI);g.fillStyle='#fff2d8';g.strokeStyle='#000';g.lineWidth=2;g.beginPath();g.moveTo(0,-11);g.lineTo(8,8);g.lineTo(0,3);g.lineTo(-8,8);g.closePath();g.stroke();g.fill();g.restore();
   const cnt={};for(const p of POIS){if(p.used&&p.type!=='portal')continue;cnt[p.type]=(cnt[p.type]||0)+1}
   (leg||$('#maplegend')).innerHTML=Object.entries(POI_INFO).map(([k,I])=>`<li><span style="color:${I.c}">${svg(I.icon)}</span><b>${I.n}</b><em>${cnt[k]||0}</em></li>`).join('')}
 let mapOpen=false;function toggleMap(on){mapOpen=on===undefined?!mapOpen:on;$('#bigmap').hidden=!mapOpen;if(mapOpen){$('#mapstage').textContent=STAGES[RUN.stage].n;drawBigMap($('#bigcv'))}}
@@ -242,7 +242,7 @@ function endRun(win){G.state='over';showHud(false);toggleMap(false);
   $('#otitle').textContent=win?'万界制霸':'战斗失败';
   $('#osub').textContent=win?'万界的裂缝被你一一封印。你，就是最强的乱斗者。':`你倒在了${STAGES[RUN.stage].n}。再来一局，下次一定赢！`;
   $('#ostats').innerHTML=[['总用时',fmt(RUN.t)],['击杀',RUN.kills],['等级',P.lvl],['抵达',STAGES[RUN.stage].n],['金币',RUN.goldTotal],['元素反应',RUN.react]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join('');
-  const names=Object.assign({},...Object.keys(WEAPONS).map(k=>({[k]:WEAPONS[k].n})),{burn:'灼烧',bleed:'出血',react:'元素反应',relic:'遗物',fam:'眷属',ult:'大招',other:'其他'});
+  const names=Object.assign({},...Object.keys(WEAPONS).map(k=>({[k]:WEAPONS[k].n})),{burn:'灼烧',bleed:'出血',react:'元素反应',relic:'遗物',fam:'眷属',ult:'大招',other:'其他',bond:'羁绊',slam:'下砸',combo:'连斩冲击'});
   const rows=Object.entries(RUN.dealt).sort((a,b)=>b[1]-a[1]),max=rows.length?rows[0][1]:1;
   $('#dmgtable').innerHTML=rows.slice(0,9).map(([k,v])=>`<div class="drow"><span>${names[k]||k}</span><i><em style="width:${(v/max*100).toFixed(1)}%"></em></i><b>${Math.round(v).toLocaleString()}</b></div>`).join('');
   if(win){G.flash=1;for(const e of enemies)e.dead=true;unlockAch('dawn');if(RUN.diff===2)unlockAch('bloodmoon');SAVE.tot.clears++}else AU.sfx('over');
@@ -260,16 +260,16 @@ click('#torec',()=>{renderRecords();show('records')});
 click('#toset',()=>{settingsBack='menu';renderSettings($('#setbody'));show('settings')});
 click('#toguide',()=>{renderGuide();show('guide')});
 click('.back',()=>{if(settingsBack==='pause'&&!$('#settings').hidden){settingsBack='menu';show('pause');return}toMenu()});
-click('#hunt',startRun);
+click('#hunt',()=>startRun());
 click('#resume',()=>pause(false));
 click('#quit',()=>{endRun(false)});
 click('#next',()=>{RUN.ri++;loadStage(RUN.route[RUN.ri]);show(null);G.state='play';banner(STAGES[RUN.stage].n,STAGES[RUN.stage].sub+' · 敌人更强了')});
-click('#again',()=>{startRun()});click('#home',toMenu);
+click('#again',()=>{startRun()});click('#home',()=>toMenu());
 click('#pbtn',()=>pause(true));click('#vbtn',()=>setCamMode(CAM.mode==='tp'?'top':'tp'));click('#mapbtn',()=>toggleMap());click('#mapclose',()=>toggleMap(false));
 $$('#ptabs .tab').forEach(b=>b.onclick=()=>{pauseTab=b.dataset.t;AU.sfx('ui');renderPause()});
 // 移动端按钮
 const touchBtn=(sel,fn)=>{const b=$(sel);b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();AU.init();fn()})};
-touchBtn('#bjump',doJump);touchBtn('#bdash',doDash);touchBtn('#bult',castUlt);touchBtn('#buse',interact);
+touchBtn('#bjump',doJump);touchBtn('#bdash',()=>doDash());touchBtn('#bult',castUlt);touchBtn('#buse',interact);
 // 提示框
 const tip=$('#tip');
 document.addEventListener('pointerover',e=>{const t=e.target.closest('[data-tip]');if(!t){tip.hidden=true;return}const[a,b]=t.dataset.tip.split('|');tip.innerHTML=`<b>${esc(a)}</b>${b?`<span>${esc(b)}</span>`:''}`;tip.hidden=false;const r=t.getBoundingClientRect();tip.style.left=Math.min(innerWidth-250,r.left)+'px';tip.style.top=(r.bottom+8)+'px'});
@@ -329,7 +329,7 @@ function sync(dt,rt){
       const fx=Math.sin(CAM.yaw),fz=Math.cos(CAM.yaw),cp=Math.cos(CAM.pitch),sp=Math.sin(CAM.pitch),Tx=P.x,Ty=CAM.ty+1.6,Tz=P.z;
       let d=CAM.dist,cx,cy,cz;
       for(let i=0;i<8;i++){cx=Tx-fx*d*cp;cy=Ty+d*sp;cz=Tz-fz*d*cp;if(cy>=hAt(cx,cz)+.5||d<2)break;d*=.82}
-      const B=WORLD.H-.6;cx=clamp(cx,-B,B);cz=clamp(cz,-B,B);cy=Math.max(cy,hAt(cx,cz)+.5);
+      const B=WORLD.lim(.6);cx=clamp(cx,-B,B);cz=clamp(cz,-B,B);cy=Math.max(cy,hAt(cx,cz)+.5);
       camera.position.set(cx,cy,cz);
       if(G.shake>0&&SAVE.settings.shake){G.shake-=dt;const s=G.shake*.5;camera.position.x+=rand(-s,s);camera.position.y+=rand(-s,s)}else G.shake=Math.max(0,G.shake-dt);
       camera.lookAt(Tx+fx*2.2,Ty+.1,Tz+fz*2.2);

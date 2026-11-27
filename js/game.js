@@ -124,6 +124,8 @@ function stats(){const b=P.b,r=P.rel,H=HUNTERS[P.hunter];
   if(P.hp>S.maxHp)P.hp=S.maxHp}
 const dynMul=()=>(1+P.crown*.0004)*(P.rel.saint&&P.hp>=S.maxHp-.01?1+.35*P.rel.saint:1);
 function addWeapon(id){const W=WEAPONS[id],w={id,lvl:1,evo:false,t:0,ups:{}};Object.assign(w,JSON.parse(JSON.stringify(W.base)));P.weapons.push(w);discover('w',id);return w}
+function bossT(){return STAGE_T*[1,.8,.67][Math.min(2,RUN.ri||0)]}
+const WMAX=()=>6+((SAVE.meta&&SAVE.meta.up&&SAVE.meta.up.slot)||0);
 const getW=id=>P.weapons.find(w=>w.id===id);
 
 /* ---------- 空间网格 ---------- */
@@ -137,7 +139,7 @@ function nearest(x,z,maxD,skip){let best=null,bd=maxD*maxD;for(const e of enemie
 
 /* ---------- 敌人生成 ---------- */
 function spawnRadius(){return Math.max(26,15*camera.aspect+9)+(innerHeight>innerWidth?10:0)}
-function spawnPoint(R){const B=WORLD.H-4;for(let k=0;k<8;k++){const a=Math.random()*TAU,x=P.x+Math.sin(a)*R,z=P.z+Math.cos(a)*R;if(Math.abs(x)<B&&Math.abs(z)<B)return[x,z]}
+function spawnPoint(R){const B=WORLD.lim(4);for(let k=0;k<8;k++){const a=Math.random()*TAU,x=P.x+Math.sin(a)*R,z=P.z+Math.cos(a)*R;if(Math.abs(x)<B&&Math.abs(z)<B)return[x,z]}
   const a=Math.random()*TAU;return[clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B)]}
 function hpScale(){const T=RUN.stageT,st=STAGES[RUN.stage];return(1+T/110+(T/300)**2)*(RUN.route&&RUN.route.length===1?[1,1.35,1.7][RUN.stage]:st.mul)*DIFFS[RUN.diff].hp*(1+P.curseLv)}
 function spawnEnemy(type,x,z,o={}){
@@ -157,8 +159,8 @@ function director(dt){
   while(RUN.spawnAcc>=1){RUN.spawnAcc--;if(enemies.length<cap)spawnEnemy(pickType())}
   if(T>=RUN.nextElite){RUN.nextElite+=45;spawnEnemy(pickType(),null,null,{elite:true})}
   if(T>=RUN.nextSwarm){RUN.nextSwarm+=50;const n=Math.min(18+T/12,40),ty=pickType(),R=spawnRadius()-2;
-    for(let i=0;i<n;i++){const a=i/n*TAU,B=WORLD.H-3;spawnEnemy(ty,clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B))}banner('敌群包围','它们从四面八方冲过来了')}
-  if(!RUN.bossSummoned&&T>=STAGE_T)summonBoss(true);
+    for(let i=0;i<n;i++){const a=i/n*TAU,B=WORLD.lim(3);spawnEnemy(ty,clamp(P.x+Math.sin(a)*R,-B,B),clamp(P.z+Math.cos(a)*R,-B,B))}banner('敌群包围','它们从四面八方冲过来了')}
+  if(!RUN.bossSummoned&&T>=bossT())summonBoss(true);
 }
 function summonBoss(forced){if(RUN.bossSummoned)return;RUN.bossSummoned=true;const alt=POIS.find(p=>p.type==='boss');if(alt)poiSetUsed(alt);
   const st=STAGES[RUN.stage],b=spawnEnemy(st.boss,alt?alt.x:null,alt?alt.z+3:null,{boss:true});
@@ -305,14 +307,14 @@ function bossAI(e,dt){e.a1-=dt;e.a2-=dt;e.a3-=dt;bossLight.position.set(e.x,e.y+
   else if(e.type==='bishop'){
     if(e.a1<=0){e.a1=.18;e.ang=(e.ang||0)+.33;for(let k=0;k<3;k++){const a=e.ang+k*TAU/3;ebolts.push({x:e.x,z:e.z,vx:Math.sin(a)*6.5,vz:Math.cos(a)*6.5,life:5})}
       e.burstN=(e.burstN||0)+1;if(e.burstN>=20){e.burstN=0;e.a1=2.6}}
-    if(e.a2<=0){e.a2=8;burst(e.x,e.y+2,e.z,0xc070ff,24,6);const a=Math.random()*TAU;e.x=clamp(P.x+Math.sin(a)*9,-WORLD.H+4,WORLD.H-4);e.z=clamp(P.z+Math.cos(a)*9,-WORLD.H+4,WORLD.H-4);burst(e.x,e.y+2,e.z,0xc070ff,24,6)}
+    if(e.a2<=0){e.a2=8;burst(e.x,e.y+2,e.z,0xc070ff,24,6);const a=Math.random()*TAU;e.x=clamp(P.x+Math.sin(a)*9,-WORLD.lim(4),WORLD.lim(4));e.z=clamp(P.z+Math.cos(a)*9,-WORLD.lim(4),WORLD.lim(4));burst(e.x,e.y+2,e.z,0xc070ff,24,6)}
     if(e.a3<=0){e.a3=10;for(let i=0;i<6;i++){const a=i/6*TAU;spawnEnemy('wraith',e.x+Math.sin(a)*3,e.z+Math.cos(a)*3)}}}
   else{
     if(e.a1<=0){e.a1=2.6;const n=18,off=Math.random();for(let i=0;i<n;i++){const a=(i+off)/n*TAU;ebolts.push({x:e.x,z:e.z,vx:Math.sin(a)*7,vz:Math.cos(a)*7,life:5})}}
     if(e.a2<=0){e.a2=6;for(let i=0;i<6;i++)tele(P.x+(i?rand(-6,6):0),P.z+(i?rand(-6,6):0),2.4,1.2,24)}
     if(e.a3<=0){e.a3=8;for(let i=0;i<8;i++){const a=i/8*TAU;spawnEnemy(i%2?'bloodghoul':'hellknight',e.x+Math.sin(a)*3,e.z+Math.cos(a)*3)}}}
   return false}
-function tele(x,z,r,t,dmg){const B=WORLD.H-2;teleList.push({x:clamp(x,-B,B),z:clamp(z,-B,B),r,t,max:t,dmg})}
+function tele(x,z,r,t,dmg){const B=WORLD.lim(2);teleList.push({x:clamp(x,-B,B),z:clamp(z,-B,B),r,t,max:t,dmg})}
 
 /* ---------- 玩家受伤 ---------- */
 function hurtPlayer(d){if(P.inv>0||P.dashT>0||G.state!=='play')return;
@@ -363,7 +365,7 @@ function update(dt){
       if(e.D.fly){const w=Math.sin(RUN.t*3+e.ph)*1.8;vx+=-dz/d*w;vz+=dx/d*w}
       e.x+=(vx+e.kx)*edt;e.z+=(vz+e.kz)*edt}
     const kd=Math.exp(-7*dt);e.kx*=kd;e.kz*=kd;
-    if(!e.D.ghost&&!e.D.fly&&!e.boss)collide(e,e.r*.6);else{const B=WORLD.H-2;e.x=clamp(e.x,-B,B);e.z=clamp(e.z,-B,B)}
+    if(!e.D.ghost&&!e.D.fly&&!e.boss)collide(e,e.r*.6);else{const B=WORLD.lim(2);e.x=clamp(e.x,-B,B);e.z=clamp(e.z,-B,B)}
     e.y=hAt(e.x,e.z);e.t+=dt*e.spd*1.6;e.rot=Math.atan2(dx,dz);
     if(d<e.r+.45&&(!airborne||e.D.fly||e.boss))hurtPlayer(e.dmg);
   }

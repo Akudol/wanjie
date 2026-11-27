@@ -1,10 +1,11 @@
 /* ============ 万界乱斗 · 地图系统 ============ */
-const WORLD={H:80,amp:1.4,seed:0,stage:0};
+const WORLD={H:80,amp:1.4,seed:0,stage:0,inf:true,lim(k){return this.inf?1e7:this.H-k}};
+const MAPC={x:0,z:0}; // 小地图底图中心（无限地图随玩家移动）
 function hAt(x,z){const a=WORLD.amp,s=WORLD.seed;
   let h=a*(Math.sin(x*.065+s)*Math.cos(z*.058-s*.7)+Math.sin((x*.8+z)*.11+s*2)*.45+Math.cos((x-z*.6)*.04+s)*.6);
-  const e=Math.max(Math.abs(x),Math.abs(z))-(WORLD.H-8);if(e>0)h+=e*e*.12;
+  if(!WORLD.inf){const e=Math.max(Math.abs(x),Math.abs(z))-(WORLD.H-8);if(e>0)h+=e*e*.12}
   // POI 平台
-  for(const p of POIS){const d2=(x-p.x)**2+(z-p.z)**2;if(d2<36){const k=1-d2/36;h=h*(1-k)+p.y*k}}
+  for(const p of POIS){const dx=x-p.x;if(dx>6||dx<-6)continue;const dz=z-p.z;if(dz>6||dz<-6)continue;const d2=dx*dx+dz*dz;if(d2<36){const k=1-d2/36;h=h*(1-k)+p.y*k}}
   return h}
 
 /* ---------- 地面 ---------- */
@@ -49,7 +50,7 @@ function addCol(x,z,r){const k=ck(x,z);let a=colGrid.get(k);if(!a){a=[];colGrid.
 function collide(o,r){const x0=Math.floor((o.x-3)/4),x1=Math.floor((o.x+3)/4),z0=Math.floor((o.z-3)/4),z1=Math.floor((o.z+3)/4);
   for(let i=x0;i<=x1;i++)for(let j=z0;j<=z1;j++){const a=colGrid.get((i+500)*2000+(j+500));if(!a)continue;
     for(const c of a){const dx=o.x-c[0],dz=o.z-c[1],d=Math.hypot(dx,dz),m=c[2]+r;if(d<m&&d>1e-4){o.x=c[0]+dx/d*m;o.z=c[1]+dz/d*m}}}
-  const B=WORLD.H-2;o.x=clamp(o.x,-B,B);o.z=clamp(o.z,-B,B)}
+  const B=WORLD.lim(2);o.x=clamp(o.x,-B,B);o.z=clamp(o.z,-B,B)}
 function freeSpot(minPoi=7,minC=7){for(let k=0;k<40;k++){const B=WORLD.H-6,x=rand(-B,B),z=rand(-B,B);
   if(Math.hypot(x,z)<minC)continue;if(POIS.some(p=>Math.hypot(p.x-x,p.z-z)<minPoi))continue;return[x,z]}return[rand(-60,60),rand(-60,60)]}
 function placeDecor(st){
@@ -135,7 +136,7 @@ ashGeo.setAttribute('position',new THREE.BufferAttribute(ashPos,3));
 const ashMat=new THREE.PointsMaterial({size:.22,map:glowTex,color:0xff6a3a,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false});
 const ash=new THREE.Points(ashGeo,ashMat);ash.frustumCulled=false;scene.add(ash);
 function animAmbient(dt,rt,cx,cz){
-  for(const m of mists){m.position.x+=m.userData.v*dt;if(m.position.x>WORLD.H+10)m.position.x=-WORLD.H-10}
+  for(const m of mists){m.position.x+=m.userData.v*dt;const q=m.position;if(q.x>cx+90)q.x-=180;else if(q.x<cx-90)q.x+=180;if(q.z>cz+90)q.z-=180;else if(q.z<cz-90)q.z+=180}
   for(let i=0;i<ASH;i++){const j=i*3;ashPos[j+1]-=dt*(.5+(i%7)*.08);ashPos[j]+=Math.sin(rt*.6+i)*dt*.4+dt*.3;if(ashPos[j+1]<0)ashPos[j+1]+=14;
     ashPos[j]=cx+((ashPos[j]-cx+30)%60+60)%60-30;ashPos[j+2]=cz+((ashPos[j+2]-cz+30)%60+60)%60-30}
   ashGeo.attributes.position.needsUpdate=true}

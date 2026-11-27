@@ -25,7 +25,7 @@ wrapHook('buildGround',o=>st=>{o(st);const tx=groundMat.map,rp=GSIZE/(tx.image.w
     const k=1+n*v;col.setXYZ(i,k*(1+n*v*.25),k,k*(1-n*v*.4))}
   col.needsUpdate=true;if(!groundMat.vertexColors){groundMat.vertexColors=true;groundMat.needsUpdate=true}});
 // 小径、成簇植被、草丛与花
-wrapHook('placeDecor',o=>st=>{const N=st.nature;if(N&&N.tints)Object.assign(DTINT,N.tints,{slab:N.pathTint});o(st);WORLD.paths=[];if(!N)return;
+wrapHook('placeDecor',o=>st=>{const N=st.nature;DTINT.rock=[0x6a6c74,0x787a82,0x5e6068];if(N&&N.tints)Object.assign(DTINT,N.tints,{slab:N.pathTint});o(st);WORLD.paths=[];if(!N)return;
   const path=WORLD.paths,near=(x,z,r)=>path.some(p=>(p[0]-x)**2+(p[1]-z)**2<r*r),nearPoi=(x,z,r)=>POIS.some(p=>Math.hypot(p.x-x,p.z-z)<r);
   const add=(k,x,z,r=rand(0,TAU),s=rand(.85,1.2))=>{decor.push({k,x,z,r,s,tilt:0});if(DCOL[k])addCol(x,z,DCOL[k]*s)};
   const seg=(ax,az,bx,bz)=>{const L=Math.hypot(bx-ax,bz-az);if(L<8)return;const cx=(ax+bx)/2+rand(-.3,.3)*L,cz=(az+bz)/2+rand(-.3,.3)*L,n=Math.ceil(L/1.15);let lastG=-99,lastH=-99;
