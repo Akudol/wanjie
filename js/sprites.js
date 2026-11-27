@@ -4,38 +4,56 @@
 const PXG=(()=>{
   const rgb=h=>{const n=parseInt(h.slice(1),16);return[(n>>16)&255,(n>>8)&255,n&255]};
   const sh=(c,k)=>k>=0?c.map(v=>Math.round(v+(255-v)*k)):c.map(v=>Math.round(v*(1+k)));
+  // 2 倍精度网格：对外仍按 32×48 的逻辑坐标作画，内部在 64×96 上采样，曲线更圆滑、细节更多
+  const SS=2;
   class Grid{
-    constructor(W,H){this.W=W;this.H=H;this.id=new Int16Array(W*H).fill(-1);this.parts=[]}
+    constructor(W,H){this.W=W;this.H=H;this.w=W*SS;this.h=H*SS;this.id=new Int16Array(this.w*this.h).fill(-1);this.parts=[]}
     part(col,o={}){this.parts.push(Object.assign({c:rgb(col)},o));return this.parts.length-1}
-    set(x,y,p){x=Math.floor(x);y=Math.floor(y);if(x>=0&&y>=0&&x<this.W&&y<this.H)this.id[y*this.W+x]=p}
-    get(x,y){return x<0||y<0||x>=this.W||y>=this.H?-1:this.id[y*this.W+x]}
-    rect(p,x,y,w,h){for(let j=0;j<h;j++)for(let i=0;i<w;i++)this.set(x+i,y+j,p)}
-    ell(p,cx,cy,rx,ry){for(let y=Math.floor(cy-ry-1);y<=cy+ry+1;y++)for(let x=Math.floor(cx-rx-1);x<=cx+rx+1;x++){const dx=(x+.5-cx)/rx,dy=(y+.5-cy)/ry;if(dx*dx+dy*dy<=1)this.set(x,y,p)}}
-    poly(p,pts){let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const[x,y]of pts){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}
+    s(x,y,p){if(x>=0&&y>=0&&x<this.w&&y<this.h)this.id[y*this.w+x]=p}
+    g(x,y){return x<0||y<0||x>=this.w||y>=this.h?-1:this.id[y*this.w+x]}
+    set(x,y,p){x=Math.floor(x)*SS;y=Math.floor(y)*SS;for(let j=0;j<SS;j++)for(let i=0;i<SS;i++)this.s(x+i,y+j,p)}
+    get(x,y){return this.g(Math.floor(x)*SS,Math.floor(y)*SS)}
+    rect(p,x,y,w,h){const x0=Math.floor(x)*SS,y0=Math.floor(y)*SS,x1=(Math.floor(x)+Math.max(0,Math.round(w)))*SS,y1=(Math.floor(y)+Math.max(0,Math.round(h)))*SS;for(let j=y0;j<y1;j++)for(let i=x0;i<x1;i++)this.s(i,j,p)}
+    ell(p,cx,cy,rx,ry){cx*=SS;cy*=SS;rx*=SS;ry*=SS;for(let y=Math.floor(cy-ry-1);y<=cy+ry+1;y++)for(let x=Math.floor(cx-rx-1);x<=cx+rx+1;x++){const dx=(x+.5-cx)/rx,dy=(y+.5-cy)/ry;if(dx*dx+dy*dy<=1)this.s(x,y,p)}}
+    poly(p,pts0){const pts=pts0.map(([x,y])=>[x*SS,y*SS]);let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const[x,y]of pts){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}
       for(let y=Math.floor(y0);y<=y1;y++)for(let x=Math.floor(x0);x<=x1;x++){const px=x+.5,py=y+.5;let ins=false;
-        for(let i=0,j=pts.length-1;i<pts.length;j=i++){const[xi,yi]=pts[i],[xj,yj]=pts[j];if((yi>py)!==(yj>py)&&px<(xj-xi)*(py-yi)/(yj-yi)+xi)ins=!ins}if(ins)this.set(x,y,p)}}
-    line(p,ax,ay,bx,by,w=1){const x0=Math.floor(Math.min(ax,bx)-w),x1=Math.ceil(Math.max(ax,bx)+w),y0=Math.floor(Math.min(ay,by)-w),y1=Math.ceil(Math.max(ay,by)+w),dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy||1;
-      for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const px=x+.5,py=y+.5;let t=((px-ax)*dx+(py-ay)*dy)/L;t=Math.max(0,Math.min(1,t));const qx=ax+dx*t-px,qy=ay+dy*t-py;if(qx*qx+qy*qy<=w*w/4+.05)this.set(x,y,p)}}
+        for(let i=0,j=pts.length-1;i<pts.length;j=i++){const[xi,yi]=pts[i],[xj,yj]=pts[j];if((yi>py)!==(yj>py)&&px<(xj-xi)*(py-yi)/(yj-yi)+xi)ins=!ins}if(ins)this.s(x,y,p)}}
+    line(p,ax,ay,bx,by,w=1){ax*=SS;ay*=SS;bx*=SS;by*=SS;w*=SS;
+      const x0=Math.floor(Math.min(ax,bx)-w),x1=Math.ceil(Math.max(ax,bx)+w),y0=Math.floor(Math.min(ay,by)-w),y1=Math.ceil(Math.max(ay,by)+w),dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy||1;
+      for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const px=x+.5,py=y+.5;let t=((px-ax)*dx+(py-ay)*dy)/L;t=Math.max(0,Math.min(1,t));const qx=ax+dx*t-px,qy=ay+dy*t-py;if(qx*qx+qy*qy<=w*w/4+.1)this.s(x,y,p)}}
     px(p,x,y){this.set(x,y,p)}
-    render(ctx,ox){const W=this.W,H=this.H,img=ctx.createImageData(W,H),d=img.data,bb=this.parts.map(()=>({x0:1e9,x1:-1}));
-      for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=this.id[y*W+x];if(p>=0){const b=bb[p];if(x<b.x0)b.x0=x;if(x>b.x1)b.x1=x}}
+    fpx(p,x,y){this.s(Math.round(x),Math.round(y),p)} // 直接写半格精度的单个像素
+    render(ctx,ox){const W=this.w,H=this.h,img=ctx.createImageData(W,H),d=img.data,np=this.parts.length,bb=this.parts.map(()=>({x0:1e9,x1:-1,y0:1e9,y1:-1,n:0}));
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=this.id[y*W+x];if(p>=0){const b=bb[p];b.n++;if(x<b.x0)b.x0=x;if(x>b.x1)b.x1=x;if(y<b.y0)b.y0=y;if(y>b.y1)b.y1=y}}
       const put=(x,y,c,a=255)=>{const i=(y*W+x)*4;d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a};
-      for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=this.id[y*W+x];if(p<0)continue;const P=this.parts[p];
-        if(P.flat){put(x,y,P.c);continue}
-        const up=this.get(x,y-1),dn=this.get(x,y+1),lf=this.get(x-1,y),rt=this.get(x+1,y),b=bb[p],t=(x-b.x0)/Math.max(1,b.x1-b.x0);let k=0;
-        if(up!==p)k+=.24;else if(lf!==p)k+=.1;
-        if(dn!==p)k-=.24;else if(rt!==p)k-=.16;
-        if(t>.66&&k<=0)k-=((x+y)&1)||t>.8?.15:0;else if(t<.3&&k===0)k+=(x+y)&1?.07:0;
-        put(x,y,sh(P.c,k*(P.soft?.5:1)))}
-      // 选择性描边：用相邻部件颜色的深色
+      const same=(x,y,p)=>this.g(x,y)===p,BAY=[[0,.5],[.75,.25]];
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=this.id[y*W+x];if(p<0)continue;const P=this.parts[p],b=bb[p];
+        if(P.flat){let c=P.c;
+          // 小块发光件（眼睛、宝石）：左上角一点高光
+          if(b.n<=24){if(!same(x-1,y,p)&&!same(x,y-1,p))c=sh(c,.7);else if(!same(x,y+1,p)&&P.noOutline)c=sh(c,-.35)}put(x,y,c);continue}
+        // 到部件上 / 下 / 左 / 右边缘的距离（最多看 3 格）
+        let du=0,dd=0,dl=0,dr=0;while(du<3&&same(x,y-du-1,p))du++;while(dd<3&&same(x,y+dd+1,p))dd++;while(dl<3&&same(x-dl-1,y,p))dl++;while(dr<3&&same(x+dr+1,y,p))dr++;
+        let k=0;
+        if(du===0)k+=.26;else if(du===1)k+=.12;
+        if(dd===0)k-=.26;else if(dd===1)k-=.12;
+        if(dr===0)k-=.16;else if(dr===1)k-=.07;
+        if(dl===0&&du>0)k+=.08;
+        // 圆柱体明暗：左亮右暗，中间用 2×2 抖动过渡
+        const t=(x-b.x0)/Math.max(1,b.x1-b.x0),dz=BAY[y&1][x&1];
+        if(t>.62)k-=(t-.62)*.45+(dz<(t-.62)*2.2?.07:0);else if(t<.32)k+=(.32-t)*.25+(dz<(.32-t)*2?.04:0);
+        // 部件交界：在下方 / 右侧接触别的部件时加一道细暗线
+        const dn=this.g(x,y+1),rt=this.g(x+1,y);if((dn>=0&&dn!==p&&!this.parts[dn].flat)||(rt>=0&&rt!==p&&!this.parts[rt].flat))k-=.12;
+        put(x,y,sh(P.c,Math.max(-.6,Math.min(.45,k*(P.soft?.55:1)))))}
+      // 选择性描边：外轮廓用相邻部件颜色的深色，细 1 格（相对原来细一半）
       for(let y=0;y<H;y++)for(let x=0;x<W;x++){if(this.id[y*W+x]>=0)continue;let n=-1;
-        for(const[dx,dy]of[[0,1],[0,-1],[1,0],[-1,0]]){const q=this.get(x+dx,y+dy);if(q>=0&&!this.parts[q].noOutline){n=q;break}}
-        if(n>=0)put(x,y,sh(this.parts[n].c,-.78))}
+        for(const[dx,dy]of[[0,1],[0,-1],[1,0],[-1,0]]){const q=this.g(x+dx,y+dy);if(q>=0&&!this.parts[q].noOutline){n=q;break}}
+        if(n>=0)put(x,y,sh(this.parts[n].c,-.8))}
       ctx.putImageData(img,ox,0)}
   }
-  function sheet(W,H,F,fn){const cv=document.createElement('canvas');cv.width=W*F;cv.height=H;const ctx=cv.getContext('2d');
-    for(let f=0;f<F;f++){const g=new Grid(W,H);fn(g,f);g.render(ctx,f*W)}return cv}
-  return{sheet,Grid}
+  function sheet(W,H,F,fn){const cv=document.createElement('canvas');cv.width=W*SS*F;cv.height=H*SS;const ctx=cv.getContext('2d');
+    for(let f=0;f<F;f++){const g=new Grid(W,H);fn(g,f);g.render(ctx,f*W*SS)}return cv}
+  return{sheet,Grid,SS}
+
 })();
 
 /* ---------- 走路参数 ---------- */
