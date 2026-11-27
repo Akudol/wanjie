@@ -134,9 +134,10 @@ function updateHero(dt){
     const fx=Math.sin(face),fz=Math.cos(face),back=fx*Math.sin(cy)+fz*Math.cos(cy)>.1,side=fx*-Math.cos(cy)+fz*Math.sin(cy);
     const air=P&&P.y-hAt(P.x,P.z)>.25,mov=P&&(P.moving||P.dashT>0);
     if(air)frame=1;else if(mov)frame=Math.floor(G.rt*(P.dashT>0?16:9))%4;
-    if(back)frame+=4;
+    const fwdv=fx*Math.sin(cy)+fz*Math.cos(cy),sideView=HERO_PX[hunter].F>=12&&Math.abs(side)>Math.abs(fwdv)*1.05;
+    if(sideView)frame+=8;else if(back)frame+=4;
     const sq=P&&P.dashT>0?.92:1;
-    HERO_PX[hunter].add(px.x,px.y+(mov||air?0:Math.abs(Math.sin(G.rt*2.5))*.03),px.z,0,sq,0,0,typeof heroTint==='function'?heroTint():null,frame,side<-.2,false);}
+    HERO_PX[hunter].add(px.x,px.y+(mov||air?0:Math.abs(Math.sin(G.rt*2.5))*.03),px.z,0,sq,0,0,typeof heroTint==='function'?heroTint():null,frame,sideView?side<0:side<-.2,false);}
   if(typeof homageHeroAdds==='function'&&P)homageHeroAdds(HERO_PX[hunter]);
   for(const k in HERO_PX)HERO_PX[k].end();
   for(const f of fams){const kk=FAM_PX[f.id+f.stage];kk.add(f.x,f.id==='hound'?f.y:f.y-.4,f.z,0,1+f.stage*.25,f.t*(f.id==='bat'?2:1),0,f.id==='wisp'?new THREE.Color(...[[.6,.9,1],[.8,.6,1],[.6,1,.85]][f.stage]):null,null,false,false)}

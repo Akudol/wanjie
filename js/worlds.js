@@ -3,8 +3,8 @@
 const winTex=(()=>{const c=cv(32,64,(g)=>{g.fillStyle='#22263a';g.fillRect(0,0,32,64);for(let y=3;y<62;y+=6)for(let x=3;x<30;x+=7){const r=Math.random();g.fillStyle=r<.45?'#ffe08a':r<.6?'#7af0ff':r<.7?'#ff7ad0':'#141828';g.fillRect(x,y,4,3)}});
   const t=new THREE.CanvasTexture(c);t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.encoding=THREE.sRGBEncoding;return t})();
 const winM=new THREE.MeshBasicMaterial({map:winTex}),slateM=std(0x3a4058),neonM=bas(0xffffff),poleM=std(0x5a5e6a),carM=std(0xffffff),wheelM=std(0x18181c),glassM=bas(0x6ab8ff),
-  stoneL=std(0xd8ccb4),roofM=std(0x3a5ab8),hedgeM=std(0x3a8a3a),clothM=std(0xffffff,{side:THREE.DoubleSide}),waterM=bas(0x7ad8ff),leafM=std(0x4aa84a),trunkM=std(0x7a5432),
-  redM=std(0xd8342a),roofR=std(0x2a5a3a),tileM=std(0xf0ece2),rockM=std(0x8a8c94),orangeM=std(0xff8a20),whiteM=std(0xf4f4f4);
+  stoneL=std(0xd8ccb4),roofM=std(0x3a5ab8),hedgeM=std(0x2a6e2e),clothM=std(0xffffff,{side:THREE.DoubleSide}),waterM=bas(0x7ad8ff),leafM=std(0xffffff),trunkM=std(0x7a5432),
+  redM=std(0xd8342a),roofR=std(0x2a5a3a),tileM=std(0xf0ece2),rockM=std(0xffffff),orangeM=std(0xff8a20),whiteM=std(0xf4f4f4);
 Object.assign(DK,{
   building:new Kind([{g:GEO.box,m:slateM,l:L(0,5,0,0,0,0,4,10,4),sh:1,rs:1},{g:GEO.plane,m:winM,l:L(0,5,2.01,0,0,0,3.6,9.6,1)},{g:GEO.plane,m:winM,l:L(0,5,-2.01,0,Math.PI,0,3.6,9.6,1)},{g:GEO.plane,m:winM,l:L(2.01,5,0,0,Math.PI/2,0,3.6,9.6,1)},{g:GEO.plane,m:winM,l:L(-2.01,5,0,0,-Math.PI/2,0,3.6,9.6,1)},{g:GEO.box,m:poleM,l:L(0,10.2,0,0,0,0,4.2,.4,4.2)}],40),
   neon:new Kind([{g:GEO.cyl,m:poleM,l:L(0,2,0,0,0,0,.12,4,.12)},{g:GEO.box,m:neonM,tint:0xff3a8a,main:1,l:L(0,4.2,0,0,0,0,2.4,1,.12)},{g:GEO.sph,m:addM(0xffffff,.25),tint:0xff3a8a,main:1,l:L(0,4.2,.2,0,0,0,1.8,.9,.3)}],40),
@@ -17,10 +17,10 @@ Object.assign(DK,{
   banner:new Kind([{g:GEO.cyl,m:poleM,l:L(0,1.8,0,0,0,0,.08,3.6,.08)},{g:GEO.plane,m:clothM,tint:0xc8302a,main:1,l:L(.45,2.7,0,0,0,0,.9,1.6,1)},{g:GEO.sph,m:bas(0xffd23a),l:L(0,3.65,0,0,0,0,.12)}],40),
   fcandle:new Kind([{g:GEO.cyl,m:waxM,l:L(0,2.8,0,0,0,0,.08,.5,.08)},{g:GEO.cone,m:flameM,l:L(0,3.15,0,0,0,0,.06,.18,.06)},{g:GEO.cyl,m:waxM,l:L(.6,3.3,.3,0,0,0,.07,.4,.07)},{g:GEO.cone,m:flameM,l:L(.6,3.6,.3,0,0,0,.05,.16,.05)},{g:GEO.cyl,m:waxM,l:L(-.5,3.6,-.2,0,0,0,.07,.45,.07)},{g:GEO.cone,m:flameM,l:L(-.5,3.92,-.2,0,0,0,.05,.16,.05)}],60),
   fountain:new Kind([{g:GEO.cyl,m:stoneL,l:L(0,.35,0,0,0,0,2.2,.7,2.2),sh:1,rs:1},{g:GEO.cyl,m:waterM,l:L(0,.72,0,0,0,0,1.9,.06,1.9)},{g:GEO.cyl,m:stoneL,l:L(0,1.4,0,0,0,0,.3,1.4,.3),sh:1},{g:GEO.sph,m:addM(0x9ae8ff,.5),l:L(0,2.2,0,0,0,0,.5,.7,.5)}],10),
-  treeR:new Kind([{g:GEO.cyl,m:trunkM,l:L(0,1.1,0,0,0,0,.25,2.2,.25),sh:1},{g:GEO.sph,m:leafM,l:L(0,2.9,0,0,0,0,1.5,1.3,1.5),sh:1},{g:GEO.sph,m:leafM,l:L(.6,3.6,.2,0,0,0,.9,.8,.9),sh:1}],50),
+  treeR:new Kind([{g:GEO.cyl,m:trunkM,l:L(0,1.1,0,0,0,.04,.25,2.2,.25),sh:1},{g:GEO.sphLo,m:leafM,tint:0x4aa84a,main:1,l:L(0,2.9,0,0,.4,0,1.6,1.25,1.5),sh:1},{g:GEO.sphLo,m:leafM,tint:0x4aa84a,main:1,l:L(.7,3.5,.2,0,0,0,1,.85,1),sh:1},{g:GEO.sphLo,m:leafM,tint:0x4aa84a,main:1,l:L(-.6,3.3,-.4,0,0,0,.9,.8,.9),sh:1}],120),
   pagoda:new Kind([{g:GEO.box,m:redM,l:L(-2,2,0,0,0,0,.45,4,.45),sh:1,rs:1},{g:GEO.box,m:redM,l:L(2,2,0,0,0,0,.45,4,.45),sh:1,rs:1},{g:GEO.box,m:redM,l:L(0,3.5,0,0,0,0,5,.3,.4),sh:1},{g:GEO.box,m:roofR,l:L(0,4.3,0,0,0,0,6,.35,1),sh:1},{g:GEO.box,m:roofR,l:L(0,4.6,0,0,0,0,4.6,.3,.7),sh:1}],14),
   arena:new Kind([{g:GEO.box,m:tileM,l:L(0,.25,0,0,0,0,8,.5,8),rs:1},{g:GEO.box,m:std(0xc8c0b0),l:L(0,.52,0,0,0,0,7.6,.04,7.6),rs:1},...[[3.8,3.8],[-3.8,3.8],[3.8,-3.8],[-3.8,-3.8]].map(([x,z])=>({g:GEO.box,m:tileM,l:L(x,.9,z,0,0,0,.5,.8,.5),sh:1}))],6),
-  rock:new Kind([{g:new THREE.DodecahedronGeometry(1,0),m:rockM,l:L(0,.6,0,0,0,0,1.2,.9,1),sh:1,rs:1},{g:new THREE.DodecahedronGeometry(1,0),m:rockM,l:L(.9,.35,.4,0,0,0,.6,.5,.6),sh:1}],40),
+  rock:new Kind([{g:new THREE.DodecahedronGeometry(1,0),m:rockM,tint:0x8a8c94,main:1,l:L(0,.45,0,0,0,0,1.2,.8,1),sh:1,rs:1},{g:new THREE.DodecahedronGeometry(1,0),m:rockM,tint:0x8a8c94,main:1,l:L(.9,.3,.4,0,0,0,.6,.5,.6),sh:1}],80),
 });
 Object.assign(DCOL,{building:2.8,car:1.3,lamp:.2,tower:1.7,hedge:1,fountain:2.2,treeR:.4,pagoda:0,rock:1.1,barrier:.6});
 const DTINT={neon:[0xff3a8a,0x3af0ff,0xffe03a,0x9a5aff],car:[0xd84040,0x3a7ad8,0xf0f0f0,0xffc030,0x3ab070],banner:[0xc8302a,0x2a8a4a,0xe8b830,0x2a5ac8]};
@@ -31,13 +31,17 @@ STAGES.push(
     ground:{bg:'#24263a',hue:[225,240],sat:10,light:[20,27],moss:'80,200,255',stain:'255,60,140',style:'asphalt'},amp:.4,wall:0x3a4058,
     decor:{building:30,neon:30,car:22,lamp:30,barrier:24},
     roster:[['ghoul',0,10],['bat',20,6],['bloodghoul',70,4],['knight',110,3]],boss:'colossus',mul:1},
-  {id:'academy',n:'魔法学院',sub:'第二界',fog:0x8ab4e8,fogD:.011,hemi:[0xfff0dc,0x4a6a3a,.72],moon:0xfff0c8,moonI:1.0,sky:0x7aaee8,moonVis:0,mist:0xffffff,ash:0xffe080,
-    ground:{bg:'#7a6e60',hue:[28,42],sat:20,light:[40,52],moss:'80,160,60',stain:'120,90,60',style:'cobble'},amp:.6,wall:0xc8bca4,
-    decor:{tower:12,hedge:36,banner:28,fcandle:40,fountain:6,treeR:24},
+  {id:'academy',n:'魔法学院',sub:'第二界',fog:0x9cc4f0,fogD:.0065,hemi:[0xfff0dc,0x4a6a3a,.72],moon:0xfff0c8,moonI:1.0,sky:0x7aaee8,moonVis:0,mist:0xffffff,ash:0xffe080,
+    ground:{bg:'#4a8a3a',hue:[82,100],sat:42,light:[34,44],flowers:['#fff6e0','#ffe060','#f0f0ff'],style:'meadow'},amp:.7,wall:0xc8bca4,skyTop:0x2a6ad0,
+    decor:{tower:10,banner:16,fcandle:34,fountain:5},
+    nature:{path:0xc8bca8,pathTint:[0xc8bca8,0xb4a890,0xd8ccb8,0xa89c88],hedges:1,gates:0,vary:.16,
+      clusters:[['treeR',9,7,5],['bush',12,5,3.5],['rock',4,3,2.5]],tufts:420,flowers:110,tints:{treeR:[0x4aa84a,0x3a9a48,0x5ab84a,0xd8a030,0xc86a28],bush:[0x3a8a3a,0x4a9a40,0x5aa848],flower:[0xffffff,0xffe060,0xff9ac0,0xb8a0ff],tuft:[0x4a9a3a,0x5aaa40,0x3a8a34]}},
     roster:[['penitent',0,10],['wraith',20,6],['gargoyle',60,4],['knight',100,3]],boss:'bishop',mul:2.1},
-  {id:'dojo',n:'武道擂台',sub:'第三界',fog:0x6eb2f0,fogD:.009,hemi:[0xfffaf0,0x4a7a34,.72],moon:0xfff6dc,moonI:1.05,sky:0x5aa8f0,moonVis:0,mist:0xffffff,ash:0xffa8c8,
-    ground:{bg:'#3a7a30',hue:[95,118],sat:48,light:[27,36],moss:'40,120,40',stain:'200,180,120',style:'arena'},amp:1.2,wall:0x6a8a5a,
-    decor:{pagoda:10,arena:5,rock:30,treeR:30,hedge:10},
+  {id:'dojo',n:'武道擂台',sub:'第三界',fog:0x8cc4f4,fogD:.0055,hemi:[0xfffaf0,0x4a7a34,.72],moon:0xfff6dc,moonI:1.05,sky:0x5aa8f0,moonVis:0,mist:0xffffff,ash:0xffa8c8,
+    ground:{bg:'#3a7a30',hue:[92,112],sat:46,light:[28,38],flowers:['#ffb8d8','#ff90c0','#fff0f6'],style:'meadow'},amp:1.2,wall:0x6a8a5a,skyTop:0x1a72d8,
+    decor:{arena:5},
+    nature:{path:0xb8b0a0,pathTint:[0xa8a49a,0x9a968c,0xb8b4a8,0x8a8880],hedges:0,gates:1,vary:.2,
+      clusters:[['treeR',11,7,5.5],['rock',8,4,3],['bush',8,4,3]],tufts:520,flowers:90,tints:{treeR:[0x3a9a40,0x4aa848,0xffa8c8,0xff90b8,0xf8c0d8],bush:[0x3a8a3a,0x4a9a40],flower:[0xffb8d8,0xffffff,0xff7aa8],tuft:[0x3a8a34,0x4a9a3a,0x5aaa44]}},
     roster:[['ghoul',0,10],['hellknight',40,4],['bat',30,5],['bloodghoul',80,5]],boss:'lord',mul:4});
 Object.assign(ENEMIES.ghoul,{n:'丧尸'});Object.assign(ENEMIES.bat,{n:'蝙蝠'});Object.assign(ENEMIES.knight,{n:'铁甲兵'});Object.assign(ENEMIES.wraith,{n:'幽灵'});
 Object.assign(ENEMIES.penitent,{n:'斗篷信徒'});Object.assign(ENEMIES.gargoyle,{n:'石像鬼'});Object.assign(ENEMIES.bloodghoul,{n:'狂暴丧尸'});Object.assign(ENEMIES.hellknight,{n:'熔岩甲兵'});
