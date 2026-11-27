@@ -69,7 +69,7 @@ function renderGuide(){
   $('#reacts').innerHTML=[['霜寒 + 雷霆','碎冰','冰冻的敌人被雷击中时碎裂，对周围造成范围伤害','frost'],['冰霜 + 圣火','融蚀','对带冰霜的敌人造成双倍伤害','fire'],['鲜血 + 圣火','沸血','出血 3 层以上被点燃时，血液沸腾爆炸','blood'],['暗咒 + 雷霆','黑雷','诅咒的敌人被雷击时，闪电跳跃 3 次','dark'],['圣火 + 霜寒','蒸腾','灼烧中的敌人受冰霜时伤害 ×1.6','frost']]
     .map(r=>`<tr><td>${r[0]}</td><td><b class="r-${r[3]}">${r[1]}</b></td><td>${r[2]}</td></tr>`).join('');
   $('#elems').innerHTML=Object.entries({blood:'出血：每层每 0.5 秒持续伤害，最多 10 层',fire:'灼烧：3 秒持续伤害',frost:'冰霜：减速，叠满 3 层冻结（首领只减速）',dark:'诅咒：受到伤害 +25%，死亡时传染 3 名敌人',volt:'感电：受到伤害 +12%',phys:'物理：无附加状态，但可触发遗物'}).map(([k,d])=>`<li><b style="color:${ELEM[k].c}">${ELEM[k].n}</b>${d}</li>`).join('');
-  $('#poilegend').innerHTML=Object.entries(POI_INFO).map(([k,p])=>`<li><span style="color:${p.c}">${svg(p.icon)}</span><b>${p.n}</b>${p.d}</li>`).join('');
+  $('#poilegend').innerHTML=Object.entries(POI_INFO).map(([k,p])=>`<li><span style="color:${p.c}">${svg(p.icon)}</span><b>${p.n}</b><em>${p.d}</em></li>`).join('');
 }
 
 /* ---------- 选择卡（升级 / 宝箱 / 神龛 / 眷属） ---------- */
