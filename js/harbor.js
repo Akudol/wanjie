@@ -22,7 +22,7 @@ STAGES.push({id:'harbor',n:'海贼港湾',sub:'第四界',fog:0xb8e0f0,fogD:.007
   roster:[['ghoul',0,10],['bat',20,6],['wraith',50,4],['hellknight',90,4]],boss:'kraken',mul:5});
 /* ---------- 新首领 ---------- */
 const DARK=0x6a5a90;
-function heroBoss(id,sprite,o){if(!SPR2[sprite])return;EK['px_hb_'+id]=new PixKind(SPR2[sprite],4,8,2.4,2,7);BOSSES[id]=Object.assign({kind:'px_hb_'+id,r:1.6,sc:2.5,tint:DARK},o)}
+function heroBoss(id,sprite,o){if(!SPR2[sprite])return;EK["px_hb_"+id]=new PixKind(SPR2[sprite],8,16,2.8,2,10);BOSSES[id]=Object.assign({kind:'px_hb_'+id,r:1.6,sc:2.5,tint:DARK},o)}
 heroBoss('shadowmerc','cyber',{n:'暗影佣兵',hp:3000,spd:2.6,dmg:22,col:0x7af0ff,tint:0x7a6aa8});
 heroBoss('sheriff','leon',{n:'枪火警长',hp:2800,spd:2.2,dmg:20,col:0xffd060,tint:0x8a7a60});
 heroBoss('archmage','wizard',{n:'禁咒巫师',hp:5400,spd:2,dmg:24,col:0xffe070,tint:0x7a68b0});

@@ -133,9 +133,9 @@ function updateHero(dt){
     const cy=G.state==='menu'?0:camYaw(),face=P?P.face:player.rotation.y;
     const fx=Math.sin(face),fz=Math.cos(face),back=fx*Math.sin(cy)+fz*Math.cos(cy)>.1,side=fx*-Math.cos(cy)+fz*Math.sin(cy);
     const air=P&&P.y-hAt(P.x,P.z)>.25,mov=P&&(P.moving||P.dashT>0);
-    if(air)frame=1;else if(mov)frame=Math.floor(G.rt*(P.dashT>0?16:9))%4;
+    const NV=HERO_PX[hunter].nv||4;if(air)frame=NV===8?2:1;else if(mov)frame=Math.floor(G.rt*(P.dashT>0?16:9)*NV/4)%NV;
     const fwdv=fx*Math.sin(cy)+fz*Math.cos(cy),sideView=HERO_PX[hunter].F>=12&&Math.abs(side)>Math.abs(fwdv)*1.05;
-    if(sideView)frame+=8;else if(back)frame+=4;
+    if(sideView)frame+=NV*2;else if(back)frame+=NV;
     const sq=P&&P.dashT>0?.92:1;
     HERO_PX[hunter].add(px.x,px.y+(mov||air?0:Math.abs(Math.sin(G.rt*2.5))*.03),px.z,0,sq,0,0,typeof heroTint==='function'?heroTint():null,frame,sideView?side<0:side<-.2,false);}
   if(typeof homageHeroAdds==='function'&&P)homageHeroAdds(HERO_PX[hunter]);
